@@ -4,39 +4,35 @@ import type { F, O, U } from 'ts-toolbelt';
  * Object shape defining a single effect.
  */
 interface EffectConfig {
-  type: string;
   create?: (...args: any[]) => any;
 }
+
+/**
+ * Map of effect name strings to EffectConfig interfaces.
+ */
+type EffectsMap = Record<string, EffectConfig>;
 
 /**
  * Plugin configuration object shape.
  */
 export interface EffectsPluginConfig {
-  effects: readonly EffectConfig[];
+  effects: EffectsMap;
 }
 
 /**
  * Type describing the possible effect objects produced by an EffectsPlugin.
- * @param E - A tuple of EffectConfig interfaces to derive the shapes from.
+ * @param E - A map of EffectConfig interfaces to derive the shapes from.
  */
-export type Effect<E extends ReadonlyArray<EffectConfig>> = U.IntersectOf<
+export type Effect<E extends EffectsMap> = U.IntersectOf<
   O.UnionOf<
     {
-      [K in Exclude<keyof E, keyof any[]>]: E[K] extends {
-        type: string;
-        create: F.Function;
-      }
+      [K in keyof E]: E[K] extends { create: F.Function }
         ? {
-            type: O.At<E[K], 'type'>;
+            type: K;
             payload: F.Return<O.At<E[K], 'create'>>;
           }
-        : E[K] extends {
-            type: string;
-            create?: undefined;
-          }
-        ? {
-            type: O.At<E[K], 'type'>;
-          }
+        : E[K] extends { create?: undefined }
+        ? { type: K }
         : never;
     }
   >
@@ -44,9 +40,9 @@ export type Effect<E extends ReadonlyArray<EffectConfig>> = U.IntersectOf<
 
 /**
  * Type describing the EffectsPlugin data object.
- * @param E - A tuple of EffectConfig interfaces to derive the data from.
+ * @param E - A map of EffectConfig interfaces to derive the data from.
  */
-export type Data<E extends ReadonlyArray<EffectConfig>> = {
+export type Data<E extends EffectsMap> = {
   id: string;
   queue: Effect<E>[];
 };
@@ -55,24 +51,15 @@ export type Data<E extends ReadonlyArray<EffectConfig>> = {
  * Generic type for the EffectsPlugin API.
  * @param E - A tuple of EffectConfig interfaces to derive the API from.
  */
-export type API<E extends ReadonlyArray<EffectConfig>> = {
+export type API<E extends EffectsMap> = {
   _get: () => Data<E>;
 } & U.IntersectOf<
   O.UnionOf<
     {
-      [K in Exclude<keyof E, keyof any[]>]: E[K] extends {
-        type: string;
-        create: F.Function;
-      }
-        ? O.Record<
-            O.At<E[K], 'type'>,
-            (...args: F.Parameters<O.At<E[K], 'create'>>) => void
-          >
-        : E[K] extends {
-            type: string;
-            create?: undefined;
-          }
-        ? O.Record<O.At<E[K], 'type'>, () => void>
+      [K in keyof E]: E[K] extends { create: F.Function }
+        ? O.Record<K, (...args: F.Parameters<O.At<E[K], 'create'>>) => void>
+        : E[K] extends { create?: undefined }
+        ? O.Record<K, () => void>
         : never;
     }
   >

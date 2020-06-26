@@ -23,20 +23,18 @@ The `bgio-effects` plugin needs a configuration object. This object cofigures th
 
 export const EffectsConfig = {
   // Declare the effect types you need.
-  effects: [
-    // Each effect is an object declaring its type.
-    {
-      type: 'endTurn',
-    },
+  effects: {
+    // Each effect is named by its key.
+    // This creates a zero-config endTurn effect:
+    endTurn: {},
 
-    // Effects can also declare a `create` function.
+    // Effects can declare a `create` function.
     // If defined, the return value of create will be
     // available as the payload for an effect.
-    {
-      type: 'rollDie',
+    rollDie: {
       create: (value) => ({ value }),
     },
-  ],
+  },
 };
 ```
 
