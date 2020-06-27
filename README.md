@@ -2,13 +2,15 @@
 
 > 📤 Helpers for managing state effects in [boardgame.io][bgio].
 
-This package provides a structured approach to triggering ephemeral “effects” in game code that can be consumed from state on the client. It provides a game plugin and a React board wrapper, but you can also use the game plugin on its own, and consume the resulting state directly.
+**⚠️ Work in progress. ⚠️** This is a prototype under development. API changes are likely and no guarantees are made that any of this currently works.
 
+This package provides a structured approach to triggering ephemeral “effects” in game code that can be consumed from state on the client. It provides a game plugin and a React board wrapper, but you can also use the game plugin on its own, and consume the resulting state directly.
+<!--
 ## Installation
 
 ```sh
 npm install --save bgio-effects
-```
+``` -->
 
 ## Usage
 
@@ -16,7 +18,7 @@ npm install --save bgio-effects
 
 #### Configuration
 
-The `bgio-effects` plugin needs a configuration object. This object cofigures the effects that will be available to your game logic.
+The `bgio-effects` plugin needs a configuration object. This object configures the effects that will be available to your game logic.
 
 ```js
 // effects-config.js
