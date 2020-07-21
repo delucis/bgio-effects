@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prettier": "prettier --write --single-quote .",
+    "prettier": "prettier --write --single-quote src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
