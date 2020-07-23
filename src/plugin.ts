@@ -1,13 +1,27 @@
 import { nanoid } from 'nanoid/non-secure';
 import type { Plugin } from 'boardgame.io';
-import type { API, Data, Effect, EffectsPluginConfig } from './types';
+import { Timeline } from './timeline';
+import type {
+  API,
+  Data,
+  Effect,
+  EffectsPluginConfig,
+  TimingParams,
+} from './types';
+
+/**
+ * Generate a unique ID.
+ * @return A random 8-character string.
+ */
+const uuid = () => nanoid(8);
 
 /**
  * Generate the data template initialised for each game action.
  * @return - Object with a unique `id` & an empty `queue` array.
  */
 const initialData = <E extends EffectsPluginConfig['effects']>(): Data<E> => ({
-  id: nanoid(6),
+  id: uuid(),
+  duration: 0,
   queue: [],
 });
 
@@ -24,34 +38,53 @@ export const EffectsPlugin = <C extends EffectsPluginConfig>(config: C) => {
     setup: initialData,
 
     api: () => {
-      const _data = initialData<E>();
+      const timeline = new Timeline<E>();
       const api = {} as Record<string, (...args: any[]) => any>;
 
       for (const type in config.effects) {
-        const { create } = config.effects[type];
-
-        if (type === '_get') {
+        if (type === 'timeline') {
           throw new RangeError(
-            'Cannot create effect type “_get”. Name is reserved.'
+            'Cannot create effect type “timeline”. Name is reserved.'
           );
         }
 
-        api[type] = create
-          ? (...args: Parameters<typeof create>) =>
-              _data.queue.push({
-                type,
-                payload: create(...args),
-              } as Effect<E>)
-          : () => _data.queue.push({ type } as Effect<E>);
+        const { create, duration: defaultDuration } = config.effects[type];
+
+        if (create) {
+          api[type] = (
+            arg: Parameters<typeof create>[0],
+            position?: TimingParams[0],
+            duration: TimingParams[1] | undefined = defaultDuration
+          ) => {
+            const effect = { type, payload: create(arg) } as Effect<E>;
+            timeline.add(effect, position, duration);
+          };
+        } else {
+          api[type] = (
+            position?: TimingParams[0],
+            duration: TimingParams[1] | undefined = defaultDuration
+          ) => {
+            timeline.add({ type } as Effect<E>, position, duration);
+          };
+        }
       }
 
       return {
         ...api,
-        _get: () => _data,
+        timeline: {
+          getQueue: () => timeline.getQueue(),
+          clear: () => timeline.clear(),
+          isEmpty: () => timeline.isEmpty,
+          duration: () => timeline.duration,
+        },
       } as API<E>;
     },
 
-    flush: ({ api }) => api._get(),
+    flush: ({ api }) => ({
+      id: uuid(),
+      duration: api.timeline.duration(),
+      queue: api.timeline.getQueue(),
+    }),
   };
 
   return plugin;

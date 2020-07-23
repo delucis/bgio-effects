@@ -1,3 +1,3 @@
-export type { EffectsPluginConfig } from './types';
+export type { EffectsCtxMixin } from './types';
 export * from './plugin';
 export * from './react';

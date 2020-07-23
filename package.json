@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "prettier": "prettier --write --single-quote src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -32,19 +32,23 @@
   },
   "homepage": "https://github.com/delucis/bgio-effects#readme",
   "devDependencies": {
+    "@types/jest": "^26.0.5",
     "@types/react": "^16.9.34",
-    "boardgame.io": "^0.39.7",
+    "boardgame.io": "^0.39.16",
+    "jest": "^26.1.0",
     "prettier": "^2.0.4",
     "react": "^16.13.1",
+    "ts-jest": "^26.1.3",
     "ts-toolbelt": "^6.5.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "mitt": "^1.2.0",
-    "nanoid": "^3.1.3"
+    "mitt": "^2.1.0",
+    "nanoid": "^3.1.3",
+    "react-use": "^15.3.2"
   },
   "peerDependencies": {
-    "boardgame.io": "^0.39.7",
+    "boardgame.io": "^0.39.16",
     "react": "^16"
   }
 }

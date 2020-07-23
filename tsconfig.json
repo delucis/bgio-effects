@@ -1,10 +1,13 @@
 {
+  "include": ["src"],
+  "exclude": ["**/*.test.ts"],
   "compilerOptions": {
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "react",
+    "module": "commonJS",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
@@ -13,6 +16,6 @@
     "rootDir": "src",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es5"
+    "target": "es6"
   }
 }

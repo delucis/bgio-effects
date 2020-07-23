@@ -1,90 +1,208 @@
-import React, { useContext, useEffect, useState } from 'react';
-import mitt from 'mitt';
-import type { EffectsPluginConfig, Data } from './types';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { useRafLoop, useUpdate } from 'react-use';
+import mitt, { Emitter } from 'mitt';
+import type { BoardProps } from 'boardgame.io/react';
+import type { EffectsPluginConfig, ListenerArgs, Data, Queue } from './types';
 
-export const EffectsContext = React.createContext<mitt.Emitter | null>(null);
+const EffectsContext = React.createContext<Emitter | null>(null);
+const EffectsQueueContext = React.createContext<
+  { clear: () => void; flush: () => void; size: number } | undefined
+>(undefined);
+
+/**
+ * Configuration options that can be passed to EffectsBoardWrapper.
+ */
+interface EffectsOpts {
+  speed?: number;
+  updateStateAfterEffects?: boolean;
+  emitOnFirstRender?: boolean;
+}
 
 /**
  * Returns a component that will render your board wrapped in
  * an effect emitting context provider.
- * @param Board - The board component to wrap.
+ * @param board - The board component to wrap.
+ * @param opts  - Optional object to configure options for effect emitter.
  *
  * @example
  * import { EffectsBoardWrapper } from 'bgio-effects'
  * import MyBoard from './board.js'
  * const BoardWithEffects = EffectsBoardWrapper(MyBoard)
  */
-export function EffectsBoardWrapper<C extends EffectsPluginConfig>(
-  Board: React.ComponentType<{ [key: string]: any }>
-) {
-  return function WrappedBoard(props: {
-    plugins: { effects?: { data: Data<C['effects']> } };
-  }) {
-    <EffectsProvider plugins={props.plugins}>
-      <Board {...props} />
-    </EffectsProvider>;
+export function EffectsBoardWrapper<
+  G extends any = any,
+  P extends BoardProps<G> = BoardProps<G>
+>(Board: React.ComponentType<P>, opts?: EffectsOpts): React.ComponentType<P> {
+  return function WrappedBoard(props: P) {
+    return EffectsProvider<G, P>({ props, Board, opts });
   };
 }
+
+/**
+ * Get an error message for when a hook has been used outside a provider.
+ * @param hook - The name of the hook that errored.
+ * @return - Error message string.
+ */
+const hookErrorMessage = (hook: string) =>
+  `${hook} must be called inside the effects context provider.
+  Make sure your board component has been correctly wrapped using EffectsBoardWrapper.`;
 
 /**
  * Subscribe to events emitted by the effects state.
  * @param effectType - Name of the effect to listen for. '*' listens to any.
  * @param callback - Function to call when the event is emitted.
+ * @param dependencyArray - Array of variables the callback function depends on.
  */
-export function useEffectListener(
-  effectType: string,
-  callback: (...args: any[]) => void
+export function useEffectListener<C extends EffectsPluginConfig>(
+  ...args: ListenerArgs<C['effects']>
 ) {
   const emitter = useContext(EffectsContext);
+  if (!emitter) throw new Error(hookErrorMessage('useEffectListener'));
+  const [effectType, cb, deps] = args;
+  const callback = useCallback(cb, deps);
 
   useEffect(() => {
-    if (!emitter || !callback) return;
+    if (!callback) return;
 
     let cbReturn: any;
 
-    emitter.on(effectType, (...args) => {
+    emitter.on(effectType as string, (...args) => {
       cbReturn = callback(...args);
     });
 
     return () => {
-      emitter.off(name, callback);
+      emitter.off(effectType as string, callback as (...args: any) => any);
       if (typeof cbReturn === 'function') cbReturn();
     };
   }, [emitter, effectType, callback]);
 }
 
 /**
+ * Get controls and data for the effects queue.
+ * @return - { clear(), flush(), size }
+ */
+export function useEffectQueue() {
+  const ctx = useContext(EffectsQueueContext);
+  if (!ctx) throw new Error(hookErrorMessage('useEffectQueue'));
+  return ctx;
+}
+
+/**
  * Context provider that watches boardgame.io state and emits effect events.
  */
-function EffectsProvider<C extends EffectsPluginConfig>({
-  children,
-  plugins,
+function EffectsProvider<
+  G extends any = any,
+  P extends BoardProps<G> = BoardProps<G>
+>({
+  Board,
+  props,
+  opts: {
+    speed = 1,
+    updateStateAfterEffects = false,
+    emitOnFirstRender = false,
+  } = {},
 }: {
-  children: React.ReactNode;
-  plugins: {
-    effects?: {
-      data: Data<C['effects']>;
-    };
-  };
+  Board: React.ComponentType<P>;
+  props: P;
+  opts?: EffectsOpts;
 }) {
-  const [emitter] = useState(() => mitt());
-  const [prevId, setPrevId] = useState<string>();
-  const { effects } = plugins;
+  type E = EffectsPluginConfig['effects'];
+  type NaiveEffect = { t: number; type: string; payload?: any };
+  const { effects } = props.plugins as { effects?: { data: Data<E> } };
   const id = effects && effects.data.id;
+  const bgioStateT: number = updateStateAfterEffects
+    ? (effects && effects.data.duration) || 0
+    : 0;
+  const [prevId, setPrevId] = useState<string | undefined>(
+    emitOnFirstRender ? undefined : id
+  );
+  const [emitter] = useState(() => mitt());
+  const [startT, setStartT] = useState(0);
+  const [bgioProps, setBgioProps] = useState(props);
+  const queue = useRef<Queue<E>>([]);
+  const rerender = useUpdate();
+  const setQueue = useCallback(
+    (newQueue: Queue<E>) => {
+      queue.current = newQueue;
+      rerender();
+    },
+    [queue, rerender]
+  );
 
+  /**
+   * requestAnimationFrame loop which dispatches effects and updates the queue
+   * every tick while active.
+   */
+  const [stopRaf, startRaf, isRafActive] = useRafLoop(() => {
+    const elapsedT = ((Date.now() - startT) / 1000) * speed;
+    const q = queue.current;
+    if (q.length === 0 || q[0].t > elapsedT) return;
+    // Loop through the effects queue, emitting any effects whose time has come.
+    let i = 0;
+    for (i = 0; i < q.length; i++) {
+      const effect = q[i] as NaiveEffect;
+      if (!effect || effect.t > elapsedT) break;
+      emitter.emit(effect.type, effect.payload);
+    }
+    // Also update the global boardgame.io props once their time is reached.
+    if (elapsedT >= bgioStateT && props !== bgioProps) setBgioProps(props);
+    // Update the queue to only contain effects still in the future.
+    setQueue(q.slice(i));
+  }, false);
+
+  /**
+   * Update the queue state when a new update is received from boardgame.io.
+   */
   useEffect(() => {
     if (!effects || id === prevId) return;
     setPrevId(effects.data.id);
-    const { queue } = effects.data;
-    for (let i = 0; i < queue.length; i++) {
-      const effect = queue[i] as { type: string; payload?: any };
-      if (effect) emitter.emit(effect.type, effect.payload);
+    setQueue(effects.data.queue);
+    setStartT(Date.now());
+  }, [effects, id, prevId, setQueue]);
+
+  /**
+   * Stop the requestAnimationFrame loop when the queue is empty and
+   * start it when the queue isn’t empty.
+   */
+  useEffect(() => {
+    const active = isRafActive();
+    if (active && queue.current.length === 0) stopRaf();
+    if (!active && queue.current.length > 0) startRaf();
+  }, [queue.current.length, isRafActive, startRaf, stopRaf]);
+
+  /**
+   * Callback that clears the effect queue, cancelling future effects.
+   */
+  const clear = useCallback(() => {
+    stopRaf();
+    setQueue([]);
+    if (props !== bgioProps) setBgioProps(props);
+  }, [props, bgioProps, stopRaf, setQueue]);
+
+  /**
+   * Callback that immediately emits all remaining effects and clears the queue.
+   */
+  const flush = useCallback(() => {
+    for (let i = 0; i < queue.current.length; i++) {
+      const effect = queue.current[i] as NaiveEffect;
+      emitter.emit(effect.type, effect.payload);
     }
-  }, [effects, id, prevId]);
+    clear();
+  }, [emitter, queue, clear]);
 
   return (
     <EffectsContext.Provider value={emitter}>
-      {children}
+      <EffectsQueueContext.Provider
+        value={{ clear, flush, size: queue.current.length }}
+      >
+        <Board {...(bgioProps as P)} />
+      </EffectsQueueContext.Provider>
     </EffectsContext.Provider>
   );
 }
