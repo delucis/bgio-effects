@@ -316,5 +316,23 @@ possible. Exact timing will depend on the frame rate of a user’s browser and
 the accuracy of `Date.now()` (which may be limited for security reasons).
 
 
+## Contributing
+
+This is an experimental project and feedback is welcome. Please
+[open an issue][bugs] if you run into any problems, have a question, or want
+to suggest features/improvements. PRs are welcome too 😊.
+
+Please also note [the code of conduct][COC] and be kind to each other.
+
+
+## License
+
+The code in this repository is provided under the terms of
+[an Anti-Fascist MIT License][license].
+
+
 [bgio]: https://boardgame.io/
 [mitt]: https://github.com/developit/mitt
+[bugs]: https://github.com/delucis/bgio-effects/issues/new/choose
+[COC]: CODE_OF_CONDUCT.md
+[license]: LICENSE
