@@ -1,8 +1,10 @@
 # bgio-effects
 
-> 📤 Helpers for managing state effects in [boardgame.io][bgio].
+[![NPM Version](https://img.shields.io/npm/v/bgio-effects)](https://www.npmjs.com/package/bgio-effects)
+[![Build Status](https://travis-ci.com/delucis/bgio-effects.svg?branch=latest)](https://travis-ci.com/delucis/bgio-effects)
+[![Coverage Status](https://coveralls.io/repos/github/delucis/bgio-effects/badge.svg?branch=latest)](https://coveralls.io/github/delucis/bgio-effects?branch=latest)
 
-**⚠️ Work in progress. ⚠️** This is a prototype under development. API changes are likely and no guarantees are made that any of this currently works.
+> 📤 Helpers for managing state effects in [boardgame.io][bgio].
 
 This package provides a structured approach to triggering ephemeral “effects”
 in game code that can be consumed from state on the client. It provides a game
