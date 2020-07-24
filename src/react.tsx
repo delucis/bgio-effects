@@ -117,9 +117,8 @@ function EffectsProvider<
   type NaiveEffect = { t: number; type: string; payload?: any };
   const { effects } = props.plugins as { effects?: { data: Data<E> } };
   const id = effects && effects.data.id;
-  const bgioStateT: number = updateStateAfterEffects
-    ? (effects && effects.data.duration) || 0
-    : 0;
+  const duration = (effects && effects.data.duration) || 0;
+  const bgioStateT: number = updateStateAfterEffects ? duration : 0;
   const [prevId, setPrevId] = useState<string | undefined>(
     emitOnFirstRender ? undefined : id
   );
@@ -140,10 +139,9 @@ function EffectsProvider<
    * requestAnimationFrame loop which dispatches effects and updates the queue
    * every tick while active.
    */
-  const [stopRaf, startRaf, isRafActive] = useRafLoop(() => {
+  const [stopRaf, startRaf] = useRafLoop(() => {
     const elapsedT = ((Date.now() - startT) / 1000) * speed;
     const q = queue.current;
-    if (q.length === 0 || q[0].t > elapsedT) return;
     // Loop through the effects queue, emitting any effects whose time has come.
     let i = 0;
     for (i = 0; i < q.length; i++) {
@@ -153,6 +151,7 @@ function EffectsProvider<
     }
     // Also update the global boardgame.io props once their time is reached.
     if (elapsedT >= bgioStateT && props !== bgioProps) setBgioProps(props);
+    if (elapsedT > duration) stopRaf();
     // Update the queue to only contain effects still in the future.
     setQueue(q.slice(i));
   }, false);
@@ -165,17 +164,8 @@ function EffectsProvider<
     setPrevId(effects.data.id);
     setQueue(effects.data.queue);
     setStartT(Date.now());
-  }, [effects, id, prevId, setQueue]);
-
-  /**
-   * Stop the requestAnimationFrame loop when the queue is empty and
-   * start it when the queue isn’t empty.
-   */
-  useEffect(() => {
-    const active = isRafActive();
-    if (active && queue.current.length === 0) stopRaf();
-    if (!active && queue.current.length > 0) startRaf();
-  }, [queue.current.length, isRafActive, startRaf, stopRaf]);
+    startRaf();
+  }, [effects, id, prevId, setQueue, startRaf]);
 
   /**
    * Callback that clears the effect queue, cancelling future effects.
@@ -199,6 +189,9 @@ function EffectsProvider<
 
   return (
     <EffectsContext.Provider value={emitter}>
+      <div>
+        dur: {duration} bgioStateT: {bgioStateT}
+      </div>
       <EffectsQueueContext.Provider
         value={{ clear, flush, size: queue.current.length }}
       >
