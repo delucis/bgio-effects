@@ -191,7 +191,7 @@ A(0, 4);    // add A at 0s, with a duration of 4s
 B('>-1', 1);// add B 1s before the end of the timeline, i.e. at 3s
 C('^2->1'); // add C at 2s, shift later effects by 1s
 D('^0', 5); // add D at 0s, shift later effects by its duration (5s)
-E('<')      // add E, aligning it with start of last effect
+E('<');     // add E, aligning it with start of last effect
 ```
 
 ```
@@ -274,14 +274,21 @@ function DiceComponent() {
   const [animate, setAnimate] = useState(false);
 
   // Subscribe to the “rollDie” effect type:
-  useEffectListener('rollDie', () => {
-    setAnimate(true);
-    const timeout = window.setTimeout(() => setAnimate(false), 1000);
-    // You can return a clean-up function if necessary, similar to useEffect.
-    return () => window.clearTimeout(timeout);
-  }, [setAnimate]);
+  useEffectListener(
+    // Name of the effect to listen for.
+    'rollDie',
+    // Function to call when the effect fires.
+    () => {
+      setAnimate(true);
+      const timeout = window.setTimeout(() => setAnimate(false), 1000);
+      // You can return a clean-up function if necessary, similar to useEffect.
+      return () => window.clearTimeout(timeout);
+    },
+    // Dependency array of variables your callback uses.
+    [setAnimate]
+  );
 
-  return <div className={animate ? 'animated' : 'static'}/>;
+  return <div className={animate ? 'animated' : 'static'} />;
 }
 ```
 
