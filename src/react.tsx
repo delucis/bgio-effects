@@ -160,12 +160,17 @@ function EffectsProvider<
    * Update the queue state when a new update is received from boardgame.io.
    */
   useEffect(() => {
-    if (!effects || id === prevId) return;
+    if (!effects || id === prevId) {
+      // If some non-game state props change, or the effects plugin is not
+      // enabled, still update boardgame.io props for the board component.
+      if (props !== bgioProps) setBgioProps(props);
+      return;
+    }
     setPrevId(effects.data.id);
     setQueue(effects.data.queue);
     setStartT(Date.now());
     startRaf();
-  }, [effects, id, prevId, setQueue, startRaf]);
+  }, [effects, id, prevId, props, bgioProps, setQueue, startRaf]);
 
   /**
    * Callback that clears the effect queue, cancelling future effects.
