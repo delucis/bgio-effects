@@ -5,7 +5,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useRafLoop, useUpdate } from 'react-use';
+import useRafLoop from 'react-use/lib/useRafLoop';
+import useUpdate from 'react-use/lib/useUpdate';
 import mitt, { Emitter } from 'mitt';
 import type { BoardProps } from 'boardgame.io/react';
 import type { EffectsPluginConfig, ListenerArgs, Data, Queue } from './types';
