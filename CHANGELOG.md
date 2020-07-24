@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/delucis/bgio-effects/compare/v0.1.2...v0.1.3) (2020-07-24)
+
+
+### Bug Fixes
+
+* **react:** Remove stray debugging element from React context provider ([95f4464](https://github.com/delucis/bgio-effects/commit/95f446469b3eb4fddb8c3bb62ba2e163690c1c99))
+
 ### [0.1.2](https://github.com/delucis/bgio-effects/compare/v0.1.1...v0.1.2) (2020-07-24)
 
 
