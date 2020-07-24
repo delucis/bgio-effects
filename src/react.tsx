@@ -189,9 +189,6 @@ function EffectsProvider<
 
   return (
     <EffectsContext.Provider value={emitter}>
-      <div>
-        dur: {duration} bgioStateT: {bgioStateT}
-      </div>
       <EffectsQueueContext.Provider
         value={{ clear, flush, size: queue.current.length }}
       >
