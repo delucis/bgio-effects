@@ -8,9 +8,20 @@
     "dist/**/*"
   ],
   "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
     "build": "tsc",
+    "prerelease": "npm t && npm run build",
+    "release": "standard-version -s",
     "prettier": "prettier --write --single-quote src",
-    "test": "jest --coverage"
+    "test": "jest --coverage --collectCoverageFrom=src/**/*",
+    "coverage": "cat ./coverage/lcov.info | coveralls"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier",
+      "pre-push": "npm t"
+    }
   },
   "repository": {
     "type": "git",
@@ -35,9 +46,13 @@
     "@types/jest": "^26.0.5",
     "@types/react": "^16.9.34",
     "boardgame.io": "^0.39.16",
+    "coveralls": "^3.1.0",
+    "husky": "^4.2.5",
     "jest": "^26.1.0",
     "prettier": "^2.0.4",
     "react": "^16.13.1",
+    "rimraf": "^3.0.2",
+    "standard-version": "^8.0.2",
     "ts-jest": "^26.1.3",
     "ts-toolbelt": "^6.5.0",
     "typescript": "^3.8.3"
