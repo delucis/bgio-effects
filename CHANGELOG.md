@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/delucis/bgio-effects/compare/v0.1.5...v0.1.6) (2020-07-25)
+
+
+### Bug Fixes
+
+* **react:** Don’t rerender from RAF if queue didn’t change ([ff28d73](https://github.com/delucis/bgio-effects/commit/ff28d7300478b1882426f93bbdc452b343444098))
+
 ### [0.1.5](https://github.com/delucis/bgio-effects/compare/v0.1.4...v0.1.5) (2020-07-25)
 
 
