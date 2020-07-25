@@ -153,7 +153,7 @@ function EffectsProvider<
     if (elapsedT >= bgioStateT && props !== bgioProps) setBgioProps(props);
     if (elapsedT > duration) stopRaf();
     // Update the queue to only contain effects still in the future.
-    setQueue(q.slice(i));
+    if (i > 0) setQueue(q.slice(i));
   }, false);
 
   /**
