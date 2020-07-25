@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/delucis/bgio-effects/compare/v0.1.4...v0.1.5) (2020-07-25)
+
+
+### Bug Fixes
+
+* **react:** Don’t prematurely update boardgame.io props ([964acb5](https://github.com/delucis/bgio-effects/commit/964acb5e2c4ab8330a0a7c938ceea5ee30a810ee))
+
 ### [0.1.4](https://github.com/delucis/bgio-effects/compare/v0.1.3...v0.1.4) (2020-07-24)
 
 
