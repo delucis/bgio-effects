@@ -10,19 +10,15 @@ import type {
 } from './types';
 
 /**
- * Generate a unique ID.
- * @return A random 8-character string.
+ * Generate the data POJO to persist from a Timeline instance.
+ * @return - Object with a unique `id`, `duration` in seconds & `queue` array.
  */
-const uuid = () => nanoid(8);
-
-/**
- * Generate the data template initialised for each game action.
- * @return - Object with a unique `id` & an empty `queue` array.
- */
-const initialData = <E extends EffectsPluginConfig['effects']>(): Data<E> => ({
-  id: uuid(),
-  duration: 0,
-  queue: [],
+const getData = <E extends EffectsPluginConfig['effects']>(
+  timeline: Timeline<E>
+): Data<E> => ({
+  id: nanoid(8),
+  duration: timeline.duration(),
+  queue: timeline.getQueue(),
 });
 
 /**
@@ -35,7 +31,7 @@ export const EffectsPlugin = <C extends EffectsPluginConfig>(config: C) => {
   const plugin: Plugin<API<E>, Data<E>> = {
     name: 'effects',
 
-    setup: initialData,
+    setup: () => getData(new Timeline()),
 
     api: () => {
       const api = { timeline: new Timeline<E>() } as Record<string, any>;
@@ -71,11 +67,7 @@ export const EffectsPlugin = <C extends EffectsPluginConfig>(config: C) => {
       return api as API<E>;
     },
 
-    flush: ({ api }) => ({
-      id: uuid(),
-      duration: api.timeline.duration(),
-      queue: api.timeline.getQueue(),
-    }),
+    flush: ({ api }) => getData(api.timeline),
   };
 
   return plugin;
