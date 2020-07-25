@@ -122,13 +122,11 @@ export class Timeline<E extends EffectsPluginConfig['effects']> {
    */
   getQueue(): Queue<E> {
     let queue: Queue<E> = [];
-    this._keyframes.forEach((effects, t) => {
+    this.keys().forEach((t) => {
+      const effects = this._keyframes.get(t)!;
       effects.forEach((data) => {
         queue.push({ t, ...(data as object) } as Queue<E>[number]);
       });
-    });
-    queue.sort(({ t: t1 }, { t: t2 }) => {
-      return t1 < t2 ? -1 : t1 > t2 ? 1 : 0;
     });
     return queue;
   }
