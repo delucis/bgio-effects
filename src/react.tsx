@@ -140,7 +140,7 @@ function EffectsProvider<
    * every tick while active.
    */
   const [stopRaf, startRaf] = useRafLoop(() => {
-    const elapsedT = ((Date.now() - startT) / 1000) * speed;
+    const elapsedT = ((performance.now() - startT) / 1000) * speed;
     const q = queue.current;
     // Loop through the effects queue, emitting any effects whose time has come.
     let i = 0;
@@ -168,7 +168,7 @@ function EffectsProvider<
     }
     setPrevId(effects.data.id);
     setQueue(effects.data.queue);
-    setStartT(Date.now());
+    setStartT(performance.now());
     startRaf();
   }, [effects, id, prevId, props, bgioProps, setQueue, startRaf]);
 
