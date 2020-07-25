@@ -28,14 +28,14 @@ export class Timeline<E extends EffectsPluginConfig['effects']> {
   /**
    * True when the timeline has no entries.
    */
-  get isEmpty(): boolean {
+  isEmpty(): boolean {
     return this._keyframes.size === 0;
   }
 
   /**
    * The total duration of the current timeline.
    */
-  get duration(): number {
+  duration(): number {
     return this._duration;
   }
 

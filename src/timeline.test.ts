@@ -139,17 +139,17 @@ describe('#isEmpty', () => {
   const t = new Timeline();
 
   test('returns true for an empty timeline', () => {
-    expect(t.isEmpty).toBe(true);
+    expect(t.isEmpty()).toBe(true);
   });
 
   test('returns false for a timeline with entries', () => {
     t.add({});
-    expect(t.isEmpty).toBe(false);
+    expect(t.isEmpty()).toBe(false);
   });
 
   test('returns true after clearing the timeline', () => {
     t.clear();
-    expect(t.isEmpty).toBe(true);
+    expect(t.isEmpty()).toBe(true);
   });
 });
 
@@ -157,13 +157,13 @@ describe('#duration', () => {
   const t = new Timeline();
 
   test('returns 0 for an empty timeline', () => {
-    expect(t.duration).toBe(0);
+    expect(t.duration()).toBe(0);
   });
 
   test('returns the total duration', () => {
     t.add({}, '>', 1);
     t.add({}, '>', 1);
-    expect(t.duration).toBe(2);
+    expect(t.duration()).toBe(2);
   });
 });
 

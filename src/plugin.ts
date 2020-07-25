@@ -38,8 +38,7 @@ export const EffectsPlugin = <C extends EffectsPluginConfig>(config: C) => {
     setup: initialData,
 
     api: () => {
-      const timeline = new Timeline<E>();
-      const api = {} as Record<string, (...args: any[]) => any>;
+      const api = { timeline: new Timeline<E>() } as Record<string, any>;
 
       for (const type in config.effects) {
         if (type === 'timeline') {
@@ -57,27 +56,19 @@ export const EffectsPlugin = <C extends EffectsPluginConfig>(config: C) => {
             duration: TimingParams[1] | undefined = defaultDuration
           ) => {
             const effect = { type, payload: create(arg) } as Effect<E>;
-            timeline.add(effect, position, duration);
+            api.timeline.add(effect, position, duration);
           };
         } else {
           api[type] = (
             position?: TimingParams[0],
             duration: TimingParams[1] | undefined = defaultDuration
           ) => {
-            timeline.add({ type } as Effect<E>, position, duration);
+            api.timeline.add({ type } as Effect<E>, position, duration);
           };
         }
       }
 
-      return {
-        ...api,
-        timeline: {
-          getQueue: () => timeline.getQueue(),
-          clear: () => timeline.clear(),
-          isEmpty: () => timeline.isEmpty,
-          duration: () => timeline.duration,
-        },
-      } as API<E>;
+      return api as API<E>;
     },
 
     flush: ({ api }) => ({
