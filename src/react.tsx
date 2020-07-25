@@ -40,7 +40,7 @@ export function EffectsBoardWrapper<
   G extends any = any,
   P extends BoardProps<G> = BoardProps<G>
 >(Board: React.ComponentType<P>, opts?: EffectsOpts): React.ComponentType<P> {
-  return function WrappedBoard(props: P) {
+  return function BoardWithEffectsProvider(props: P) {
     return EffectsProvider<G, P>({ props, Board, opts });
   };
 }
