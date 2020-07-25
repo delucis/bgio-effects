@@ -139,7 +139,7 @@ function EffectsProvider<
    * requestAnimationFrame loop which dispatches effects and updates the queue
    * every tick while active.
    */
-  const [stopRaf, startRaf] = useRafLoop(() => {
+  const [stopRaf, startRaf, isRafActive] = useRafLoop(() => {
     const elapsedT = ((performance.now() - startT) / 1000) * speed;
     const q = queue.current;
     // Loop through the effects queue, emitting any effects whose time has come.
@@ -163,14 +163,26 @@ function EffectsProvider<
     if (!effects || id === prevId) {
       // If some non-game state props change, or the effects plugin is not
       // enabled, still update boardgame.io props for the board component.
-      if (props !== bgioProps) setBgioProps(props);
+      if ((!updateStateAfterEffects || !isRafActive()) && props !== bgioProps) {
+        setBgioProps(props);
+      }
       return;
     }
     setPrevId(effects.data.id);
     setQueue(effects.data.queue);
     setStartT(performance.now());
     startRaf();
-  }, [effects, id, prevId, props, bgioProps, setQueue, startRaf]);
+  }, [
+    effects,
+    id,
+    prevId,
+    updateStateAfterEffects,
+    isRafActive,
+    props,
+    bgioProps,
+    setQueue,
+    startRaf,
+  ]);
 
   /**
    * Callback that clears the effect queue, cancelling future effects.
