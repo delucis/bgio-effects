@@ -1,7 +1,7 @@
 import { Client } from 'boardgame.io/client';
 import { Ctx, Game } from 'boardgame.io';
 import { EffectsPluginConfig, API } from './types';
-import { EffectsPlugin } from './plugin';
+import { EffectsPlugin } from '.';
 
 const bgioPluginContext = { G: {}, ctx: {} as Ctx, game: {} };
 const initPluginAPI = <C extends EffectsPluginConfig>(config: C) => {
