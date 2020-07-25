@@ -40,23 +40,27 @@ export class Timeline<E extends EffectsPluginConfig['effects']> {
   }
 
   /**
+   * Get a sorted array of keyframe keys.
+   */
+  private keys() {
+    return [...this._keyframes.keys()].sort((t1, t2) => (t1 < t2 ? -1 : 1));
+  }
+
+  /**
    * Shift keyframes along the timeline.
    * @param amount Amount of time to shift keyframes by.
    * @param start  Start shifting keyframes after this time.
    */
   private shift(amount: number, start: number): void {
-    const keys = this._keyframes.keys();
-    const toShift: { key: number; effects: Effect<E>[] }[] = [];
-    [...keys].forEach((key) => {
+    const keys = this.keys();
+    for (let i = keys.length - 1; i >= 0; i--) {
+      const key = keys[i];
       if (key >= start) {
         const effects = this._keyframes.get(key)!;
         this._keyframes.delete(key);
-        toShift.push({ key: key + amount, effects });
+        this._keyframes.set(key + amount, effects);
       }
-    });
-    toShift.forEach(({ key, effects }) => {
-      this._keyframes.set(key, effects);
-    });
+    }
     if (this._last) this._last += amount;
     if (this._duration) this._duration += amount;
   }
