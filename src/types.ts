@@ -1,4 +1,5 @@
 import type { F, O, U } from 'ts-toolbelt';
+import type { Timeline } from './timeline';
 
 /**
  * Type of effect.create function.
@@ -75,27 +76,7 @@ export type TimingParams = [Position, Duration];
  * @param E - A tuple of EffectConfig interfaces to derive the API from.
  */
 export type API<E extends EffectsMap> = {
-  timeline: {
-    /**
-     * Get an array of all the currently queued effects in time order.
-     */
-    getQueue: () => Queue<E>;
-
-    /**
-     * Clear all effects from the queue.
-     */
-    clear: () => void;
-
-    /**
-     * Check if no effects have been queued.
-     */
-    isEmpty: () => boolean;
-
-    /**
-     * Get the total duration of the current timeline.
-     */
-    duration: () => number;
-  };
+  timeline: Timeline<E>;
 } & U.IntersectOf<
   O.UnionOf<
     {
