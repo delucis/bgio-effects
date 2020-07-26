@@ -33,6 +33,7 @@ const config = {
 enum GVal {
   'simple' = 'simple',
   'wEffects' = 'wEffects',
+  'repeatEffects' = 'repeatEffects',
 }
 
 type G = { val?: GVal };
@@ -46,6 +47,11 @@ const game: Game<G, Ctx & EffectsCtxMixin<typeof config>> = {
     wEffects(G, ctx) {
       G.val = GVal.wEffects;
       ctx.effects.longEffect('1');
+      ctx.effects.shortEffect('2');
+    },
+    repeatEffects(G, ctx) {
+      G.val = GVal.repeatEffects;
+      ctx.effects.shortEffect('2');
       ctx.effects.shortEffect('2');
     },
   },
@@ -224,6 +230,56 @@ test('Speed option changes effect timing', async () => {
   t = performance.now() - t1;
   expect(t).toBeGreaterThan(450);
   expect(t).toBeLessThan(480);
+});
+
+test('useEffectListener callback can return a clean-up callback', async () => {
+  enum ListenerState {
+    'bar' = 'bar',
+    'foo' = 'foo',
+    'baz' = 'baz',
+  }
+  const clear = jest.fn((to: NodeJS.Timeout) => clearTimeout(to));
+  const ComponentWithEffects = () => {
+    const [state, setState] = useState(ListenerState.bar);
+    useEffectListener<typeof config>(
+      'shortEffect',
+      () => {
+        setState(ListenerState.foo);
+        const to = setTimeout(() => {
+          setState(ListenerState.baz);
+        }, 100);
+        return () => clear(to);
+      },
+      [state]
+    );
+    useEffectListener<typeof config>('shortEffect', () => {}, []);
+    return <p data-testid="CWE">{state}</p>;
+  };
+  const App = Client<G>({
+    game: (game as unknown) as Game<G>,
+    debug: false,
+    board: EffectsBoardWrapper(({ G, moves }: BoardProps<G>) => {
+      return (
+        <main>
+          {(!G.val || G.val === GVal.repeatEffects) && <ComponentWithEffects />}
+          <p data-testid="G-val">{G.val}</p>
+          <button onClick={() => moves.simple()}>Simple Move</button>
+          <button onClick={() => moves.repeatEffects()}>Repeat Effects</button>
+        </main>
+      );
+    }),
+  });
+
+  render(<App />);
+  expect(screen.getByTestId('CWE')).toBeInTheDocument();
+  fireEvent.click(screen.getByText('Repeat Effects'));
+  await waitFor(() => screen.getByText(GVal.repeatEffects));
+  await waitFor(() => screen.getByText(ListenerState.foo));
+  await waitFor(() => screen.getByText(ListenerState.baz));
+  fireEvent.click(screen.getByText('Simple Move'));
+  await waitFor(() => screen.getByText(GVal.simple));
+  expect(screen.queryByTestId('CWE')).not.toBeInTheDocument();
+  expect(clear).toHaveBeenCalledTimes(3);
 });
 
 test('useEffectListener throws if used outside of EffectsBoardWrapper', () => {
