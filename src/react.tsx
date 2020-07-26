@@ -70,15 +70,16 @@ export function useEffectListener<C extends EffectsPluginConfig>(
   const callback = useCallback(cb, deps);
 
   useEffect(() => {
-    let cbReturn: any;
+    let cleanup: void | (() => void);
 
     emitter.on(effectType as string, (...args) => {
-      cbReturn = callback(...args);
+      if (typeof cleanup === 'function') cleanup();
+      cleanup = callback(...args);
     });
 
     return () => {
       emitter.off(effectType as string, callback as (...args: any) => any);
-      if (typeof cbReturn === 'function') cbReturn();
+      if (typeof cleanup === 'function') cleanup();
     };
   }, [emitter, effectType, callback]);
 }
