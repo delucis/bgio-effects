@@ -244,6 +244,16 @@ const board = EffectsBoardWrapper(BoardComponent, {
 
 #### `useEffectListener`
 
+##### Parameters
+
+1. Effect Type (`string`) — the effect you want to listen for.
+
+2. Callback (`function`) — the function to run when the effect is fired.
+
+3. Dependencies (`array`) — an array of variables your callback depends upon (similar to [React’s `useCallback` hook][useCallback]).
+
+##### Usage
+
 Within your board component or child components, use the `useEffectListener`
 hook to listen for effect events:
 
@@ -265,6 +275,8 @@ useEffectListener('*', (effectName, effectPayload) => {}, []);
 `effectPayload` will be the data returned by your `create` function or
 `undefined` for effects without a `create` function.
 
+Your callback can return a clean-up function, which will be run the next time the effect is fired, if the variables in the dependency array change, or if the component unmounts. This is similar to [cleaning up in React’s `useEffect` hook][cleanup].
+
 ##### Example
 
 ```js
@@ -282,10 +294,10 @@ function DiceComponent() {
     () => {
       setAnimate(true);
       const timeout = window.setTimeout(() => setAnimate(false), 1000);
-      // You can return a clean-up function if necessary, similar to useEffect.
+      // Return a clean-up function to cancel the timeout.
       return () => window.clearTimeout(timeout);
     },
-    // Dependency array of variables your callback uses.
+    // Dependency array of variables the callback uses.
     [setAnimate]
   );
 
@@ -295,21 +307,26 @@ function DiceComponent() {
 
 #### `useEffectQueue`
 
+##### Usage
+
 The `useEffectQueue` hook lets child components control the effect queue if necessary:
 
 ```js
 import { useEffectQueue } from 'bgio-effects';
 
 function Component() {
-  const queue = useEffectQueue();
+  const { clear, flush, size } = useEffectQueue();
   return (
-    <p>Queue Size: {queue.size}</p>
-    <button onClick={queue.clear}>
-      Clear
-    </button>
+    <div>
+      <p>Queue Size: {size}</p>
+      <button onClick={clear}>Clear</button>
+      <button onClick={flush}>Flush</button>
+    </div>
   );
 }
 ```
+
+##### Returns
 
 `useEffectQueue` returns the following methods and properties:
 
@@ -343,6 +360,8 @@ The code in this repository is provided under the terms of
 
 [bgio]: https://boardgame.io/
 [mitt]: https://github.com/developit/mitt
+[useCallback]: https://reactjs.org/docs/hooks-reference.html#usecallback
+[cleanup]: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
 [bugs]: https://github.com/delucis/bgio-effects/issues/new/choose
 [COC]: CODE_OF_CONDUCT.md
 [license]: LICENSE
