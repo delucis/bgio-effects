@@ -51,8 +51,9 @@ export function EffectsBoardWrapper<
  * @return - Error message string.
  */
 const hookErrorMessage = (hook: string) =>
-  `${hook} must be called inside the effects context provider.
-  Make sure your board component has been correctly wrapped using EffectsBoardWrapper.`;
+  hook +
+  ' must be called inside the effects context provider.\n' +
+  'Make sure your board component has been correctly wrapped using EffectsBoardWrapper.';
 
 /**
  * Subscribe to events emitted by the effects state.
