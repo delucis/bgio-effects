@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/delucis/bgio-effects/compare/v0.1.6...v0.1.7) (2020-07-26)
+
+
+### Bug Fixes
+
+* **react:** Cleanup effect listener before calling next callback ([e6dc3a1](https://github.com/delucis/bgio-effects/commit/e6dc3a189ac6808e4dd80509a0f0228370653172))
+* **react:** Remove check ensuring `useEffectListener` callback exists ([9b9170e](https://github.com/delucis/bgio-effects/commit/9b9170ec0f9487701ffd40076cf5ab47839f6e82))
+
 ### [0.1.6](https://github.com/delucis/bgio-effects/compare/v0.1.5...v0.1.6) (2020-07-25)
 
 
