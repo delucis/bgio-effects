@@ -70,8 +70,6 @@ export function useEffectListener<C extends EffectsPluginConfig>(
   const callback = useCallback(cb, deps);
 
   useEffect(() => {
-    if (!callback) return;
-
     let cbReturn: any;
 
     emitter.on(effectType as string, (...args) => {
