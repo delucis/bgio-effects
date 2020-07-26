@@ -43,6 +43,8 @@
   },
   "homepage": "https://github.com/delucis/bgio-effects#readme",
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.1",
+    "@testing-library/react": "^10.4.7",
     "@types/jest": "^26.0.5",
     "@types/react": "^16.9.34",
     "boardgame.io": "^0.39.16",
@@ -52,6 +54,7 @@
     "jest": "^26.1.0",
     "prettier": "^2.0.4",
     "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "rimraf": "^3.0.2",
     "standard-version": "^8.0.2",
     "ts-jest": "^26.1.3",
