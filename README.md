@@ -235,10 +235,6 @@ const board = EffectsBoardWrapper(BoardComponent, {
   // Global control of the speed of effect playback.
   // Default: 1
   speed: 1,
-
-  // Emit effect events on page load/initial render.
-  // Default: false
-  emitOnFirstRender: true,
 });
 ```
 

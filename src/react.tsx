@@ -22,7 +22,6 @@ const EffectsQueueContext = React.createContext<
 interface EffectsOpts {
   speed?: number;
   updateStateAfterEffects?: boolean;
-  emitOnFirstRender?: boolean;
 }
 
 /**
@@ -103,11 +102,7 @@ function EffectsProvider<
 >({
   Board,
   props,
-  opts: {
-    speed = 1,
-    updateStateAfterEffects = false,
-    emitOnFirstRender = false,
-  } = {},
+  opts: { speed = 1, updateStateAfterEffects = false } = {},
 }: {
   Board: React.ComponentType<P>;
   props: P;
@@ -119,9 +114,7 @@ function EffectsProvider<
   const id = effects && effects.data.id;
   const duration = (effects && effects.data.duration) || 0;
   const bgioStateT: number = updateStateAfterEffects ? duration : 0;
-  const [prevId, setPrevId] = useState<string | undefined>(
-    emitOnFirstRender ? undefined : id
-  );
+  const [prevId, setPrevId] = useState<string | undefined>(id);
   const [emitter] = useState(() => mitt());
   const [startT, setStartT] = useState(0);
   const [bgioProps, setBgioProps] = useState(props);
