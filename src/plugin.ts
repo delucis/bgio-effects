@@ -1,13 +1,7 @@
 import { nanoid } from 'nanoid/non-secure';
 import type { Plugin } from 'boardgame.io';
 import { Timeline } from './timeline';
-import type {
-  API,
-  Data,
-  Effect,
-  EffectsPluginConfig,
-  TimingParams,
-} from './types';
+import type { API, Data, EffectsPluginConfig } from './types';
 
 /**
  * Generate the data POJO to persist from a Timeline instance.
@@ -34,7 +28,7 @@ export const EffectsPlugin = <C extends EffectsPluginConfig>(config: C) => {
     setup: () => getData(new Timeline()),
 
     api: () => {
-      const api = { timeline: new Timeline<E>() } as Record<string, any>;
+      const api = { timeline: new Timeline() } as Record<string, any>;
 
       for (const type in config.effects) {
         if (type === 'timeline') {
@@ -45,23 +39,13 @@ export const EffectsPlugin = <C extends EffectsPluginConfig>(config: C) => {
 
         const { create, duration: defaultDuration } = config.effects[type];
 
-        if (create) {
-          api[type] = (
-            arg: Parameters<typeof create>[0],
-            position?: TimingParams[0],
-            duration: TimingParams[1] | undefined = defaultDuration
-          ) => {
-            const effect = { type, payload: create(arg) } as Effect<E>;
-            api.timeline.add(effect, position, duration);
-          };
-        } else {
-          api[type] = (
-            position?: TimingParams[0],
-            duration: TimingParams[1] | undefined = defaultDuration
-          ) => {
-            api.timeline.add({ type } as Effect<E>, position, duration);
-          };
-        }
+        api[type] = (...args: any[]) => {
+          const effect = create ? { type, payload: create(args[0]) } : { type };
+          const [position, duration = defaultDuration] = create
+            ? args.slice(1)
+            : args;
+          api.timeline.add(effect, position, duration);
+        };
       }
 
       return api as API<E>;
