@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/delucis/bgio-effects/compare/v0.1.9...v0.2.0) (2020-08-07)
+
+
+### Features
+
+* **timeline:** Add builtin `effects:start` and `effects:end` events ([9011cc7](https://github.com/delucis/bgio-effects/commit/9011cc771c36aa84f83f359b93843beb9a850ed6))
+
 ### [0.1.9](https://github.com/delucis/bgio-effects/compare/v0.1.8...v0.1.9) (2020-07-27)
 
 ### [0.1.8](https://github.com/delucis/bgio-effects/compare/v0.1.7...v0.1.8) (2020-07-27)
