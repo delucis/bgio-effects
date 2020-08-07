@@ -15,7 +15,11 @@ describe('#add', () => {
   test('adds first data at 0s', () => {
     t.add({ type: 'test' });
     const queue = t.getQueue();
-    expect(queue).toEqual([{ t: 0, type: 'test' }]);
+    expect(queue).toEqual([
+      { t: 0, type: 'effects:start' },
+      { t: 0, type: 'test' },
+      { t: 0, type: 'effects:end' },
+    ]);
   });
 
   test('adds data after duration', () => {
@@ -23,9 +27,11 @@ describe('#add', () => {
     t.add({ type: 'bar' }, '>', 5);
     const queue = t.getQueue();
     expect(queue).toEqual([
+      { t: 0, type: 'effects:start' },
       { t: 0, type: 'test' },
       { t: 0, type: 'foo' },
       { t: 5, type: 'bar' },
+      { t: 10, type: 'effects:end' },
     ]);
   });
 
@@ -34,11 +40,13 @@ describe('#add', () => {
     t.add({ type: 'bam' }, '>+0.5', 1);
     const queue = t.getQueue();
     expect(queue).toEqual([
+      { t: 0, type: 'effects:start' },
       { t: 0, type: 'test' },
       { t: 0, type: 'foo' },
       { t: 5, type: 'bar' },
       { t: 9, type: 'baz' },
       { t: 10.5, type: 'bam' },
+      { t: 11.5, type: 'effects:end' },
     ]);
   });
 
@@ -47,6 +55,7 @@ describe('#add', () => {
     t.add({ type: 'bup' }, '<+0.5', 2);
     const queue = t.getQueue();
     expect(queue).toEqual([
+      { t: 0, type: 'effects:start' },
       { t: 0, type: 'test' },
       { t: 0, type: 'foo' },
       { t: 5, type: 'bar' },
@@ -54,6 +63,7 @@ describe('#add', () => {
       { t: 9.5, type: 'buq' },
       { t: 10.5, type: 'bam' },
       { t: 11, type: 'bup' },
+      { t: 13, type: 'effects:end' },
     ]);
   });
 
@@ -61,6 +71,7 @@ describe('#add', () => {
     t.add({ type: 'fixed' }, 4);
     const queue = t.getQueue();
     expect(queue).toEqual([
+      { t: 0, type: 'effects:start' },
       { t: 0, type: 'test' },
       { t: 0, type: 'foo' },
       { t: 4, type: 'fixed' },
@@ -69,6 +80,7 @@ describe('#add', () => {
       { t: 9.5, type: 'buq' },
       { t: 10.5, type: 'bam' },
       { t: 11, type: 'bup' },
+      { t: 13, type: 'effects:end' },
     ]);
   });
 
@@ -76,6 +88,7 @@ describe('#add', () => {
     t.add({ type: 'ins' }, '^10', 1);
     const queue = t.getQueue();
     expect(queue).toEqual([
+      { t: 0, type: 'effects:start' },
       { t: 0, type: 'test' },
       { t: 0, type: 'foo' },
       { t: 4, type: 'fixed' },
@@ -85,6 +98,7 @@ describe('#add', () => {
       { t: 10, type: 'ins' },
       { t: 11.5, type: 'bam' },
       { t: 12, type: 'bup' },
+      { t: 14, type: 'effects:end' },
     ]);
   });
 
@@ -92,6 +106,7 @@ describe('#add', () => {
     t.add({ type: 'uns' }, '^11->0.5', 1);
     const queue = t.getQueue();
     expect(queue).toEqual([
+      { t: 0, type: 'effects:start' },
       { t: 0, type: 'test' },
       { t: 0, type: 'foo' },
       { t: 4, type: 'fixed' },
@@ -102,6 +117,7 @@ describe('#add', () => {
       { t: 11, type: 'uns' },
       { t: 12, type: 'bam' },
       { t: 12.5, type: 'bup' },
+      { t: 14.5, type: 'effects:end' },
     ]);
   });
 
@@ -110,8 +126,10 @@ describe('#add', () => {
     t.add({ type: 'nu' }, '^', 1);
     t.add({ type: 'bu' });
     expect(t.getQueue()).toEqual([
+      { t: 0, type: 'effects:start' },
       { t: 0, type: 'nu' },
       { t: 1, type: 'bu' },
+      { t: 1, type: 'effects:end' },
     ]);
   });
 
@@ -120,8 +138,10 @@ describe('#add', () => {
     t.add({ type: 'e' }, '<', 1);
     t.add({ type: 'mc' });
     expect(t.getQueue()).toEqual([
+      { t: 0, type: 'effects:start' },
       { t: 0, type: 'e' },
       { t: 1, type: 'mc' },
+      { t: 1, type: 'effects:end' },
     ]);
   });
 
@@ -173,12 +193,21 @@ describe('#clear', () => {
     t.add({ type: 'a' }, '>', 1);
     t.add({ type: 'b' }, '>', 1);
     expect(t.getQueue()).toEqual([
+      { t: 0, type: 'effects:start' },
       { t: 0, type: 'a' },
       { t: 1, type: 'b' },
+      { t: 2, type: 'effects:end' },
     ]);
     t.clear();
-    expect(t.getQueue()).toEqual([]);
+    expect(t.getQueue()).toEqual([
+      { t: 0, type: 'effects:start' },
+      { t: 0, type: 'effects:end' },
+    ]);
     t.add({ type: 'a' }, '>', 1);
-    expect(t.getQueue()).toEqual([{ t: 0, type: 'a' }]);
+    expect(t.getQueue()).toEqual([
+      { t: 0, type: 'effects:start' },
+      { t: 0, type: 'a' },
+      { t: 1, type: 'effects:end' },
+    ]);
   });
 });

@@ -24,7 +24,6 @@ const config = {
 describe('Plugin API', () => {
   test('basic initialisation', () => {
     const api = initPluginAPI({ effects: {} });
-    expect(api.timeline.getQueue()).toEqual([]);
     const properties = Object.getOwnPropertyNames(api);
     const expectedProperties = ['timeline'];
     expect(properties).toEqual(expect.arrayContaining(expectedProperties));
@@ -45,12 +44,17 @@ describe('Plugin API', () => {
     api.dumb();
     api.rollDie(6);
     expect(api.timeline.getQueue()).toEqual([
+      { t: 0, type: 'effects:start' },
       { t: 0, type: 'alert' },
       { t: 0.2, type: 'dumb' },
       { t: 0.2, type: 'rollDie', payload: { roll: 6 } },
+      { t: 0.2, type: 'effects:end' },
     ]);
     api.timeline.clear();
-    expect(api.timeline.getQueue()).toEqual([]);
+    expect(api.timeline.getQueue()).toEqual([
+      { t: 0, type: 'effects:start' },
+      { t: 0, type: 'effects:end' },
+    ]);
   });
 
   test('flush', () => {
@@ -64,8 +68,10 @@ describe('Plugin API', () => {
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
         queue: [
+          { t: 0, type: 'effects:start' },
           { t: 0, type: 'alert' },
           { t: 0.2, type: 'rollDie', payload: { roll: 6 } },
+          { t: 0.2, type: 'effects:end' },
         ],
       })
     );
@@ -120,7 +126,10 @@ describe('boardgame.io integration', () => {
     expect(client.getState().plugins.effects.data).toEqual(
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
-        queue: [],
+        queue: [
+          { t: 0, type: 'effects:start' },
+          { t: 0, type: 'effects:end' },
+        ],
       })
     );
   });
@@ -131,8 +140,10 @@ describe('boardgame.io integration', () => {
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
         queue: [
+          { t: 0, type: 'effects:start' },
           { t: 0, type: 'alert' },
           { t: 0.5, type: 'rollDie', payload: { roll: 5 } },
+          { t: 0.5, type: 'effects:end' },
         ],
       })
     );
@@ -144,8 +155,10 @@ describe('boardgame.io integration', () => {
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
         queue: [
+          { t: 0, type: 'effects:start' },
           { t: 0, type: 'alert' },
           { t: 0.5, type: 'dumb' },
+          { t: 0.5, type: 'effects:end' },
         ],
       })
     );

@@ -111,22 +111,29 @@ test('Effects are emitted one by one', async () => {
   // Make move that calls effects API
   fireEvent.click(screen.getByText('Move With Effects'));
   const t1 = performance.now();
-  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^2$/);
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^4$/);
   expect(screen.getByTestId('last-effect')).toBeEmptyDOMElement();
   expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
 
   // Wait for first effect to be emitted
   await waitFor(() => screen.getByText('longEffect:1'));
-  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^1$/);
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^2$/);
   expect(screen.getByTestId('last-effect')).toHaveTextContent('longEffect:1');
   expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
 
   // Wait for second effect to be emitted
   await waitFor(() => screen.getByText('shortEffect:2'));
   expect(performance.now() - t1).toBeGreaterThan(800);
-  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^0$/);
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^1$/);
   expect(screen.getByTestId('last-effect')).toHaveTextContent('shortEffect:2');
   expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
+
+  // Wait for queue to empty
+  await waitFor(() =>
+    expect(screen.getByTestId('queue-size')).toHaveTextContent(/^0$/)
+  );
+  expect(performance.now() - t1).toBeGreaterThan(900);
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^0$/);
 });
 
 test('boardgame.io state can be updated after effects', async () => {
@@ -136,26 +143,27 @@ test('boardgame.io state can be updated after effects', async () => {
   // Make move that calls effects API
   fireEvent.click(screen.getByText('Move With Effects'));
   const t1 = performance.now();
-  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^2$/);
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^4$/);
   expect(screen.getByTestId('last-effect')).toBeEmptyDOMElement();
   expect(screen.getByTestId('G-val')).toBeEmptyDOMElement();
 
   // Wait for first effect to be emitted
   await waitFor(() => screen.getByText('longEffect:1'));
-  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^1$/);
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^2$/);
   expect(screen.getByTestId('last-effect')).toHaveTextContent('longEffect:1');
   expect(screen.getByTestId('G-val')).toBeEmptyDOMElement();
 
   // Wait for second effect to be emitted
   await waitFor(() => screen.getByText('shortEffect:2'));
   expect(performance.now() - t1).toBeGreaterThan(800);
-  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^0$/);
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^1$/);
   expect(screen.getByTestId('last-effect')).toHaveTextContent('shortEffect:2');
   expect(screen.getByTestId('G-val')).toBeEmptyDOMElement();
 
   // Wait for boardgame.io state to update
   await waitFor(() => screen.getByText(GVal.wEffects));
   expect(performance.now() - t1).toBeGreaterThan(900);
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^0$/);
   expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
 });
 
@@ -164,7 +172,7 @@ test('Effects queue can be cleared', async () => {
 
   // Make move that calls effects API.
   fireEvent.click(screen.getByText('Move With Effects'));
-  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^2$/);
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^4$/);
   expect(screen.getByTestId('last-effect')).toBeEmptyDOMElement();
   expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
 
@@ -179,14 +187,16 @@ test('Effects queue can be flushed', () => {
 
   // Make move that calls effects API.
   fireEvent.click(screen.getByText('Move With Effects'));
-  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^2$/);
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^4$/);
   expect(screen.getByTestId('last-effect')).toBeEmptyDOMElement();
   expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
 
   // Flush effect queue.
   fireEvent.click(screen.getByText('Flush'));
   expect(screen.getByTestId('queue-size')).toHaveTextContent(/^0$/);
-  expect(screen.getByTestId('last-effect')).toHaveTextContent('shortEffect:2');
+  expect(screen.getByTestId('last-effect')).toHaveTextContent(
+    'effects:end:undefined'
+  );
 });
 
 test('boardgame.io state updates after clearing effects queue', async () => {

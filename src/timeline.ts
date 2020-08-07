@@ -121,13 +121,14 @@ export class Timeline<E extends EffectsPluginConfig['effects']> {
    *         Each effect has a property `t` specifying its time on the timeline.
    */
   getQueue(): Queue<E> {
-    let queue: Queue<E> = [];
+    let queue: Queue<E> = [{ t: 0, type: 'effects:start' }];
     this.keys().forEach((t) => {
       const effects = this._keyframes.get(t)!;
       effects.forEach((data) => {
         queue.push({ t, ...(data as object) } as Queue<E>[number]);
       });
     });
+    queue.push({ t: this._duration, type: 'effects:end' });
     return queue;
   }
 

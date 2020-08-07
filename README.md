@@ -262,16 +262,25 @@ function Component() {
 }
 ```
 
-You can also listen for _all_ effects if necessary:
+`effectPayload` will be the data returned by your `create` function or
+`undefined` for effects without a `create` function.
+
+Your callback can return a clean-up function, which will be run the next time the effect is fired, if the variables in the dependency array change, or if the component unmounts. This is similar to [cleaning up in React’s `useEffect` hook][cleanup].
+
+##### Special Events
+
+You can listen for _all_ effects using the special `'*'` wildcard. In this case,
+your callback receives both the effect name and payload:
 
 ```js
 useEffectListener('*', (effectName, effectPayload) => {}, []);
 ```
 
-`effectPayload` will be the data returned by your `create` function or
-`undefined` for effects without a `create` function.
+Two other special events will also always be fired:
 
-Your callback can return a clean-up function, which will be run the next time the effect is fired, if the variables in the dependency array change, or if the component unmounts. This is similar to [cleaning up in React’s `useEffect` hook][cleanup].
+- `'effects:start'` will fire before any other effects.
+
+- `'effects:end'` will fire after all the effects in the queue.
 
 ##### Example
 
