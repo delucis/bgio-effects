@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/delucis/bgio-effects/compare/v0.3.1...v0.3.2) (2020-08-16)
+
+
+### Bug Fixes
+
+* Include alias package.json files in npm bundle ([ff12d4b](https://github.com/delucis/bgio-effects/commit/ff12d4bb2187e1a22e5ca31c78588ff5e60c34aa))
+
 ### [0.3.1](https://github.com/delucis/bgio-effects/compare/v0.3.0...v0.3.1) (2020-08-16)
 
 
