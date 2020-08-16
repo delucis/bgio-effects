@@ -5,11 +5,11 @@ import type { Game, Ctx } from 'boardgame.io';
 import { Client, BoardProps } from 'boardgame.io/react';
 import {
   EffectsBoardWrapper,
-  EffectsPlugin,
-  EffectsCtxMixin,
   useEffectListener,
   useEffectQueue,
-} from '.';
+} from './react';
+import { EffectsPlugin } from './plugin';
+import { EffectsCtxMixin } from '.';
 
 console.error = jest.fn();
 

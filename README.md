@@ -79,7 +79,7 @@ passing it your configuration object:
 ```js
 // game.js
 
-import { EffectsPlugin } from 'bgio-effects';
+import { EffectsPlugin } from 'bgio-effects/plugin';
 import { config } from './effects-config';
 
 const game = {
@@ -213,7 +213,7 @@ the `EffectsBoardWrapper` before passing it to the boardgame.io client factory:
 
 ```js
 import { Client } from 'boardgame.io/react';
-import { EffectsBoardWrapper } from 'bgio-effects';
+import { EffectsBoardWrapper } from 'bgio-effects/react';
 import { BoardComponent } from './Board';
 
 const board = EffectsBoardWrapper(BoardComponent);
@@ -254,7 +254,7 @@ Within your board component or child components, use the `useEffectListener`
 hook to listen for effect events:
 
 ```js
-import { useEffectListener } from 'bgio-effects';
+import { useEffectListener } from 'bgio-effects/react';
 
 function Component() {
   useEffectListener('effectName', (effectPayload) => {}, []);
@@ -286,7 +286,7 @@ Two other special events will also always be fired:
 
 ```js
 import React, { useState } from 'react';
-import { useEffectListener } from 'bgio-effects';
+import { useEffectListener } from 'bgio-effects/react';
 
 function DiceComponent() {
   const [animate, setAnimate] = useState(false);
@@ -317,7 +317,7 @@ function DiceComponent() {
 The `useEffectQueue` hook lets child components control the effect queue if necessary:
 
 ```js
-import { useEffectQueue } from 'bgio-effects';
+import { useEffectQueue } from 'bgio-effects/react';
 
 function Component() {
   const { clear, flush, size } = useEffectQueue();
