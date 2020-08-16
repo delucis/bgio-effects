@@ -1,0 +1,6 @@
+{
+  "name": "bgio-effects/plugin",
+  "private": true,
+  "main": "../dist/plugin.js",
+  "types": "../dist/plugin.d.ts"
+}
