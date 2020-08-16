@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/delucis/bgio-effects/compare/v0.2.0...v0.3.0) (2020-08-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* Import paths have changed. You must now import from 
+'bgio-effects/react' or 'bgio-effects/plugin' rather than from the 
+top-level package. Types are still available via the top-level.
+
+### Features
+
+* restructure package to split react & plugin into different entrypoints ([137bfc3](https://github.com/delucis/bgio-effects/commit/137bfc31b5e8fbf30ad85bef86054800b3962fd3))
+
 ## [0.2.0](https://github.com/delucis/bgio-effects/compare/v0.1.9...v0.2.0) (2020-08-07)
 
 
