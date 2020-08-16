@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "plugin/**/*",
+    "react/**/*"
   ],
   "scripts": {
     "clean": "rimraf dist",
