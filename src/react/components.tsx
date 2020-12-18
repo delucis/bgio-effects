@@ -1,20 +1,10 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import useRafLoop from 'react-use/lib/useRafLoop';
 import useUpdate from 'react-use/lib/useUpdate';
-import mitt, { Emitter } from 'mitt';
+import mitt from 'mitt';
 import type { BoardProps } from 'boardgame.io/react';
-import type { EffectsPluginConfig, ListenerArgs, Data, Queue } from './types';
-
-const EffectsContext = React.createContext<Emitter | null>(null);
-const EffectsQueueContext = React.createContext<
-  { clear: () => void; flush: () => void; size: number } | undefined
->(undefined);
+import type { EffectsPluginConfig, Data, Queue } from '../types';
+import { EffectsContext, EffectsQueueContext } from './contexts';
 
 /**
  * Configuration options that can be passed to EffectsBoardWrapper.
@@ -42,55 +32,6 @@ export function EffectsBoardWrapper<
   return function BoardWithEffectsProvider(props: P) {
     return EffectsProvider<G, P>({ props, Board, opts });
   };
-}
-
-/**
- * Get an error message for when a hook has been used outside a provider.
- * @param hook - The name of the hook that errored.
- * @return - Error message string.
- */
-const hookErrorMessage = (hook: string) =>
-  hook +
-  ' must be called inside the effects context provider.\n' +
-  'Make sure your board component has been correctly wrapped using EffectsBoardWrapper.';
-
-/**
- * Subscribe to events emitted by the effects state.
- * @param effectType - Name of the effect to listen for. '*' listens to any.
- * @param callback - Function to call when the event is emitted.
- * @param dependencyArray - Array of variables the callback function depends on.
- */
-export function useEffectListener<C extends EffectsPluginConfig>(
-  ...args: ListenerArgs<C['effects']>
-) {
-  const emitter = useContext(EffectsContext);
-  if (!emitter) throw new Error(hookErrorMessage('useEffectListener'));
-  const [effectType, cb, deps] = args;
-  const callback = useCallback(cb, deps);
-
-  useEffect(() => {
-    let cleanup: void | (() => void);
-
-    emitter.on(effectType as string, (...args) => {
-      if (typeof cleanup === 'function') cleanup();
-      cleanup = callback(...args);
-    });
-
-    return () => {
-      emitter.off(effectType as string, callback as (...args: any) => any);
-      if (typeof cleanup === 'function') cleanup();
-    };
-  }, [emitter, effectType, callback]);
-}
-
-/**
- * Get controls and data for the effects queue.
- * @return - { clear(), flush(), size }
- */
-export function useEffectQueue() {
-  const ctx = useContext(EffectsQueueContext);
-  if (!ctx) throw new Error(hookErrorMessage('useEffectQueue'));
-  return ctx;
 }
 
 /**

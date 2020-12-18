@@ -3,13 +3,9 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import type { Game, Ctx } from 'boardgame.io';
 import { Client, BoardProps } from 'boardgame.io/react';
-import {
-  EffectsBoardWrapper,
-  useEffectListener,
-  useEffectQueue,
-} from './react';
-import { EffectsPlugin } from './plugin';
-import { EffectsCtxMixin } from '.';
+import { EffectsBoardWrapper, useEffectListener, useEffectQueue } from '.';
+import { EffectsPlugin } from '../plugin';
+import { EffectsCtxMixin } from '..';
 
 console.error = jest.fn();
 
