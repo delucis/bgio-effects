@@ -21,6 +21,11 @@ interface EffectWithoutCreate extends EffectConfig {
 }
 
 /**
+ * Extract the payload that results from a single effect’s `create` definiton.
+ */
+type EffectPayload<E extends EffectWithCreate> = F.Return<O.At<E, 'create'>>;
+
+/**
  * Map of effect name strings to EffectConfig interfaces.
  */
 type EffectsMap = Record<string, EffectConfig>;
@@ -48,7 +53,7 @@ export type Effect<E extends EffectsMap> =
           [K in keyof E]: E[K] extends EffectWithCreate
             ? {
                 type: K;
-                payload: F.Return<O.At<E[K], 'create'>>;
+                payload: EffectPayload<E[K]>;
               }
             : E[K] extends EffectWithoutCreate
             ? { type: K }
@@ -136,7 +141,7 @@ export type ListenerArgs<E extends EffectsMap> =
         ...cbArgs: O.UnionOf<
           {
             [K in keyof E]: E[K] extends EffectWithCreate
-              ? [K, F.Return<O.At<E[K], 'create'>>]
+              ? [K, EffectPayload<E[K]>]
               : [K, undefined];
           }
         >
@@ -148,7 +153,7 @@ export type ListenerArgs<E extends EffectsMap> =
         [K in keyof E]: [
           K,
           E[K] extends EffectWithCreate
-            ? (payload: F.Return<O.At<E[K], 'create'>>) => CbReturn
+            ? (payload: EffectPayload<E[K]>) => CbReturn
             : () => CbReturn,
           React.DependencyList
         ];
