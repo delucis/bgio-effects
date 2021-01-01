@@ -15,6 +15,10 @@ export function useEffectListener<C extends EffectsPluginConfig>(
   const emitter = useContext(EffectsContext);
   if (!emitter) throw new Error(hookErrorMessage('useEffectListener'));
   const [effectType, cb, deps] = args;
+  if (!deps)
+    throw new TypeError(
+      'useEffectListener must receive a dependency list as its third argument.'
+    );
   const callback = useCallback(cb, deps);
 
   useEffect(() => {
