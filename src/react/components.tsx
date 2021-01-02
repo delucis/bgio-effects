@@ -67,7 +67,6 @@ function EffectsProvider<
   props: P;
   opts?: EffectsOpts;
 }) {
-  type NaiveEffect = { t: number; type: string; payload?: any };
   const { effects } = props.plugins as { effects?: { data: Data } };
   const id = effects && effects.data.id;
   const duration = (effects && effects.data.duration) || 0;
@@ -88,7 +87,7 @@ function EffectsProvider<
     // Loop through the effects queue, emitting any effects whose time has come.
     let i = 0;
     for (i = 0; i < q.length; i++) {
-      const effect = q[i] as NaiveEffect;
+      const effect = q[i];
       if (!effect || effect.t > elapsedT) break;
       emitter.emit(effect.type, effect.payload);
     }
@@ -141,7 +140,7 @@ function EffectsProvider<
    */
   const flush = useCallback(() => {
     for (let i = 0; i < queue.current.length; i++) {
-      const effect = queue.current[i] as NaiveEffect;
+      const effect = queue.current[i];
       emitter.emit(effect.type, effect.payload);
     }
     clear();
