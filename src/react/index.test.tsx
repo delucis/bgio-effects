@@ -3,7 +3,12 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import type { Game, Ctx } from 'boardgame.io';
 import { Client, BoardProps } from 'boardgame.io/react';
-import { EffectsBoardWrapper, useEffectListener, useEffectQueue } from '.';
+import {
+  EffectsBoardWrapper,
+  useEffectListener,
+  useEffectQueue,
+  useEffectState,
+} from '.';
 import { EffectsPlugin } from '../plugin';
 import { EffectsCtxMixin } from '..';
 
@@ -323,4 +328,48 @@ test('useEffectQueue throws if used outside of EffectsBoardWrapper', () => {
   expect(() => render(<App />)).toThrow(
     'useEffectQueue must be called inside the effects context provider.'
   );
+});
+
+describe('useEffectState', () => {
+  test('useEffectState throws if used outside of EffectsBoardWrapper', () => {
+    const App = () => {
+      const [] = useEffectState('*');
+      return <div />;
+    };
+    expect(() => render(<App />)).toThrow(
+      'useEffectListener must be called inside the effects context provider.'
+    );
+  });
+
+  test('useEffectState provides state', async () => {
+    const board = EffectsBoardWrapper(({ moves }: BoardProps<G>) => {
+      const [state, isActive] = useEffectState('longEffect', 1);
+      return (
+        <main>
+          <button onClick={() => moves.wEffects()}>Move With Effects</button>
+          <p data-testid="state">{state}</p>
+          <p data-testid="isActive">{JSON.stringify(isActive)}</p>
+        </main>
+      );
+    });
+    const App = Client({
+      game: (game as unknown) as Game<G>,
+      board,
+      debug: false,
+    });
+
+    render(<App />);
+
+    expect(screen.getByTestId('state')).toBeEmptyDOMElement();
+    expect(screen.getByTestId('isActive')).toHaveTextContent('false');
+
+    fireEvent.click(screen.getByText('Move With Effects'));
+    const t1 = performance.now();
+    await waitFor(() => screen.getByText('1'));
+    expect(screen.getByTestId('isActive')).toHaveTextContent('true');
+
+    await waitFor(() => screen.getByText('false'));
+    const t = performance.now() - t1;
+    expect(t).toBeGreaterThan(900);
+  });
 });

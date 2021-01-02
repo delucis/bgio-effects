@@ -40,6 +40,19 @@ useEffectListener('explode', () => {
 
 ## Usage
 
+<!-- TOC START min:3 max:4 link:true asterisk:false update:true -->
+- [Plugin](#plugin)
+  - [Configuration](#configuration)
+  - [Adding the plugin to your game](#adding-the-plugin-to-your-game)
+  - [Sequencing effects](#sequencing-effects)
+- [React](#react)
+  - [`EffectsBoardWrapper`](#effectsboardwrapper)
+  - [`useEffectListener`](#useeffectlistener)
+  - [`useEffectState`](#useeffectstate)
+  - [`useEffectQueue`](#useeffectqueue)
+  - [Timing precision](#timing-precision)
+<!-- TOC END -->
+
 ### Plugin
 
 #### Configuration
@@ -307,6 +320,39 @@ function DiceComponent() {
   );
 
   return <div className={animate ? 'animated' : 'static'} />;
+}
+```
+
+#### `useEffectState`
+
+The `useEffectState` hook provides an abstraction around `useEffectListener`
+for cases where you don’t need to call other imperative code
+when an effect fires.
+
+##### Parameters
+
+1. Effect Type (`string`) — the effect you want to observe state for.
+
+2. Duration (`number`) — the number of seconds the effect is “active” for when
+   its state updates.
+
+##### Returns
+
+A `[state, isActive]` tuple.
+
+- `state`: The latest value for this effect type.
+  This will be `undefined` until the effect fires.
+- `isActive`: A boolean indicating whether the effect is currently active.
+
+##### Usage
+
+```js
+import { useEffectState } from 'bgio-effects/react';
+
+function Component() {
+  const [roll, isRolling] = useEffectState('rollDie', 1);
+  const className = isRolling ? 'animated' : 'static';
+  return <div className={className}>{roll}</div>;
 }
 ```
 
