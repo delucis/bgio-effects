@@ -35,6 +35,24 @@ export function EffectsBoardWrapper<
 }
 
 /**
+ * Hook very similar to `useState` except that state is stored in a ref.
+ * This allows the requestAnimationFrame loop to access the latest state
+ * before React rerenders, but also update React as `setState` would usually.
+ */
+function useRefState<T>(initial: T) {
+  const state = useRef(initial);
+  const rerender = useUpdate();
+  const setState = useCallback(
+    (newState: T) => {
+      state.current = newState;
+      rerender();
+    },
+    [state, rerender]
+  );
+  return [state, setState] as const;
+}
+
+/**
  * Context provider that watches boardgame.io state and emits effect events.
  */
 function EffectsProvider<
@@ -58,15 +76,7 @@ function EffectsProvider<
   const [emitter] = useState(() => mitt());
   const [startT, setStartT] = useState(0);
   const [bgioProps, setBgioProps] = useState(props);
-  const queue = useRef<Queue>([]);
-  const rerender = useUpdate();
-  const setQueue = useCallback(
-    (newQueue: Queue) => {
-      queue.current = newQueue;
-      rerender();
-    },
-    [queue, rerender]
-  );
+  const [queue, setQueue] = useRefState<Queue>([]);
 
   /**
    * requestAnimationFrame loop which dispatches effects and updates the queue
