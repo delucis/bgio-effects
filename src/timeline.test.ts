@@ -1,4 +1,5 @@
 import { Timeline } from './timeline';
+import type { Effect } from './types';
 
 describe('construction', () => {
   test('creates an instance with expected methods', () => {
@@ -17,7 +18,7 @@ describe('#add', () => {
     const queue = t.getQueue();
     expect(queue).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test' },
+      { t: 0, type: 'test', duration: 0 },
       { t: 0, type: 'effects:end' },
     ]);
   });
@@ -28,9 +29,9 @@ describe('#add', () => {
     const queue = t.getQueue();
     expect(queue).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test' },
-      { t: 0, type: 'foo' },
-      { t: 5, type: 'bar' },
+      { t: 0, type: 'test', duration: 0 },
+      { t: 0, type: 'foo', duration: 5 },
+      { t: 5, type: 'bar', duration: 5 },
       { t: 10, type: 'effects:end' },
     ]);
   });
@@ -41,11 +42,11 @@ describe('#add', () => {
     const queue = t.getQueue();
     expect(queue).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test' },
-      { t: 0, type: 'foo' },
-      { t: 5, type: 'bar' },
-      { t: 9, type: 'baz' },
-      { t: 10.5, type: 'bam' },
+      { t: 0, type: 'test', duration: 0 },
+      { t: 0, type: 'foo', duration: 5 },
+      { t: 5, type: 'bar', duration: 5 },
+      { t: 9, type: 'baz', duration: 1 },
+      { t: 10.5, type: 'bam', duration: 1 },
       { t: 11.5, type: 'effects:end' },
     ]);
   });
@@ -56,13 +57,13 @@ describe('#add', () => {
     const queue = t.getQueue();
     expect(queue).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test' },
-      { t: 0, type: 'foo' },
-      { t: 5, type: 'bar' },
-      { t: 9, type: 'baz' },
-      { t: 9.5, type: 'buq' },
-      { t: 10.5, type: 'bam' },
-      { t: 11, type: 'bup' },
+      { t: 0, type: 'test', duration: 0 },
+      { t: 0, type: 'foo', duration: 5 },
+      { t: 5, type: 'bar', duration: 5 },
+      { t: 9, type: 'baz', duration: 1 },
+      { t: 9.5, type: 'buq', duration: 2 },
+      { t: 10.5, type: 'bam', duration: 1 },
+      { t: 11, type: 'bup', duration: 2 },
       { t: 13, type: 'effects:end' },
     ]);
   });
@@ -72,14 +73,14 @@ describe('#add', () => {
     const queue = t.getQueue();
     expect(queue).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test' },
-      { t: 0, type: 'foo' },
-      { t: 4, type: 'fixed' },
-      { t: 5, type: 'bar' },
-      { t: 9, type: 'baz' },
-      { t: 9.5, type: 'buq' },
-      { t: 10.5, type: 'bam' },
-      { t: 11, type: 'bup' },
+      { t: 0, type: 'test', duration: 0 },
+      { t: 0, type: 'foo', duration: 5 },
+      { t: 4, type: 'fixed', duration: 0 },
+      { t: 5, type: 'bar', duration: 5 },
+      { t: 9, type: 'baz', duration: 1 },
+      { t: 9.5, type: 'buq', duration: 2 },
+      { t: 10.5, type: 'bam', duration: 1 },
+      { t: 11, type: 'bup', duration: 2 },
       { t: 13, type: 'effects:end' },
     ]);
   });
@@ -89,15 +90,15 @@ describe('#add', () => {
     const queue = t.getQueue();
     expect(queue).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test' },
-      { t: 0, type: 'foo' },
-      { t: 4, type: 'fixed' },
-      { t: 5, type: 'bar' },
-      { t: 9, type: 'baz' },
-      { t: 9.5, type: 'buq' },
-      { t: 10, type: 'ins' },
-      { t: 11.5, type: 'bam' },
-      { t: 12, type: 'bup' },
+      { t: 0, type: 'test', duration: 0 },
+      { t: 0, type: 'foo', duration: 5 },
+      { t: 4, type: 'fixed', duration: 0 },
+      { t: 5, type: 'bar', duration: 5 },
+      { t: 9, type: 'baz', duration: 1 },
+      { t: 9.5, type: 'buq', duration: 2 },
+      { t: 10, type: 'ins', duration: 1 },
+      { t: 11.5, type: 'bam', duration: 1 },
+      { t: 12, type: 'bup', duration: 2 },
       { t: 14, type: 'effects:end' },
     ]);
   });
@@ -107,16 +108,16 @@ describe('#add', () => {
     const queue = t.getQueue();
     expect(queue).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test' },
-      { t: 0, type: 'foo' },
-      { t: 4, type: 'fixed' },
-      { t: 5, type: 'bar' },
-      { t: 9, type: 'baz' },
-      { t: 9.5, type: 'buq' },
-      { t: 10, type: 'ins' },
-      { t: 11, type: 'uns' },
-      { t: 12, type: 'bam' },
-      { t: 12.5, type: 'bup' },
+      { t: 0, type: 'test', duration: 0 },
+      { t: 0, type: 'foo', duration: 5 },
+      { t: 4, type: 'fixed', duration: 0 },
+      { t: 5, type: 'bar', duration: 5 },
+      { t: 9, type: 'baz', duration: 1 },
+      { t: 9.5, type: 'buq', duration: 2 },
+      { t: 10, type: 'ins', duration: 1 },
+      { t: 11, type: 'uns', duration: 1 },
+      { t: 12, type: 'bam', duration: 1 },
+      { t: 12.5, type: 'bup', duration: 2 },
       { t: 14.5, type: 'effects:end' },
     ]);
   });
@@ -127,8 +128,8 @@ describe('#add', () => {
     t.add({ type: 'bu' });
     expect(t.getQueue()).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'nu' },
-      { t: 1, type: 'bu' },
+      { t: 0, type: 'nu', duration: 1 },
+      { t: 1, type: 'bu', duration: 0 },
       { t: 1, type: 'effects:end' },
     ]);
   });
@@ -139,8 +140,8 @@ describe('#add', () => {
     t.add({ type: 'mc' });
     expect(t.getQueue()).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'e' },
-      { t: 1, type: 'mc' },
+      { t: 0, type: 'e', duration: 1 },
+      { t: 1, type: 'mc', duration: 0 },
       { t: 1, type: 'effects:end' },
     ]);
   });
@@ -163,7 +164,7 @@ describe('#isEmpty', () => {
   });
 
   test('returns false for a timeline with entries', () => {
-    t.add({});
+    t.add({} as Effect);
     expect(t.isEmpty()).toBe(false);
   });
 
@@ -181,8 +182,8 @@ describe('#duration', () => {
   });
 
   test('returns the total duration', () => {
-    t.add({}, '>', 1);
-    t.add({}, '>', 1);
+    t.add({} as Effect, '>', 1);
+    t.add({} as Effect, '>', 1);
     expect(t.duration()).toBe(2);
   });
 });
@@ -194,8 +195,8 @@ describe('#clear', () => {
     t.add({ type: 'b' }, '>', 1);
     expect(t.getQueue()).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'a' },
-      { t: 1, type: 'b' },
+      { t: 0, type: 'a', duration: 1 },
+      { t: 1, type: 'b', duration: 1 },
       { t: 2, type: 'effects:end' },
     ]);
     t.clear();
@@ -206,7 +207,7 @@ describe('#clear', () => {
     t.add({ type: 'a' }, '>', 1);
     expect(t.getQueue()).toEqual([
       { t: 0, type: 'effects:start' },
-      { t: 0, type: 'a' },
+      { t: 0, type: 'a', duration: 1 },
       { t: 1, type: 'effects:end' },
     ]);
   });

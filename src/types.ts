@@ -43,41 +43,34 @@ export interface EffectsPluginConfig {
 type BuiltinEffect = 'effects:start' | 'effects:end';
 
 /**
- * Type describing the possible effect objects produced by an EffectsPlugin.
- * @param E - A map of EffectConfig interfaces to derive the shapes from.
+ * Type describing the effect objects produced by the EffectsPlugin.
  */
-export type Effect<E extends EffectsMap> =
-  | U.IntersectOf<
-      O.UnionOf<
-        {
-          [K in keyof E]: E[K] extends EffectWithCreate
-            ? {
-                type: K;
-                payload: EffectPayload<E[K]>;
-              }
-            : E[K] extends EffectWithoutCreate
-            ? { type: K }
-            : never;
-        }
-      >
-    >
-  | { type: BuiltinEffect };
+export interface Effect {
+  type: string;
+  payload?: any;
+}
+
+/**
+ * Type describing an effect when persisted to the game state.
+ */
+interface PersistedEffect extends Effect {
+  t: number;
+  duration?: number;
+}
 
 /**
  * Type describing the queue of effects persisted to game state.
- * @param E - A map of EffectConfig interfaces to derive the data from.
  */
-export type Queue<E extends EffectsMap> = Array<Effect<E> & { t: number }>;
+export type Queue = PersistedEffect[];
 
 /**
  * Type describing the EffectsPlugin data object.
- * @param E - A map of EffectConfig interfaces to derive the data from.
  */
-export type Data<E extends EffectsMap> = {
+export interface Data {
   id: string;
   duration: number;
-  queue: Queue<E>;
-};
+  queue: Queue;
+}
 
 type Duration = number;
 type Position = number | string;
@@ -88,7 +81,7 @@ export type TimingParams = [Position, Duration];
  * @param E - A tuple of EffectConfig interfaces to derive the API from.
  */
 export type API<E extends EffectsMap> = {
-  timeline: Timeline<E>;
+  timeline: Timeline;
 } & U.IntersectOf<
   O.UnionOf<
     {

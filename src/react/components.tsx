@@ -3,7 +3,7 @@ import useRafLoop from 'react-use/lib/useRafLoop';
 import useUpdate from 'react-use/lib/useUpdate';
 import mitt from 'mitt';
 import type { BoardProps } from 'boardgame.io/react';
-import type { EffectsPluginConfig, Data, Queue } from '../types';
+import type { Data, Queue } from '../types';
 import { EffectsContext, EffectsQueueContext } from './contexts';
 
 /**
@@ -49,9 +49,8 @@ function EffectsProvider<
   props: P;
   opts?: EffectsOpts;
 }) {
-  type E = EffectsPluginConfig['effects'];
   type NaiveEffect = { t: number; type: string; payload?: any };
-  const { effects } = props.plugins as { effects?: { data: Data<E> } };
+  const { effects } = props.plugins as { effects?: { data: Data } };
   const id = effects && effects.data.id;
   const duration = (effects && effects.data.duration) || 0;
   const bgioStateT: number = updateStateAfterEffects ? duration : 0;
@@ -59,10 +58,10 @@ function EffectsProvider<
   const [emitter] = useState(() => mitt());
   const [startT, setStartT] = useState(0);
   const [bgioProps, setBgioProps] = useState(props);
-  const queue = useRef<Queue<E>>([]);
+  const queue = useRef<Queue>([]);
   const rerender = useUpdate();
   const setQueue = useCallback(
-    (newQueue: Queue<E>) => {
+    (newQueue: Queue) => {
       queue.current = newQueue;
       rerender();
     },
