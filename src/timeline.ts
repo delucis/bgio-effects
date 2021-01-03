@@ -1,4 +1,4 @@
-import type { Queue, Effect, EffectsPluginConfig, TimingParams } from './types';
+import type { Queue, Effect, TimingParams } from './types';
 
 const float = '(?:\\d*\\.?\\d+|\\d+\\.?\\d*)?';
 const insertPositionRE = RegExp(`^\\^(${float})(->(${float})?)?$`);
@@ -14,9 +14,9 @@ const parseInsertPosition = (position: string) => {
  * Timeline that allows adding data and returning an ordered queue of
  * data by timestamp.
  */
-export class Timeline<E extends EffectsPluginConfig['effects']> {
+export class Timeline {
   private _last: null | number;
-  private _keyframes: Map<number, Effect<E>[]>;
+  private _keyframes: Map<number, Array<Effect & { duration: number }>>;
   private _duration: number;
 
   constructor() {
@@ -76,7 +76,7 @@ export class Timeline<E extends EffectsPluginConfig['effects']> {
    * @param duration Duration of the effect when played back.
    */
   add(
-    effect: Effect<E>,
+    effect: Effect,
     position: TimingParams[0] = this._duration,
     duration: TimingParams[1] = 0
   ): void {
@@ -105,7 +105,7 @@ export class Timeline<E extends EffectsPluginConfig['effects']> {
     }
 
     const entries = this._keyframes.get(position) || [];
-    this._keyframes.set(position, [...entries, effect]);
+    this._keyframes.set(position, [...entries, { duration, ...effect }]);
 
     if (this._last === null || position > this._last) {
       this._last = position;
@@ -120,15 +120,20 @@ export class Timeline<E extends EffectsPluginConfig['effects']> {
    * @return Sorted array of effects.
    *         Each effect has a property `t` specifying its time on the timeline.
    */
-  getQueue(): Queue<E> {
-    let queue: Queue<E> = [{ t: 0, type: 'effects:start' }];
+  getQueue(): Queue {
+    let queue: Queue = [{ t: 0, endT: 0, type: 'effects:start' }];
     this.keys().forEach((t) => {
       const effects = this._keyframes.get(t)!;
-      effects.forEach((data) => {
-        queue.push({ t, ...(data as object) } as Queue<E>[number]);
+      effects.forEach((effect) => {
+        const { duration, ...rest } = effect;
+        queue.push({ t, endT: t + duration, ...rest });
       });
     });
-    queue.push({ t: this._duration, type: 'effects:end' });
+    queue.push({
+      t: this._duration,
+      endT: this._duration,
+      type: 'effects:end',
+    });
     return queue;
   }
 
