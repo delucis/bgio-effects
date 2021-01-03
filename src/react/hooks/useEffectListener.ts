@@ -12,9 +12,9 @@ import { hookErrorMessage } from './utils';
 export function useEffectListener<C extends EffectsPluginConfig>(
   ...args: ListenerArgs<C['effects']>
 ) {
-  const emitter = useContext(EffectsContext);
   if (!emitter) throw new Error(hookErrorMessage('useEffectListener'));
   const [effectType, cb, deps] = args;
+  const { emitter, endEmitter } = useContext(EffectsContext);
   if (!deps)
     throw new TypeError(
       'useEffectListener must receive a dependency list as its third argument.'
