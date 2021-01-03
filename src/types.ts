@@ -126,30 +126,54 @@ export type EffectsCtxMixin<C extends EffectsPluginConfig> = {
   effects: API<C['effects']>;
 };
 
+/**
+ * Return type for all effect listener callbacks.
+ */
 type CbReturn = void | (() => void);
+
+/**
+ * Type of callback when listening for all effects with '*'.
+ */
+type AllEffectsCb<E extends EffectsMap> = (
+  ...cbArgs: O.UnionOf<
+    {
+      [K in keyof E]: E[K] extends EffectWithCreate
+        ? [K, EffectPayload<E[K]>]
+        : [K, undefined];
+    }
+  >
+) => CbReturn;
+
+/**
+ * Type of callback when listening for a specific effect.
+ */
+type EffectCb<
+  E extends EffectsMap,
+  K extends keyof E
+> = E[K] extends EffectWithCreate
+  ? (payload: EffectPayload<E[K]>) => CbReturn
+  : () => CbReturn;
+
 export type ListenerArgs<E extends EffectsMap> =
+  | ['*', AllEffectsCb<E>, React.DependencyList]
   | [
       '*',
-      (
-        ...cbArgs: O.UnionOf<
-          {
-            [K in keyof E]: E[K] extends EffectWithCreate
-              ? [K, EffectPayload<E[K]>]
-              : [K, undefined];
-          }
-        >
-      ) => CbReturn,
+      AllEffectsCb<E>,
+      React.DependencyList,
+      AllEffectsCb<E>,
       React.DependencyList
     ]
   | O.UnionOf<
       {
-        [K in keyof E]: [
-          K,
-          E[K] extends EffectWithCreate
-            ? (payload: EffectPayload<E[K]>) => CbReturn
-            : () => CbReturn,
-          React.DependencyList
-        ];
+        [K in keyof E]:
+          | [K, EffectCb<E, K>, React.DependencyList]
+          | [
+              K,
+              EffectCb<E, K>,
+              React.DependencyList,
+              EffectCb<E, K>,
+              React.DependencyList
+            ];
       }
     >
   | [BuiltinEffect, () => CbReturn, React.DependencyList];
