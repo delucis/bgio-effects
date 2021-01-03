@@ -248,6 +248,12 @@ const board = EffectsBoardWrapper(BoardComponent, {
 
 3. Dependencies (`array`) — an array of variables your callback depends upon (similar to [React’s `useCallback` hook][useCallback]).
 
+4. _(optional)_ On-End Callback (`function`) — a function to run when the effect
+   ends (as defined by the effects `duration`).
+
+5. _(optional)_ On-End Dependencies (`array`) — an array of variables your
+   on-end callback depends on.
+
 ##### Usage
 
 Within your board component or child components, use the `useEffectListener`
