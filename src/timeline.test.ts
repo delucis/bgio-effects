@@ -17,9 +17,9 @@ describe('#add', () => {
     t.add({ type: 'test' });
     const queue = t.getQueue();
     expect(queue).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test', duration: 0 },
-      { t: 0, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'test', endT: 0 },
+      { t: 0, type: 'effects:end', endT: 0 },
     ]);
   });
 
@@ -28,11 +28,11 @@ describe('#add', () => {
     t.add({ type: 'bar' }, '>', 5);
     const queue = t.getQueue();
     expect(queue).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test', duration: 0 },
-      { t: 0, type: 'foo', duration: 5 },
-      { t: 5, type: 'bar', duration: 5 },
-      { t: 10, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'test', endT: 0 },
+      { t: 0, type: 'foo', endT: 5 },
+      { t: 5, type: 'bar', endT: 10 },
+      { t: 10, type: 'effects:end', endT: 10 },
     ]);
   });
 
@@ -41,13 +41,13 @@ describe('#add', () => {
     t.add({ type: 'bam' }, '>+0.5', 1);
     const queue = t.getQueue();
     expect(queue).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test', duration: 0 },
-      { t: 0, type: 'foo', duration: 5 },
-      { t: 5, type: 'bar', duration: 5 },
-      { t: 9, type: 'baz', duration: 1 },
-      { t: 10.5, type: 'bam', duration: 1 },
-      { t: 11.5, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'test', endT: 0 },
+      { t: 0, type: 'foo', endT: 5 },
+      { t: 5, type: 'bar', endT: 10 },
+      { t: 9, type: 'baz', endT: 10 },
+      { t: 10.5, type: 'bam', endT: 11.5 },
+      { t: 11.5, type: 'effects:end', endT: 11.5 },
     ]);
   });
 
@@ -56,15 +56,15 @@ describe('#add', () => {
     t.add({ type: 'bup' }, '<+0.5', 2);
     const queue = t.getQueue();
     expect(queue).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test', duration: 0 },
-      { t: 0, type: 'foo', duration: 5 },
-      { t: 5, type: 'bar', duration: 5 },
-      { t: 9, type: 'baz', duration: 1 },
-      { t: 9.5, type: 'buq', duration: 2 },
-      { t: 10.5, type: 'bam', duration: 1 },
-      { t: 11, type: 'bup', duration: 2 },
-      { t: 13, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'test', endT: 0 },
+      { t: 0, type: 'foo', endT: 5 },
+      { t: 5, type: 'bar', endT: 10 },
+      { t: 9, type: 'baz', endT: 10 },
+      { t: 9.5, type: 'buq', endT: 11.5 },
+      { t: 10.5, type: 'bam', endT: 11.5 },
+      { t: 11, type: 'bup', endT: 13 },
+      { t: 13, type: 'effects:end', endT: 13 },
     ]);
   });
 
@@ -72,16 +72,16 @@ describe('#add', () => {
     t.add({ type: 'fixed' }, 4);
     const queue = t.getQueue();
     expect(queue).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test', duration: 0 },
-      { t: 0, type: 'foo', duration: 5 },
-      { t: 4, type: 'fixed', duration: 0 },
-      { t: 5, type: 'bar', duration: 5 },
-      { t: 9, type: 'baz', duration: 1 },
-      { t: 9.5, type: 'buq', duration: 2 },
-      { t: 10.5, type: 'bam', duration: 1 },
-      { t: 11, type: 'bup', duration: 2 },
-      { t: 13, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'test', endT: 0 },
+      { t: 0, type: 'foo', endT: 5 },
+      { t: 4, type: 'fixed', endT: 4 },
+      { t: 5, type: 'bar', endT: 10 },
+      { t: 9, type: 'baz', endT: 10 },
+      { t: 9.5, type: 'buq', endT: 11.5 },
+      { t: 10.5, type: 'bam', endT: 11.5 },
+      { t: 11, type: 'bup', endT: 13 },
+      { t: 13, type: 'effects:end', endT: 13 },
     ]);
   });
 
@@ -89,17 +89,17 @@ describe('#add', () => {
     t.add({ type: 'ins' }, '^10', 1);
     const queue = t.getQueue();
     expect(queue).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test', duration: 0 },
-      { t: 0, type: 'foo', duration: 5 },
-      { t: 4, type: 'fixed', duration: 0 },
-      { t: 5, type: 'bar', duration: 5 },
-      { t: 9, type: 'baz', duration: 1 },
-      { t: 9.5, type: 'buq', duration: 2 },
-      { t: 10, type: 'ins', duration: 1 },
-      { t: 11.5, type: 'bam', duration: 1 },
-      { t: 12, type: 'bup', duration: 2 },
-      { t: 14, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'test', endT: 0 },
+      { t: 0, type: 'foo', endT: 5 },
+      { t: 4, type: 'fixed', endT: 4 },
+      { t: 5, type: 'bar', endT: 10 },
+      { t: 9, type: 'baz', endT: 10 },
+      { t: 9.5, type: 'buq', endT: 11.5 },
+      { t: 10, type: 'ins', endT: 11 },
+      { t: 11.5, type: 'bam', endT: 12.5 },
+      { t: 12, type: 'bup', endT: 14 },
+      { t: 14, type: 'effects:end', endT: 14 },
     ]);
   });
 
@@ -107,18 +107,18 @@ describe('#add', () => {
     t.add({ type: 'uns' }, '^11->0.5', 1);
     const queue = t.getQueue();
     expect(queue).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'test', duration: 0 },
-      { t: 0, type: 'foo', duration: 5 },
-      { t: 4, type: 'fixed', duration: 0 },
-      { t: 5, type: 'bar', duration: 5 },
-      { t: 9, type: 'baz', duration: 1 },
-      { t: 9.5, type: 'buq', duration: 2 },
-      { t: 10, type: 'ins', duration: 1 },
-      { t: 11, type: 'uns', duration: 1 },
-      { t: 12, type: 'bam', duration: 1 },
-      { t: 12.5, type: 'bup', duration: 2 },
-      { t: 14.5, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'test', endT: 0 },
+      { t: 0, type: 'foo', endT: 5 },
+      { t: 4, type: 'fixed', endT: 4 },
+      { t: 5, type: 'bar', endT: 10 },
+      { t: 9, type: 'baz', endT: 10 },
+      { t: 9.5, type: 'buq', endT: 11.5 },
+      { t: 10, type: 'ins', endT: 11 },
+      { t: 11, type: 'uns', endT: 12 },
+      { t: 12, type: 'bam', endT: 13 },
+      { t: 12.5, type: 'bup', endT: 14.5 },
+      { t: 14.5, type: 'effects:end', endT: 14.5 },
     ]);
   });
 
@@ -127,10 +127,10 @@ describe('#add', () => {
     t.add({ type: 'nu' }, '^', 1);
     t.add({ type: 'bu' });
     expect(t.getQueue()).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'nu', duration: 1 },
-      { t: 1, type: 'bu', duration: 0 },
-      { t: 1, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'nu', endT: 1 },
+      { t: 1, type: 'bu', endT: 1 },
+      { t: 1, type: 'effects:end', endT: 1 },
     ]);
   });
 
@@ -139,10 +139,10 @@ describe('#add', () => {
     t.add({ type: 'e' }, '<', 1);
     t.add({ type: 'mc' });
     expect(t.getQueue()).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'e', duration: 1 },
-      { t: 1, type: 'mc', duration: 0 },
-      { t: 1, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'e', endT: 1 },
+      { t: 1, type: 'mc', endT: 1 },
+      { t: 1, type: 'effects:end', endT: 1 },
     ]);
   });
 
@@ -194,21 +194,21 @@ describe('#clear', () => {
     t.add({ type: 'a' }, '>', 1);
     t.add({ type: 'b' }, '>', 1);
     expect(t.getQueue()).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'a', duration: 1 },
-      { t: 1, type: 'b', duration: 1 },
-      { t: 2, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'a', endT: 1 },
+      { t: 1, type: 'b', endT: 2 },
+      { t: 2, type: 'effects:end', endT: 2 },
     ]);
     t.clear();
     expect(t.getQueue()).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'effects:end', endT: 0 },
     ]);
     t.add({ type: 'a' }, '>', 1);
     expect(t.getQueue()).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'a', duration: 1 },
-      { t: 1, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'a', endT: 1 },
+      { t: 1, type: 'effects:end', endT: 1 },
     ]);
   });
 });

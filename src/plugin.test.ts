@@ -44,16 +44,16 @@ describe('Plugin API', () => {
     api.dumb();
     api.rollDie(6);
     expect(api.timeline.getQueue()).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'alert', duration: 0.2 },
-      { t: 0.2, type: 'dumb', duration: 0 },
-      { t: 0.2, type: 'rollDie', payload: { roll: 6 }, duration: 0 },
-      { t: 0.2, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'alert', endT: 0.2 },
+      { t: 0.2, type: 'dumb', endT: 0.2 },
+      { t: 0.2, type: 'rollDie', payload: { roll: 6 }, endT: 0.2 },
+      { t: 0.2, type: 'effects:end', endT: 0.2 },
     ]);
     api.timeline.clear();
     expect(api.timeline.getQueue()).toEqual([
-      { t: 0, type: 'effects:start' },
-      { t: 0, type: 'effects:end' },
+      { t: 0, type: 'effects:start', endT: 0 },
+      { t: 0, type: 'effects:end', endT: 0 },
     ]);
   });
 

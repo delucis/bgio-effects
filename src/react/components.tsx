@@ -105,8 +105,7 @@ function EffectsProvider<
     let ended = false;
     for (let i = 0; i < activeQueue.current.length; i++) {
       const effect = activeQueue.current[i];
-      if (!effect.duration) continue;
-      if (effect.t + effect.duration > elapsedT) {
+      if (effect.endT > elapsedT) {
         newActiveQueue.push(effect);
         continue;
       }

@@ -55,7 +55,7 @@ export interface Effect {
  */
 interface PersistedEffect extends Effect {
   t: number;
-  duration?: number;
+  endT: number;
 }
 
 /**
