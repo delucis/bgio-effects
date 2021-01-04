@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/delucis/bgio-effects/compare/v0.3.2...v0.4.0) (2021-01-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* **hooks:** If previously `useEffectListener` was used without 
+passing a dependency list (which may have worked in some edge cases), 
+this will now cause `useEffectListener` to throw an error.
+
+### Features
+
+* **hooks:** error if `useEffectListener` isn’t passed a dependency list ([3218bd7](https://github.com/delucis/bgio-effects/commit/3218bd79bc59c3e1bcff990ff93c92ebe5b3278c))
+* Add “onEnd” callbacks to `useEffectListener` ([#99](https://github.com/delucis/bgio-effects/issues/99)) ([e084226](https://github.com/delucis/bgio-effects/commit/e0842264b680fdf69f239286b3c4b1743899f7de))
+* **react:** Add `useEffectState` utility hook ([#100](https://github.com/delucis/bgio-effects/issues/100)) ([e91e19b](https://github.com/delucis/bgio-effects/commit/e91e19b89536d06b125ad4e91d144ae18059481c))
+
 ### [0.3.2](https://github.com/delucis/bgio-effects/compare/v0.3.1...v0.3.2) (2020-08-16)
 
 
