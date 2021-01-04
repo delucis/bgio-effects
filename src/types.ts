@@ -26,6 +26,13 @@ interface EffectWithoutCreate extends EffectConfig {
 type EffectPayload<E extends EffectWithCreate> = F.Return<O.At<E, 'create'>>;
 
 /**
+ * Extract the payload that results from any single effect.
+ */
+export type EffectState<E extends EffectConfig> = E extends EffectWithCreate
+  ? EffectPayload<E>
+  : unknown;
+
+/**
  * Map of effect name strings to EffectConfig interfaces.
  */
 type EffectsMap = Record<string, EffectConfig>;
