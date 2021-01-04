@@ -339,6 +339,9 @@ when an effect fires.
 
 1. Effect Type (`string`) — the effect you want to observe state for.
 
+2. _(optional)_ Initial State (`any`) — a value to use for `state` before
+   an effect is received.
+
 ##### Returns
 
 A `[state, isActive]` tuple.
@@ -353,7 +356,7 @@ A `[state, isActive]` tuple.
 import { useEffectState } from 'bgio-effects/react';
 
 function Component() {
-  const [roll, isRolling] = useEffectState('rollDie');
+  const [roll, isRolling] = useEffectState('rollDie', 1);
   const className = isRolling ? 'animated' : 'static';
   return <div className={className}>{roll}</div>;
 }

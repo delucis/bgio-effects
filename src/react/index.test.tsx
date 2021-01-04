@@ -393,7 +393,7 @@ test('useEffectQueue throws if used outside of EffectsBoardWrapper', () => {
 });
 
 describe('useEffectState', () => {
-  test('useEffectState throws if used outside of EffectsBoardWrapper', () => {
+  test('throws if used outside of EffectsBoardWrapper', () => {
     const App = () => {
       const [] = useEffectState('*');
       return <div />;
@@ -403,9 +403,9 @@ describe('useEffectState', () => {
     );
   });
 
-  test('useEffectState provides state', async () => {
+  test('provides effect state', async () => {
     const board = EffectsBoardWrapper(({ moves }: BoardProps<G>) => {
-      const [state, isActive] = useEffectState('longEffect', config);
+      const [state, isActive] = useEffectState('longEffect', undefined, config);
       return (
         <main>
           <button onClick={() => moves.wEffects()}>Move With Effects</button>
@@ -433,5 +433,20 @@ describe('useEffectState', () => {
     await waitFor(() => screen.getByText('false'));
     const t = performance.now() - t1;
     expect(t).toBeGreaterThan(800);
+  });
+
+  test('can be set to an initial value', async () => {
+    const App = Client({
+      game: {},
+      debug: false,
+      board: EffectsBoardWrapper(() => {
+        const [state] = useEffectState('longEffect', 'init', config);
+        return <p data-testid="state">{state}</p>;
+      }),
+    });
+
+    render(<App />);
+
+    expect(screen.getByTestId('state')).toHaveTextContent('init');
   });
 });

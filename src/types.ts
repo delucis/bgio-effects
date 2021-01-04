@@ -30,7 +30,7 @@ type EffectPayload<E extends EffectWithCreate> = F.Return<O.At<E, 'create'>>;
  */
 export type EffectState<E extends EffectConfig> = E extends EffectWithCreate
   ? EffectPayload<E>
-  : unknown;
+  : undefined;
 
 /**
  * Map of effect name strings to EffectConfig interfaces.
