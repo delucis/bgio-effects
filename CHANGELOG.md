@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://github.com/delucis/bgio-effects/compare/v0.4.0...v0.4.1) (2021-01-04)
+
+
+### Features
+
+* **react:** Support setting initial value in `useEffectState` ([4d2918a](https://github.com/delucis/bgio-effects/commit/4d2918acf42e6a64bb2b46229871cf04a1cf0fd8))
+
 ## [0.4.0](https://github.com/delucis/bgio-effects/compare/v0.3.2...v0.4.0) (2021-01-04)
 
 
