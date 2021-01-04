@@ -405,7 +405,7 @@ describe('useEffectState', () => {
 
   test('useEffectState provides state', async () => {
     const board = EffectsBoardWrapper(({ moves }: BoardProps<G>) => {
-      const [state, isActive] = useEffectState('longEffect', 1);
+      const [state, isActive] = useEffectState('longEffect', config);
       return (
         <main>
           <button onClick={() => moves.wEffects()}>Move With Effects</button>
@@ -432,6 +432,6 @@ describe('useEffectState', () => {
 
     await waitFor(() => screen.getByText('false'));
     const t = performance.now() - t1;
-    expect(t).toBeGreaterThan(900);
+    expect(t).toBeGreaterThan(800);
   });
 });

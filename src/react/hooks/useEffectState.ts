@@ -9,15 +9,16 @@ type EffectStateReturn<
 
 /**
  * Subscribe to the latest value of a particular effect.
- * This hook is sugar around `useEffectListener`, `useState`, and `setTimeout`.
+ * This hook is sugar around `useEffectListener` and `useState`.
  * @param effectType - Name of the effect to subscribe to.
- * @param duration - Duration in seconds to flag this effect as “active” for.
- * @return Tuple of `[effectState: any, isActive: boolean]`. Will be `[undefined, false]` on initial render.
+ * @return - Tuple of `[effectState: any, isActive: boolean]`.
+ * Will be `[undefined, false]` on initial render.
+ * `isActive` is true for the length of the effect’s duration.
  */
 export function useEffectState<
   C extends EffectsPluginConfig,
   K extends keyof C['effects']
->(effectType: K, duration = 0, _config?: C): EffectStateReturn<C, K> {
+>(effectType: K, _config?: C): EffectStateReturn<C, K> {
   const [state, setState] = useState<EffectState<C['effects'][K]>>();
   const [isActive, setIsActive] = useState(false);
 
@@ -26,10 +27,10 @@ export function useEffectState<
     (payload: any) => {
       setState(payload);
       setIsActive(true);
-      const timeout = setTimeout(() => setIsActive(false), duration * 1000);
-      return () => clearTimeout(timeout);
     },
-    [duration]
+    [],
+    () => setIsActive(false),
+    []
   );
 
   return [state, isActive];

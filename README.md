@@ -339,9 +339,6 @@ when an effect fires.
 
 1. Effect Type (`string`) — the effect you want to observe state for.
 
-2. Duration (`number`) — the number of seconds the effect is “active” for when
-   its state updates.
-
 ##### Returns
 
 A `[state, isActive]` tuple.
@@ -356,7 +353,7 @@ A `[state, isActive]` tuple.
 import { useEffectState } from 'bgio-effects/react';
 
 function Component() {
-  const [roll, isRolling] = useEffectState('rollDie', 1);
+  const [roll, isRolling] = useEffectState('rollDie');
   const className = isRolling ? 'animated' : 'static';
   return <div className={className}>{roll}</div>;
 }
