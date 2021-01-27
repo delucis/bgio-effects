@@ -1,15 +1,23 @@
+import type { BoardProps } from 'boardgame.io/react';
 import type { Emitter, Handler, WildcardHandler } from 'mitt';
 import { useCallback, useContext, useEffect } from 'react';
 import { EffectsContext } from '../contexts';
-import type { EffectsPluginConfig, ListenerArgs } from '../../types';
+import type { EffectsPluginConfig } from '../../types';
+import type { ListenerArgs, InternalEffectShape } from '../types';
 import { hookErrorMessage } from './utils';
 
-type AnyHandler = Handler | WildcardHandler;
+type NaiveEffectListener = (payload: any, boardProps: BoardProps) => void;
+type NaiveWildcardListener = (
+  effectName: string | symbol,
+  payload: any,
+  boardProps: BoardProps
+) => void;
+type NaiveListener = NaiveWildcardListener | NaiveEffectListener;
 type NaiveArgs = [
   string,
-  AnyHandler,
+  NaiveListener,
   React.DependencyList,
-  AnyHandler?,
+  NaiveListener?,
   React.DependencyList?
 ];
 
@@ -29,11 +37,19 @@ function noop() {}
 function useMittSubscription(
   emitter: Emitter,
   effectType: string,
-  handler: AnyHandler | undefined,
+  handler?: NaiveListener,
   dependencies: React.DependencyList | undefined = []
 ) {
   const hasHandler = !!handler;
-  const memoizedHandler = useCallback(handler || noop, dependencies);
+  handler = handler || noop;
+  const memoizedHandler: Handler | WildcardHandler = useCallback(
+    effectType === '*'
+      ? (effectName, { payload, boardProps }: InternalEffectShape) =>
+          (handler as NaiveWildcardListener)(effectName, payload, boardProps)
+      : ({ payload, boardProps }: InternalEffectShape) =>
+          (handler as NaiveEffectListener)(payload, boardProps),
+    [...dependencies, effectType]
+  );
 
   useEffect(() => {
     if (!hasHandler) return;
@@ -62,9 +78,10 @@ function useMittSubscription(
  * @param onEndCallback - Function to call when the effect ends.
  * @param onEndDependencyArray - Array of variables onEndCallback depends on.
  */
-export function useEffectListener<C extends EffectsPluginConfig>(
-  ...args: ListenerArgs<C['effects']>
-) {
+export function useEffectListener<
+  C extends EffectsPluginConfig,
+  G extends any = any
+>(...args: ListenerArgs<C['effects'], G>) {
   const { emitter, endEmitter } = useContext(EffectsContext);
   const [effectType, cb, deps, onEndCb, onEndDeps] = args as NaiveArgs;
 

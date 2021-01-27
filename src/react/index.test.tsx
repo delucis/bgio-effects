@@ -56,9 +56,9 @@ const game: Game<G, Ctx & EffectsCtxMixin<typeof config>> = {
 
 const Board = ({ G, plugins, moves }: BoardProps<G>) => {
   const [lastEffect, setLastEffect] = useState<string>();
-  useEffectListener<typeof config>(
+  useEffectListener<typeof config, G>(
     '*',
-    (type, payload) => {
+    (type, payload, _props) => {
       setLastEffect(`${type}:${payload}`);
     },
     []
@@ -291,6 +291,47 @@ describe('useEffectListener', () => {
     expect(screen.queryByTestId('CWE')).not.toBeInTheDocument();
     // Called again on component unmount.
     expect(clear).toHaveBeenCalledTimes(2);
+  });
+
+  test('callback receives new board props', async () => {
+    const ComponentWithEffects = () => {
+      const [state, setState] = useState<G['val']>();
+      useEffectListener<typeof config, G>(
+        'longEffect',
+        (_payload: string, { G }: BoardProps<G>) => {
+          setState(G.val);
+        },
+        []
+      );
+      return <p data-testid="CWE">{state}</p>;
+    };
+    const App = Client<G>({
+      game: (game as unknown) as Game<G>,
+      debug: false,
+      board: EffectsBoardWrapper(
+        ({ G, moves }: BoardProps<G>) => (
+          <main>
+            <ComponentWithEffects />
+            <p data-testid="G-val">{G.val}</p>
+            <button onClick={() => moves.wEffects()}>Move With Effects</button>
+          </main>
+        ),
+        { updateStateAfterEffects: true }
+      ),
+    });
+
+    render(<App />);
+    expect(screen.getByTestId('CWE')).toBeInTheDocument();
+
+    // Component with effects updates from G before the global state updates.
+    fireEvent.click(screen.getByText('Move With Effects'));
+    await waitFor(() =>
+      expect(screen.getByTestId('CWE')).toHaveTextContent(GVal.wEffects)
+    );
+    expect(screen.getByTestId('G-val')).toBeEmptyDOMElement();
+    await waitFor(() =>
+      expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects)
+    );
   });
 
   test('can receive an onEnd callback', async () => {

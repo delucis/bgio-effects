@@ -5,6 +5,7 @@ import mitt from 'mitt';
 import type { Emitter } from 'mitt';
 import type { BoardProps } from 'boardgame.io/react';
 import type { Data, Queue } from '../types';
+import type { InternalEffectShape } from './types';
 import { EffectsContext, EffectsQueueContext } from './contexts';
 
 /**
@@ -54,16 +55,30 @@ function useRefState<T>(initial: T) {
 }
 
 /**
+ * Emit an effect from the provided emitter, bundling payload and boardProps
+ * into the effect object.
+ */
+function emit(
+  emitter: Emitter,
+  { type, payload }: Queue[number],
+  boardProps: BoardProps
+) {
+  const effect: InternalEffectShape = { payload, boardProps };
+  emitter.emit(type, effect);
+}
+
+/**
  * Dispatch all effects in the provided queue via the provided emitter.
  * @param emitter - Mitt instance.
  * @param effects - React ref for the effects queue to process.
  */
 function emitAllEffects(
   emitter: Emitter,
-  effects: React.MutableRefObject<Queue>
+  effects: React.MutableRefObject<Queue>,
+  boardProps: BoardProps
 ) {
   for (const effect of effects.current) {
-    emitter.emit(effect.type, effect.payload);
+    emit(emitter, effect, boardProps);
   }
 }
 
@@ -109,7 +124,7 @@ function EffectsProvider<
         newActiveQueue.push(effect);
         continue;
       }
-      endEmitter.emit(effect.type, effect.payload);
+      emit(endEmitter, effect, props);
       ended = true;
     }
     // Loop through the effects queue, emitting any effects whose time has come.
@@ -117,7 +132,7 @@ function EffectsProvider<
     for (i = 0; i < queue.current.length; i++) {
       const effect = queue.current[i];
       if (effect.t > elapsedT) break;
-      emitter.emit(effect.type, effect.payload);
+      emit(emitter, effect, props);
       newActiveQueue.push(effect);
     }
     // Also update the global boardgame.io props once their time is reached.
@@ -142,7 +157,7 @@ function EffectsProvider<
     }
     setPrevId(effects.data.id);
     setQueue(effects.data.queue);
-    emitAllEffects(endEmitter, activeQueue);
+    emitAllEffects(endEmitter, activeQueue, props);
     setActiveQueue([]);
     setStartT(performance.now());
     startRaf();
@@ -167,7 +182,7 @@ function EffectsProvider<
    */
   const clear = useCallback(() => {
     stopRaf();
-    emitAllEffects(endEmitter, activeQueue);
+    emitAllEffects(endEmitter, activeQueue, props);
     setActiveQueue([]);
     setQueue([]);
     if (props !== bgioProps) setBgioProps(props);
@@ -186,7 +201,7 @@ function EffectsProvider<
    * When flushing, onEnd callbacks are run immediately.
    */
   const flush = useCallback(() => {
-    emitAllEffects(emitter, queue);
+    emitAllEffects(emitter, queue, props);
     clear();
   }, [emitter, queue, clear]);
 

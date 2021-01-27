@@ -276,13 +276,15 @@ hook to listen for effect events:
 import { useEffectListener } from 'bgio-effects/react';
 
 function Component() {
-  useEffectListener('effectName', (effectPayload) => {}, []);
+  useEffectListener('effectName', (effectPayload, boardProps) => {}, []);
   return <div/>;
 }
 ```
 
 `effectPayload` will be the data returned by your `create` function or
 `undefined` for effects without a `create` function.
+
+`boardProps` will be the latest props passed by boardgame.io. This is particularly useful when using the `updateStateAfterEffects` option to get early access to the new global state.
 
 Your callback can return a clean-up function, which will be run the next time the effect is fired, if the variables in the dependency array change, or if the component unmounts. This is similar to [cleaning up in React’s `useEffect` hook][cleanup].
 
@@ -292,7 +294,7 @@ You can listen for _all_ effects using the special `'*'` wildcard. In this case,
 your callback receives both the effect name and payload:
 
 ```js
-useEffectListener('*', (effectName, effectPayload) => {}, []);
+useEffectListener('*', (effectName, effectPayload, boardProps) => {}, []);
 ```
 
 Two other special events will also always be fired:
