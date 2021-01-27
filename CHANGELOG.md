@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* **react:** Pass board props to effect listeners ([60ab10f](https://github.com/delucis/bgio-effects/commit/60ab10fb0734332f5058c23e6ccdd484ccb2ebea)), closes [#85](https://github.com/delucis/bgio-effects/issues/85)
+* **react:** Pass board props to effect listeners ([60ab10f](https://github.com/delucis/bgio-effects/commit/60ab10fb0734332f5058c23e6ccdd484ccb2ebea))
 
 ### [0.4.1](https://github.com/delucis/bgio-effects/compare/v0.4.0...v0.4.1) (2021-01-04)
 
