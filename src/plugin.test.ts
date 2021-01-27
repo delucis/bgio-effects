@@ -68,10 +68,10 @@ describe('Plugin API', () => {
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
         queue: [
-          { t: 0, type: 'effects:start' },
-          { t: 0, type: 'alert' },
-          { t: 0.2, type: 'rollDie', payload: { roll: 6 } },
-          { t: 0.2, type: 'effects:end' },
+          { t: 0, endT: 0, type: 'effects:start' },
+          { t: 0, endT: 0.2, type: 'alert' },
+          { t: 0.2, endT: 0.2, type: 'rollDie', payload: { roll: 6 } },
+          { t: 0.2, endT: 0.2, type: 'effects:end' },
         ],
       })
     );
@@ -127,8 +127,8 @@ describe('boardgame.io integration', () => {
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
         queue: [
-          { t: 0, type: 'effects:start' },
-          { t: 0, type: 'effects:end' },
+          { t: 0, endT: 0, type: 'effects:start' },
+          { t: 0, endT: 0, type: 'effects:end' },
         ],
       })
     );
@@ -140,10 +140,10 @@ describe('boardgame.io integration', () => {
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
         queue: [
-          { t: 0, type: 'effects:start' },
-          { t: 0, type: 'alert' },
-          { t: 0.5, type: 'rollDie', payload: { roll: 5 } },
-          { t: 0.5, type: 'effects:end' },
+          { t: 0, endT: 0, type: 'effects:start' },
+          { t: 0, endT: 0.5, type: 'alert' },
+          { t: 0.5, endT: 0.5, type: 'rollDie', payload: { roll: 5 } },
+          { t: 0.5, endT: 0.5, type: 'effects:end' },
         ],
       })
     );
@@ -155,10 +155,10 @@ describe('boardgame.io integration', () => {
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
         queue: [
-          { t: 0, type: 'effects:start' },
-          { t: 0, type: 'alert' },
-          { t: 0.5, type: 'dumb' },
-          { t: 0.5, type: 'effects:end' },
+          { t: 0, endT: 0, type: 'effects:start' },
+          { t: 0, endT: 0.5, type: 'alert' },
+          { t: 0.5, endT: 0.5, type: 'dumb' },
+          { t: 0.5, endT: 0.5, type: 'effects:end' },
         ],
       })
     );
