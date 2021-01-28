@@ -8,6 +8,7 @@ import {
   useEffectListener,
   useEffectQueue,
   useEffectState,
+  useWatchedState,
 } from '.';
 import { EffectsPlugin } from '../plugin';
 import { EffectsCtxMixin } from '..';
@@ -489,5 +490,56 @@ describe('useEffectState', () => {
     render(<App />);
 
     expect(screen.getByTestId('state')).toHaveTextContent('init');
+  });
+});
+
+describe('useWatchedState', () => {
+  test('throws if used outside of EffectsBoardWrapper', () => {
+    const App = () => {
+      const [] = useWatchedState('*', ({ G }: BoardProps<G>) => G);
+      return <div />;
+    };
+    expect(() => render(<App />)).toThrow(
+      'useBoardProps must be called inside the effects context provider.'
+    );
+  });
+
+  test('provides watched state', async () => {
+    const board = EffectsBoardWrapper(
+      ({ moves }: BoardProps<G>) => {
+        const [val, isActive] = useWatchedState(
+          'longEffect',
+          ({ G }: BoardProps<G>) => G?.val
+        );
+        return (
+          <main>
+            <button onClick={() => moves.wEffects()}>Move With Effects</button>
+            <p data-testid="state">{val}</p>
+            <p data-testid="isActive">{JSON.stringify(isActive)}</p>
+          </main>
+        );
+      },
+      { updateStateAfterEffects: true }
+    );
+    const App = Client({
+      game: (game as unknown) as Game<G>,
+      board,
+      debug: false,
+    });
+
+    render(<App />);
+
+    expect(screen.getByTestId('state')).toBeEmptyDOMElement();
+    expect(screen.getByTestId('isActive')).toHaveTextContent('false');
+
+    fireEvent.click(screen.getByText('Move With Effects'));
+    const t1 = performance.now();
+    await waitFor(() => screen.getByText('true'));
+    expect(screen.getByTestId('isActive')).toHaveTextContent('true');
+    expect(screen.getByTestId('state')).toHaveTextContent(GVal.wEffects);
+
+    await waitFor(() => screen.getByText('false'));
+    const t = performance.now() - t1;
+    expect(t).toBeGreaterThan(800);
   });
 });
