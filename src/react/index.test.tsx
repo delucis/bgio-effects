@@ -63,7 +63,7 @@ const Board = ({ G, plugins, moves }: BoardProps<G>) => {
     },
     []
   );
-  const { clear, flush, size } = useEffectQueue();
+  const { clear, flush, update, size } = useEffectQueue();
 
   return (
     <main>
@@ -78,6 +78,7 @@ const Board = ({ G, plugins, moves }: BoardProps<G>) => {
       <button onClick={() => moves.wEffects()}>Move With Effects</button>
       <button onClick={clear}>Clear</button>
       <button onClick={flush}>Flush</button>
+      <button onClick={update}>Update</button>
     </main>
   );
 };
@@ -212,6 +213,35 @@ test('boardgame.io state updates after clearing effects queue', async () => {
 
   // Clear effect queue.
   fireEvent.click(screen.getByText('Clear'));
+  expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
+});
+
+test('boardgame.io state updates after updating state but keeps effects in queue', async () => {
+  const App = appFactory({ updateStateAfterEffects: true });
+  render(<App />);
+
+  // Make move that calls effects API
+  fireEvent.click(screen.getByText('Move With Effects'));
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^4$/);
+  expect(screen.getByTestId('last-effect')).toBeEmptyDOMElement();
+  expect(screen.getByTestId('G-val')).toBeEmptyDOMElement();
+
+  // Wait for some events to pass
+  await waitFor(() => screen.getByText('longEffect:1'));
+
+  // The queue still has events but the state is still empty
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^2$/);
+  expect(screen.getByTestId('G-val')).toBeEmptyDOMElement();
+
+  // Manually update the state
+  fireEvent.click(screen.getByText('Update'));
+  expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
+
+  // The queue still has events after update
+  expect(screen.getByTestId('queue-size')).toHaveTextContent(/^2$/);
+
+  // Manually updating the state again doesn't do anything
+  fireEvent.click(screen.getByText('Update'));
   expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
 });
 
