@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.3](https://github.com/delucis/bgio-effects/compare/v0.4.2...v0.4.3) (2021-01-29)
+
+
+### Features
+
+* Add update callback to release state early ([#110](https://github.com/delucis/bgio-effects/issues/110)) ([e724a0c](https://github.com/delucis/bgio-effects/commit/e724a0c99df33a75c2062bda4f10c2a06c7ddffe))
+
 ### [0.4.2](https://github.com/delucis/bgio-effects/compare/v0.4.1...v0.4.2) (2021-01-27)
 
 
