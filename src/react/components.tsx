@@ -209,10 +209,17 @@ function EffectsProvider<
     clear();
   }, [emitter, queue, clear]);
 
+  /**
+   * Callback that updates the props to the latest props received
+   */
+  const update = useCallback(() => {
+    if (props !== bgioProps) setBgioProps(props);
+  }, [props, bgioProps]);
+
   return (
     <EffectsContext.Provider value={{ emitter, endEmitter }}>
       <EffectsQueueContext.Provider
-        value={{ clear, flush, size: queue.current.length }}
+        value={{ clear, flush, update, size: queue.current.length }}
       >
         <EffectsPropsContext.Provider value={bgioProps}>
           <Board {...(bgioProps as P)} />

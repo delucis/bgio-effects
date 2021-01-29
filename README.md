@@ -1,9 +1,8 @@
 # bgio-effects
 
 [![NPM Version](https://img.shields.io/npm/v/bgio-effects)](https://www.npmjs.com/package/bgio-effects)
-[![Build Status](https://travis-ci.com/delucis/bgio-effects.svg?branch=latest)](https://travis-ci.com/delucis/bgio-effects)
+[![Build Status](https://github.com/delucis/bgio-effects/workflows/CI/badge.svg)](https://github.com/delucis/bgio-effects/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/delucis/bgio-effects/badge.svg?branch=latest)](https://coveralls.io/github/delucis/bgio-effects?branch=latest)
-[![Bundle Size](https://badgen.net/bundlephobia/minzip/bgio-effects)](https://bundlephobia.com/result?p=bgio-effects)
 
 > 📤 Helpers for managing state effects in [boardgame.io][bgio].
 
