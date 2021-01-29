@@ -7,5 +7,11 @@ export const EffectsContext = createContext<{
 }>({ emitter: null, endEmitter: null });
 
 export const EffectsQueueContext = createContext<
-  { clear: () => void; flush: () => void; size: number } | undefined
+  | {
+      clear: () => void;
+      flush: () => void;
+      update: () => void;
+      size: number;
+    }
+  | undefined
 >(undefined);
