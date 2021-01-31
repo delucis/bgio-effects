@@ -1,5 +1,5 @@
 import type { BoardProps } from 'boardgame.io/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useEffectListener } from './useEffectListener';
 import { useBoardProps } from './useBoardProps';
 import type { BuiltinEffect, EffectsPluginConfig } from '../../types';
@@ -21,15 +21,26 @@ export function useLatestPropsOnEffect<
 >(...effectTypes: EffectType<C>[]): BoardProps<G> {
   const boardProps = useBoardProps();
   const [props, setProps] = useState(boardProps);
+  const effects = useRef(effectTypes);
+
+  if (
+    effectTypes.length !== effects.current.length ||
+    !effects.current.every((v, i) => v === effectTypes[i])
+  ) {
+    effects.current = effectTypes;
+  }
 
   useEffectListener(
     '*',
     (effectName: string, _payload: any, boardProps: BoardProps) => {
-      if (effectTypes.includes(effectName) || effectTypes.includes('*')) {
+      if (
+        effects.current.includes(effectName) ||
+        effects.current.includes('*')
+      ) {
         setProps(boardProps);
       }
     },
-    [effectTypes]
+    [effects]
   );
 
   useEffect(() => {

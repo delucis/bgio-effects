@@ -507,8 +507,11 @@ describe('useLatestPropsOnEffect', () => {
   test('provides effect state', async () => {
     const board = EffectsBoardWrapper(
       ({ moves }: BoardProps<G>) => {
-        const { G } = useLatestPropsOnEffect('longEffect');
         const [, isActive] = useEffectState('longEffect', undefined, config);
+        const effects = isActive
+          ? ['longEffect', 'shortEffect']
+          : ['longEffect'];
+        const { G } = useLatestPropsOnEffect(...effects);
         return (
           <main>
             <button onClick={() => moves.wEffects()}>Move With Effects</button>
