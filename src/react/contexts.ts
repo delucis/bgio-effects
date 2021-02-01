@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import type { Emitter } from 'mitt';
+import type { BoardProps } from 'boardgame.io/react';
 
 export const EffectsContext = createContext<{
   emitter: Emitter | null;
@@ -15,3 +16,7 @@ export const EffectsQueueContext = createContext<
     }
   | undefined
 >(undefined);
+
+export const EffectsPropsContext = createContext<BoardProps | undefined>(
+  undefined
+);

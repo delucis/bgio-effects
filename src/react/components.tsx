@@ -6,7 +6,11 @@ import type { Emitter } from 'mitt';
 import type { BoardProps } from 'boardgame.io/react';
 import type { Data, Queue } from '../types';
 import type { InternalEffectShape } from './types';
-import { EffectsContext, EffectsQueueContext } from './contexts';
+import {
+  EffectsContext,
+  EffectsPropsContext,
+  EffectsQueueContext,
+} from './contexts';
 
 /**
  * Configuration options that can be passed to EffectsBoardWrapper.
@@ -217,7 +221,9 @@ function EffectsProvider<
       <EffectsQueueContext.Provider
         value={{ clear, flush, update, size: queue.current.length }}
       >
-        <Board {...(bgioProps as P)} />
+        <EffectsPropsContext.Provider value={bgioProps}>
+          <Board {...(bgioProps as P)} />
+        </EffectsPropsContext.Provider>
       </EffectsQueueContext.Provider>
     </EffectsContext.Provider>
   );

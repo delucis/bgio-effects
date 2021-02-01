@@ -8,6 +8,7 @@ import {
   useEffectListener,
   useEffectQueue,
   useEffectState,
+  useLatestPropsOnEffect,
 } from '.';
 import { EffectsPlugin } from '../plugin';
 import { EffectsCtxMixin } from '..';
@@ -519,5 +520,52 @@ describe('useEffectState', () => {
     render(<App />);
 
     expect(screen.getByTestId('state')).toHaveTextContent('init');
+  });
+});
+
+describe('useLatestPropsOnEffect', () => {
+  test('throws if used outside of EffectsBoardWrapper', () => {
+    const App = () => {
+      const {} = useLatestPropsOnEffect('*');
+      return <div />;
+    };
+    expect(() => render(<App />)).toThrow(
+      'useBoardProps must be called inside the effects context provider.'
+    );
+  });
+
+  test('provides effect state', async () => {
+    const board = EffectsBoardWrapper(
+      ({ moves }: BoardProps<G>) => {
+        const [, isActive] = useEffectState('longEffect', undefined, config);
+        const effects = isActive
+          ? ['longEffect', 'shortEffect']
+          : ['longEffect'];
+        const { G } = useLatestPropsOnEffect(...effects);
+        return (
+          <main>
+            <button onClick={() => moves.wEffects()}>Move With Effects</button>
+            <p data-testid="state">{G.val}</p>
+            <p data-testid="isActive">{JSON.stringify(isActive)}</p>
+          </main>
+        );
+      },
+      { updateStateAfterEffects: true }
+    );
+
+    const App = Client({
+      game: (game as unknown) as Game<G>,
+      board,
+      debug: false,
+    });
+
+    render(<App />);
+
+    expect(screen.getByTestId('state')).toBeEmptyDOMElement();
+
+    fireEvent.click(screen.getByText('Move With Effects'));
+    await waitFor(() => screen.getByText('true'));
+
+    expect(screen.getByTestId('state')).toHaveTextContent(GVal.wEffects);
   });
 });
