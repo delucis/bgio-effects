@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.4](https://github.com/delucis/bgio-effects/compare/v0.4.3...v0.4.4) (2021-02-01)
+
+
+### Features
+
+* Add useLatestPropsOnEffect hook ([#112](https://github.com/delucis/bgio-effects/issues/112)) ([6befcca](https://github.com/delucis/bgio-effects/commit/6befcca891a4a659c05b49197ce11aae1c5c1f8a))
+
 ### [0.4.3](https://github.com/delucis/bgio-effects/compare/v0.4.2...v0.4.3) (2021-01-29)
 
 
