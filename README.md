@@ -48,6 +48,7 @@ useEffectListener('explode', () => {
   - [`EffectsBoardWrapper`](#effectsboardwrapper)
   - [`useEffectListener`](#useeffectlistener)
   - [`useEffectState`](#useeffectstate)
+  - [`useLatestPropsOnEffect`](#uselatestpropsoneffect)
   - [`useEffectQueue`](#useeffectqueue)
   - [Timing precision](#timing-precision)
 <!-- TOC END -->
@@ -363,6 +364,39 @@ function Component() {
 }
 ```
 
+#### `useLatestPropsOnEffect`
+
+When using the `updateStateAfterEffects` option, you may run into situations
+where you have components that need the latest boardgame.io props *before* the
+global props get updated. This hook allows you to get the latest props early
+when the specified effects fire.
+
+##### Parameters
+
+One or more effect types that should cause the props to update.
+
+##### Returns
+
+The [boardgame.io board props][bgio-props].
+
+##### Usage
+
+```js
+import { useLatestPropsOnEffect } from 'bgio-effects/react';
+
+function Component() {
+  const { G, ctx } = useLatestPropsOnEffect('rollDie', 'endTurn');
+  return <div>{G.roll}</div>;
+}
+```
+
+This also works with [the special events](#special-events). For example,
+in a component that needs the latest props as soon as they are available:
+
+```js
+const { G, ctx } = useLatestPropsOnEffect('effects:start');
+```
+
 #### `useEffectQueue`
 
 ##### Usage
@@ -420,6 +454,7 @@ The code in this repository is provided under the terms of
 [mitt]: https://github.com/developit/mitt
 [useCallback]: https://reactjs.org/docs/hooks-reference.html#usecallback
 [cleanup]: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
+[bgio-props]: https://boardgame.io/documentation/#/api/Client?id=board-props
 [bugs]: https://github.com/delucis/bgio-effects/issues/new/choose
 [COC]: CODE_OF_CONDUCT.md
 [license]: LICENSE
