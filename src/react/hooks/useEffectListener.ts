@@ -42,6 +42,18 @@ function useMittSubscription(
 ) {
   const hasHandler = !!handler;
   handler = handler || noop;
+  /**
+   * This is not strictly speaking a safe use of `useCallback.`
+   * Code like `useEffectListener('x', flag ? () => {} : () => {}, [])`
+   * will be buggy. The initially passed function will never be updated because
+   * the functions themselves aren’t included as dependencies (to avoid
+   * infinite loops). It seems there is no technically correct way to
+   * wrap `useCallback` in a custom hook if the function comes from outside
+   * the hook. The only 100% correct solution here would be to require users
+   * to pass a stable function they got from `useCallback` themselves,
+   * which for now we’ve avoided in order to simplify the API.
+   */
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedHandler: Handler | WildcardHandler = useCallback(
     effectType === '*'
       ? (effectName, { payload, boardProps }: InternalEffectShape) =>
