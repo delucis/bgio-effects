@@ -23,7 +23,7 @@ export function useEffectState<
   S
 >(effectType: K, initialState?: S, _config?: C): EffectStateReturn<C, K, S> {
   const [state, setState] = useState<EffectState<C['effects'][K]> | S>(
-    initialState!
+    initialState as S
   );
   const [isActive, setIsActive] = useState(false);
 
