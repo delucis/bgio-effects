@@ -81,7 +81,7 @@ function useMittSubscription(
 export function useEffectListener<
   C extends EffectsPluginConfig,
   G extends any = any
->(...args: ListenerArgs<C['effects'], G>) {
+>(...args: ListenerArgs<C['effects'], G>): void {
   const { emitter, endEmitter } = useContext(EffectsContext);
   const [effectType, cb, deps, onEndCb, onEndDeps] = args as NaiveArgs;
 
