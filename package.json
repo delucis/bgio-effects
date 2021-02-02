@@ -15,7 +15,9 @@
     "build": "tsc",
     "prerelease": "npm t && npm run build",
     "release": "standard-version -s",
+    "lint": "eslint src",
     "prettier": "prettier --write --single-quote src",
+    "pretest": "npm run lint",
     "test": "jest --coverage --collectCoverageFrom=src/**/*",
     "coverage": "cat ./coverage/lcov.info | coveralls"
   },
@@ -23,6 +25,36 @@
     "hooks": {
       "pre-commit": "npm run prettier",
       "pre-push": "npm t"
+    }
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "prettier/@typescript-eslint",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/no-empty-function": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false,
+        "argsIgnorePattern": "_.+"
+      }]
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
     }
   },
   "repository": {
@@ -49,9 +81,15 @@
     "@testing-library/react": "^11.0.2",
     "@types/jest": "^26.0.5",
     "@types/react": "^16.9.34",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
     "boardgame.io": "^0.39.16",
     "coveralls": "^3.1.0",
     "cz-conventional-changelog": "^3.2.0",
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
     "prettier": "^2.0.4",
