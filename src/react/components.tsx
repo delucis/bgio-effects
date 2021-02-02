@@ -35,8 +35,8 @@ export function EffectsBoardWrapper<
   G extends any = any,
   P extends BoardProps<G> = BoardProps<G>
 >(Board: React.ComponentType<P>, opts?: EffectsOpts): React.ComponentType<P> {
-  return function BoardWithEffectsProvider(props: P) {
-    return EffectsProvider<G, P>({ props, Board, opts });
+  return function BoardWithEffectsProvider(boardProps: P) {
+    return EffectsProvider<G, P>({ boardProps, Board, opts });
   };
 }
 
@@ -94,14 +94,14 @@ function EffectsProvider<
   P extends BoardProps<G> = BoardProps<G>
 >({
   Board,
-  props,
+  boardProps,
   opts: { speed = 1, updateStateAfterEffects = false } = {},
 }: {
   Board: React.ComponentType<P>;
-  props: P;
+  boardProps: P;
   opts?: EffectsOpts;
 }) {
-  const { effects } = props.plugins as { effects?: { data: Data } };
+  const { effects } = boardProps.plugins as { effects?: { data: Data } };
   const id = effects && effects.data.id;
   const duration = (effects && effects.data.duration) || 0;
   const bgioStateT: number = updateStateAfterEffects ? duration : 0;
@@ -109,7 +109,7 @@ function EffectsProvider<
   const [emitter] = useState(() => mitt());
   const [endEmitter] = useState(() => mitt());
   const [startT, setStartT] = useState(0);
-  const [bgioProps, setBgioProps] = useState(props);
+  const [bgioProps, setBgioProps] = useState(boardProps);
   const [queue, setQueue] = useRefState<Queue>([]);
   const [activeQueue, setActiveQueue] = useRefState<Queue>([]);
 
@@ -128,7 +128,7 @@ function EffectsProvider<
         newActiveQueue.push(effect);
         continue;
       }
-      emit(endEmitter, effect, props);
+      emit(endEmitter, effect, boardProps);
       ended = true;
     }
     // Loop through the effects queue, emitting any effects whose time has come.
@@ -136,11 +136,12 @@ function EffectsProvider<
     for (i = 0; i < queue.current.length; i++) {
       const effect = queue.current[i];
       if (effect.t > elapsedT) break;
-      emit(emitter, effect, props);
+      emit(emitter, effect, boardProps);
       newActiveQueue.push(effect);
     }
     // Also update the global boardgame.io props once their time is reached.
-    if (elapsedT >= bgioStateT && props !== bgioProps) setBgioProps(props);
+    if (elapsedT >= bgioStateT && boardProps !== bgioProps)
+      setBgioProps(boardProps);
     if (elapsedT > duration) stopRaf();
     // Update the queue to only contain effects still in the future.
     if (i > 0) setQueue(queue.current.slice(i));
@@ -154,14 +155,17 @@ function EffectsProvider<
     if (!effects || id === prevId) {
       // If some non-game state props change, or the effects plugin is not
       // enabled, still update boardgame.io props for the board component.
-      if ((!updateStateAfterEffects || !isRafActive()) && props !== bgioProps) {
-        setBgioProps(props);
+      if (
+        (!updateStateAfterEffects || !isRafActive()) &&
+        boardProps !== bgioProps
+      ) {
+        setBgioProps(boardProps);
       }
       return;
     }
     setPrevId(effects.data.id);
     setQueue(effects.data.queue);
-    emitAllEffects(endEmitter, activeQueue, props);
+    emitAllEffects(endEmitter, activeQueue, boardProps);
     setActiveQueue([]);
     setStartT(performance.now());
     startRaf();
@@ -171,7 +175,7 @@ function EffectsProvider<
     prevId,
     updateStateAfterEffects,
     isRafActive,
-    props,
+    boardProps,
     bgioProps,
     setQueue,
     endEmitter,
@@ -186,17 +190,17 @@ function EffectsProvider<
    */
   const clear = useCallback(() => {
     stopRaf();
-    emitAllEffects(endEmitter, activeQueue, props);
+    emitAllEffects(endEmitter, activeQueue, boardProps);
     setActiveQueue([]);
     setQueue([]);
-    if (props !== bgioProps) setBgioProps(props);
+    if (boardProps !== bgioProps) setBgioProps(boardProps);
   }, [
     stopRaf,
     endEmitter,
     activeQueue,
     setActiveQueue,
     setQueue,
-    props,
+    boardProps,
     bgioProps,
   ]);
 
@@ -205,16 +209,16 @@ function EffectsProvider<
    * When flushing, onEnd callbacks are run immediately.
    */
   const flush = useCallback(() => {
-    emitAllEffects(emitter, queue, props);
+    emitAllEffects(emitter, queue, boardProps);
     clear();
-  }, [emitter, queue, clear]);
+  }, [emitter, queue, clear, boardProps]);
 
   /**
    * Callback that updates the props to the latest props received
    */
   const update = useCallback(() => {
-    if (props !== bgioProps) setBgioProps(props);
-  }, [props, bgioProps]);
+    if (boardProps !== bgioProps) setBgioProps(boardProps);
+  }, [boardProps, bgioProps]);
 
   return (
     <EffectsContext.Provider value={{ emitter, endEmitter }}>
