@@ -467,7 +467,7 @@ test('useEffectQueue throws if used outside of EffectsBoardWrapper', () => {
 describe('useEffectState', () => {
   test('throws if used outside of EffectsBoardWrapper', () => {
     const App = () => {
-      const [] = useEffectState('*');
+      useEffectState('*');
       return <div />;
     };
     expect(() => render(<App />)).toThrow(
@@ -526,7 +526,7 @@ describe('useEffectState', () => {
 describe('useLatestPropsOnEffect', () => {
   test('throws if used outside of EffectsBoardWrapper', () => {
     const App = () => {
-      const {} = useLatestPropsOnEffect('*');
+      useLatestPropsOnEffect('*');
       return <div />;
     };
     expect(() => render(<App />)).toThrow(
