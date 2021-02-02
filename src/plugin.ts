@@ -14,13 +14,22 @@ const getData = (timeline: Timeline): Data => ({
 });
 
 /**
+ * More precise type for the plugin object, based on the boardgame.io plugin type.
+ */
+type EffectsPluginInterface<C extends EffectsPluginConfig> = Required<
+  Pick<Plugin<API<C['effects']>, Data>, 'name' | 'setup' | 'api' | 'flush'>
+>;
+
+/**
  * Create a boardgame.io plugin that will provide an “effects” API.
  * @param config - Configuration object
  * @return - boardgame.io plugin object
  */
-export const EffectsPlugin = <C extends EffectsPluginConfig>(config: C) => {
+export const EffectsPlugin = <C extends EffectsPluginConfig>(
+  config: C
+): EffectsPluginInterface<C> => {
   type E = C['effects'];
-  const plugin: Plugin<API<E>, Data> = {
+  const plugin: EffectsPluginInterface<C> = {
     name: 'effects',
 
     setup: () => getData(new Timeline()),

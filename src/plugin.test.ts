@@ -6,7 +6,7 @@ import { EffectsPlugin } from './plugin';
 const bgioPluginContext = { G: {}, ctx: {} as Ctx, game: {} };
 const initPluginAPI = <C extends EffectsPluginConfig>(config: C) => {
   const p = EffectsPlugin<C>(config);
-  return p.api?.({ ...bgioPluginContext, data: p.setup?.(bgioPluginContext) });
+  return p.api({ ...bgioPluginContext, data: p.setup(bgioPluginContext) });
 };
 
 const config = {
@@ -59,11 +59,11 @@ describe('Plugin API', () => {
 
   test('flush', () => {
     const p = EffectsPlugin(config);
-    const data = p.setup?.(bgioPluginContext);
-    const api = p.api?.({ ...bgioPluginContext, data });
+    const data = p.setup(bgioPluginContext);
+    const api = p.api({ ...bgioPluginContext, data });
     api.alert();
     api.rollDie(6);
-    const state = p.flush?.({ ...bgioPluginContext, data, api });
+    const state = p.flush({ ...bgioPluginContext, data, api });
     expect(state).toEqual(
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
