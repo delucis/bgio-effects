@@ -8,6 +8,17 @@ import {
 } from '../types';
 
 /**
+ * Interface provided by the `useEffectQueue` hook for manipulating
+ * the current effect queue.
+ */
+export interface QueueAPI {
+  clear: () => void;
+  flush: () => void;
+  update: () => void;
+  size: number;
+}
+
+/**
  * Return type for all effect listener callbacks.
  */
 type CbReturn = void | (() => void);
