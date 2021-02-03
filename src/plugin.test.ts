@@ -126,7 +126,7 @@ describe('boardgame.io integration', () => {
   const client = Client({ game: (game as unknown) as Game });
 
   test('setup', () => {
-    expect(client.getState().plugins.effects.data).toEqual(
+    expect(client.getState()?.plugins.effects.data).toEqual(
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
         queue: [
@@ -139,7 +139,7 @@ describe('boardgame.io integration', () => {
 
   test('make move', () => {
     client.moves.A();
-    expect(client.getState().plugins.effects.data).toEqual(
+    expect(client.getState()?.plugins.effects.data).toEqual(
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
         queue: [
@@ -154,7 +154,7 @@ describe('boardgame.io integration', () => {
 
   test('make another move', () => {
     client.moves.B();
-    expect(client.getState().plugins.effects.data).toEqual(
+    expect(client.getState()?.plugins.effects.data).toEqual(
       expect.objectContaining({
         id: expect.stringMatching(/^.{8}$/),
         queue: [
