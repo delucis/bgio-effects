@@ -110,7 +110,7 @@
     "ts-toolbelt": "^8.0.6"
   },
   "peerDependencies": {
-    "boardgame.io": "^0.39.16 || latest",
+    "boardgame.io": ">=0.39.16",
     "react": "^16 || ^17"
   },
   "config": {
