@@ -31,4 +31,18 @@ jobs:
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
+          flag-name: test-node@${{ matrix.node }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+          path-to-lcov: ./coverage/lcov.info
+
+  onEnd:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        parallel-finished: true
+        path-to-lcov: ./coverage/lcov.info
