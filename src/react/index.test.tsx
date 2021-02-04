@@ -13,6 +13,37 @@ import {
 import { EffectsPlugin } from '../plugin';
 import { EffectsCtxMixin } from '..';
 
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace jest {
+    interface Matchers<R> {
+      /**
+       * Custom matcher to simplify approximate number comparisons.
+       * Used here because timings vary slightly and we only want to
+       * assert they are more or less correct.
+       */
+      toBeAround(expected: number, opts?: { tolerance?: number }): R;
+    }
+  }
+}
+
+expect.extend({
+  toBeAround(
+    received: number,
+    expected: number,
+    { tolerance = 40 }: { tolerance?: number } = {}
+  ) {
+    const floor = expected - tolerance;
+    const ceiling = expected + tolerance;
+    const pass = received >= floor && received <= ceiling;
+    const message = () =>
+      `expected ${received} ${
+        pass ? 'not ' : ''
+      }to be within range ${floor} - ${ceiling}`;
+    return { message, pass };
+  },
+});
+
 console.error = jest.fn();
 
 const config = {
@@ -126,7 +157,7 @@ test('Effects are emitted one by one', async () => {
 
   // Wait for second effect to be emitted
   await waitFor(() => screen.getByText('shortEffect:2'));
-  expect(performance.now() - t1).toBeGreaterThan(800);
+  expect(performance.now() - t1).toBeAround(800);
   expect(screen.getByTestId('queue-size')).toHaveTextContent(/^1$/);
   expect(screen.getByTestId('last-effect')).toHaveTextContent('shortEffect:2');
   expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
@@ -135,7 +166,7 @@ test('Effects are emitted one by one', async () => {
   await waitFor(() =>
     expect(screen.getByTestId('queue-size')).toHaveTextContent(/^0$/)
   );
-  expect(performance.now() - t1).toBeGreaterThan(900);
+  expect(performance.now() - t1).toBeAround(900);
   expect(screen.getByTestId('queue-size')).toHaveTextContent(/^0$/);
 });
 
@@ -158,14 +189,14 @@ test('boardgame.io state can be updated after effects', async () => {
 
   // Wait for second effect to be emitted
   await waitFor(() => screen.getByText('shortEffect:2'));
-  expect(performance.now() - t1).toBeGreaterThan(800);
+  expect(performance.now() - t1).toBeAround(800);
   expect(screen.getByTestId('queue-size')).toHaveTextContent(/^1$/);
   expect(screen.getByTestId('last-effect')).toHaveTextContent('shortEffect:2');
   expect(screen.getByTestId('G-val')).toBeEmptyDOMElement();
 
   // Wait for boardgame.io state to update
   await waitFor(() => screen.getByText(GVal.wEffects));
-  expect(performance.now() - t1).toBeGreaterThan(900);
+  expect(performance.now() - t1).toBeAround(900);
   expect(screen.getByTestId('queue-size')).toHaveTextContent(/^0$/);
   expect(screen.getByTestId('G-val')).toHaveTextContent(GVal.wEffects);
 });
@@ -260,14 +291,12 @@ test('Speed option changes effect timing', async () => {
   // Wait for second effect to be emitted
   await waitFor(() => screen.getByText('shortEffect:2'));
   let t = performance.now() - t1;
-  expect(t).toBeGreaterThan(400);
-  expect(t).toBeLessThan(430);
+  expect(t).toBeAround(400);
 
   // Wait for boardgame.io state to update
   await waitFor(() => screen.getByText(GVal.wEffects));
   t = performance.now() - t1;
-  expect(t).toBeGreaterThan(450);
-  expect(t).toBeLessThan(480);
+  expect(t).toBeAround(450);
 });
 
 describe('useEffectListener', () => {
@@ -504,7 +533,7 @@ describe('useEffectState', () => {
 
     await waitFor(() => screen.getByText('false'));
     const t = performance.now() - t1;
-    expect(t).toBeGreaterThan(800);
+    expect(t).toBeAround(800);
   });
 
   test('can be set to an initial value', async () => {
