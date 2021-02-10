@@ -86,7 +86,7 @@
     "@types/react": "^16.9.34",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
-    "boardgame.io": "^0.39.16",
+    "boardgame.io": "^0.43.2",
     "coveralls": "^3.1.0",
     "cz-conventional-changelog": "^3.2.0",
     "eslint": "^7.19.0",
