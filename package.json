@@ -80,7 +80,7 @@
   "homepage": "https://github.com/delucis/bgio-effects#readme",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.1",
-    "@testing-library/react": "^11.0.2",
+    "@testing-library/react": "^12.0.0",
     "@types/jest": "^26.0.5",
     "@types/react": "^16.9.34",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
