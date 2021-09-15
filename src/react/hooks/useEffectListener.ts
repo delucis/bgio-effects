@@ -8,7 +8,7 @@ import { hookErrorMessage } from './utils';
 
 type NaiveEffectListener = (payload: any, boardProps: BoardProps) => void;
 type NaiveWildcardListener = (
-  effectName: string | symbol,
+  effectName: string | symbol | number,
   payload: any,
   boardProps: BoardProps
 ) => void;
@@ -35,7 +35,7 @@ function noop() {}
  * @param  dependencies - Array of variables the handler depends on.
  */
 function useMittSubscription(
-  emitter: Emitter,
+  emitter: Emitter<any>,
   effectType: string,
   handler?: NaiveListener,
   dependencies: React.DependencyList | undefined = []
@@ -54,7 +54,7 @@ function useMittSubscription(
    * which for now we’ve avoided in order to simplify the API.
    */
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const memoizedHandler: Handler | WildcardHandler = useCallback(
+  const memoizedHandler: Handler<any> | WildcardHandler<any> = useCallback(
     effectType === '*'
       ? (effectName, { payload, boardProps }: InternalEffectShape) =>
           (handler as NaiveWildcardListener)(effectName, payload, boardProps)

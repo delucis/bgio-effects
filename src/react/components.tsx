@@ -63,7 +63,7 @@ function useRefState<T>(initial: T) {
  * into the effect object.
  */
 function emit(
-  emitter: Emitter,
+  emitter: Emitter<any>,
   { type, payload }: Queue[number],
   boardProps: BoardProps
 ) {
@@ -77,7 +77,7 @@ function emit(
  * @param effects - React ref for the effects queue to process.
  */
 function emitAllEffects(
-  emitter: Emitter,
+  emitter: Emitter<any>,
   effects: React.MutableRefObject<Queue>,
   boardProps: BoardProps
 ) {
