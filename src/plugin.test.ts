@@ -123,7 +123,7 @@ describe('boardgame.io integration', () => {
     },
   };
 
-  const client = Client({ game: (game as unknown) as Game });
+  const client = Client({ game: game as unknown as Game });
 
   test('setup', () => {
     expect(client.getState()?.plugins.effects.data).toEqual(

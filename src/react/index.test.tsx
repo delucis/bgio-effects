@@ -117,7 +117,7 @@ const Board = ({ G, plugins, moves }: BoardProps<G>) => {
 
 const appFactory = (opts?: Parameters<typeof EffectsBoardWrapper>[1]) =>
   Client<G>({
-    game: (game as unknown) as Game,
+    game: game as unknown as Game,
     debug: false,
     board: EffectsBoardWrapper(Board, opts),
   });
@@ -323,7 +323,7 @@ describe('useEffectListener', () => {
       return <p data-testid="CWE">{state}</p>;
     };
     const App = Client<G>({
-      game: (game as unknown) as Game<G>,
+      game: game as unknown as Game<G>,
       debug: false,
       board: EffectsBoardWrapper(({ G, moves }: BoardProps<G>) => (
         <main>
@@ -366,7 +366,7 @@ describe('useEffectListener', () => {
       return <p data-testid="CWE">{state}</p>;
     };
     const App = Client<G>({
-      game: (game as unknown) as Game<G>,
+      game: game as unknown as Game<G>,
       debug: false,
       board: EffectsBoardWrapper(
         ({ G, moves }: BoardProps<G>) => (
@@ -402,7 +402,7 @@ describe('useEffectListener', () => {
     }
     const mock = jest.fn();
     const App = Client({
-      game: (game as unknown) as Game<G>,
+      game: game as unknown as Game<G>,
       debug: false,
       board: EffectsBoardWrapper(({ moves }) => {
         const [val, setVal] = useState(ListenerState.Initial);
@@ -455,11 +455,11 @@ describe('useEffectListener', () => {
       useEffectListener(
         '*',
         () => {},
-        (undefined as unknown) as React.DependencyList
+        undefined as unknown as React.DependencyList
       );
       return <div />;
     });
-    const App = Client({ game: (game as unknown) as Game<G>, board });
+    const App = Client({ game: game as unknown as Game<G>, board });
     expect(() => render(<App />)).toThrow(
       'useEffectListener must receive a dependency list as its third argument.'
     );
@@ -472,11 +472,11 @@ describe('useEffectListener', () => {
         () => {},
         [],
         () => {},
-        (undefined as unknown) as React.DependencyList
+        undefined as unknown as React.DependencyList
       );
       return <div />;
     });
-    const App = Client({ game: (game as unknown) as Game<G>, board });
+    const App = Client({ game: game as unknown as Game<G>, board });
     expect(() => render(<App />)).toThrow(
       'useEffectListener must receive a dependency list as its fifth argument when using an onEffectEnd callback.'
     );
@@ -516,7 +516,7 @@ describe('useEffectState', () => {
       );
     });
     const App = Client({
-      game: (game as unknown) as Game<G>,
+      game: game as unknown as Game<G>,
       board,
       debug: false,
     });
@@ -583,7 +583,7 @@ describe('useLatestPropsOnEffect', () => {
     );
 
     const App = Client({
-      game: (game as unknown) as Game<G>,
+      game: game as unknown as Game<G>,
       board,
       debug: false,
     });

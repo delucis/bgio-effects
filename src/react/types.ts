@@ -33,13 +33,11 @@ type EffectCbContext<G extends any> = BoardProps<G>;
  * Type of callback when listening for all effects with '*'.
  */
 type AllEffectsCb<E extends EffectsMap, G extends any> = (
-  ...cbArgs: O.UnionOf<
-    {
-      [K in keyof E]: E[K] extends EffectWithCreate
-        ? [K, EffectPayload<E[K]>, EffectCbContext<G>]
-        : [K, undefined, EffectCbContext<G>];
-    }
-  >
+  ...cbArgs: O.UnionOf<{
+    [K in keyof E]: E[K] extends EffectWithCreate
+      ? [K, EffectPayload<E[K]>, EffectCbContext<G>]
+      : [K, undefined, EffectCbContext<G>];
+  }>
 ) => CbReturn;
 
 /**
@@ -62,19 +60,17 @@ export type ListenerArgs<E extends EffectsMap, G extends any> =
       AllEffectsCb<E, G>,
       React.DependencyList
     ]
-  | O.UnionOf<
-      {
-        [K in keyof E]:
-          | [K, EffectCb<E, K, G>, React.DependencyList]
-          | [
-              K,
-              EffectCb<E, K, G>,
-              React.DependencyList,
-              EffectCb<E, K, G>,
-              React.DependencyList
-            ];
-      }
-    >
+  | O.UnionOf<{
+      [K in keyof E]:
+        | [K, EffectCb<E, K, G>, React.DependencyList]
+        | [
+            K,
+            EffectCb<E, K, G>,
+            React.DependencyList,
+            EffectCb<E, K, G>,
+            React.DependencyList
+          ];
+    }>
   | [BuiltinEffect, () => CbReturn, React.DependencyList];
 
 /**
