@@ -92,25 +92,23 @@ export type TimingParams = [Position, Duration];
 export type API<E extends EffectsMap> = {
   timeline: Timeline;
 } & U.IntersectOf<
-  O.UnionOf<
-    {
-      [K in keyof E]: E[K] extends EffectWithCreate
-        ? O.Record<
-            K,
-            (
-              arg: F.Parameters<O.At<E[K], 'create'>>[0],
-              position?: TimingParams[0],
-              duration?: TimingParams[1]
-            ) => void
-          >
-        : E[K] extends EffectWithoutCreate
-        ? O.Record<
-            K,
-            (position?: TimingParams[0], duration?: TimingParams[1]) => void
-          >
-        : never;
-    }
-  >
+  O.UnionOf<{
+    [K in keyof E]: E[K] extends EffectWithCreate
+      ? O.Record<
+          K,
+          (
+            arg: F.Parameters<O.At<E[K], 'create'>>[0],
+            position?: TimingParams[0],
+            duration?: TimingParams[1]
+          ) => void
+        >
+      : E[K] extends EffectWithoutCreate
+      ? O.Record<
+          K,
+          (position?: TimingParams[0], duration?: TimingParams[1]) => void
+        >
+      : never;
+  }>
 >;
 
 /**
