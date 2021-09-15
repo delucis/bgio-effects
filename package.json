@@ -18,8 +18,7 @@
     "lint": "eslint src",
     "prettier": "prettier --write --single-quote src",
     "pretest": "npm run lint",
-    "test": "jest --coverage --collectCoverageFrom=src/**/*",
-    "coverage": "cat ./coverage/lcov.info | coveralls"
+    "test": "jest --coverage --collectCoverageFrom=src/**/*"
   },
   "husky": {
     "hooks": {
@@ -86,7 +85,6 @@
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "boardgame.io": "^0.48.0",
-    "coveralls": "^3.1.0",
     "cz-conventional-changelog": "^3.2.0",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^8.1.0",
