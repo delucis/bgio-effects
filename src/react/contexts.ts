@@ -4,8 +4,8 @@ import type { BoardProps } from 'boardgame.io/react';
 import { QueueAPI } from './types';
 
 export const EffectsContext = createContext<{
-  emitter: Emitter | null;
-  endEmitter: Emitter | null;
+  emitter: Emitter<any> | null;
+  endEmitter: Emitter<any> | null;
 }>({ emitter: null, endEmitter: null });
 
 export const EffectsQueueContext = createContext<QueueAPI | undefined>(
