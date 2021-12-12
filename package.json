@@ -18,13 +18,8 @@
     "lint": "eslint src",
     "prettier": "prettier --write --single-quote src",
     "pretest": "npm run lint",
-    "test": "jest --coverage --collectCoverageFrom=src/**/*"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run prettier",
-      "pre-push": "npm t"
-    }
+    "test": "jest --coverage --collectCoverageFrom=src/**/*",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
@@ -90,7 +85,7 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^4.2.5",
+    "husky": "^7.0.0",
     "jest": "^27.2.0",
     "prettier": "^2.0.4",
     "react": "^16.13.1",
