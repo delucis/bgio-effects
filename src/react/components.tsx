@@ -32,7 +32,7 @@ interface EffectsOpts {
  * const BoardWithEffects = EffectsBoardWrapper(MyBoard)
  */
 export function EffectsBoardWrapper<
-  G extends any = any,
+  G = any,
   P extends BoardProps<G> = BoardProps<G>
 >(Board: React.ComponentType<P>, opts?: EffectsOpts): React.ComponentType<P> {
   return function BoardWithEffectsProvider(boardProps: P) {
@@ -89,10 +89,7 @@ function emitAllEffects(
 /**
  * Context provider that watches boardgame.io state and emits effect events.
  */
-function EffectsProvider<
-  G extends any = any,
-  P extends BoardProps<G> = BoardProps<G>
->({
+function EffectsProvider<G = any, P extends BoardProps<G> = BoardProps<G>>({
   Board,
   boardProps,
   opts: { speed = 1, updateStateAfterEffects = false } = {},

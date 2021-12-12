@@ -90,10 +90,9 @@ function useMittSubscription(
  * @param onEndCallback - Function to call when the effect ends.
  * @param onEndDependencyArray - Array of variables onEndCallback depends on.
  */
-export function useEffectListener<
-  C extends EffectsPluginConfig,
-  G extends any = any
->(...args: ListenerArgs<C['effects'], G>): void {
+export function useEffectListener<C extends EffectsPluginConfig, G = any>(
+  ...args: ListenerArgs<C['effects'], G>
+): void {
   const { emitter, endEmitter } = useContext(EffectsContext);
   const [effectType, cb, deps, onEndCb, onEndDeps] = args as NaiveArgs;
 

@@ -16,7 +16,7 @@ type EffectType<C extends EffectsPluginConfig> =
  * @return The boardgame.io props including G and ctx
  */
 export function useLatestPropsOnEffect<
-  G extends any = any,
+  G = any,
   C extends EffectsPluginConfig = EffectsPluginConfig
 >(...effectTypes: EffectType<C>[]): BoardProps<G> {
   const boardProps = useBoardProps();

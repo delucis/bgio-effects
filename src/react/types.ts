@@ -27,12 +27,12 @@ type CbReturn = void | (() => void);
  * Context object passed to all callbacks in addition to the effect payload.
  * Currently this is the entire board props object, containing G etc.
  */
-type EffectCbContext<G extends any> = BoardProps<G>;
+type EffectCbContext<G> = BoardProps<G>;
 
 /**
  * Type of callback when listening for all effects with '*'.
  */
-type AllEffectsCb<E extends EffectsMap, G extends any> = (
+type AllEffectsCb<E extends EffectsMap, G> = (
   ...cbArgs: O.UnionOf<{
     [K in keyof E]: E[K] extends EffectWithCreate
       ? [K, EffectPayload<E[K]>, EffectCbContext<G>]
@@ -46,12 +46,12 @@ type AllEffectsCb<E extends EffectsMap, G extends any> = (
 type EffectCb<
   E extends EffectsMap,
   K extends keyof E,
-  G extends any
+  G
 > = E[K] extends EffectWithCreate
   ? (payload: EffectPayload<E[K]>, context: EffectCbContext<G>) => CbReturn
   : (payload: undefined, context: EffectCbContext<G>) => CbReturn;
 
-export type ListenerArgs<E extends EffectsMap, G extends any> =
+export type ListenerArgs<E extends EffectsMap, G> =
   | ['*', AllEffectsCb<E, G>, React.DependencyList]
   | [
       '*',
