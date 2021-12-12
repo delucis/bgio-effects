@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/delucis/bgio-effects/compare/v0.4.8...v0.5.0) (2021-12-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* Node 10 is no longer officially supported. The package itself has not changed, so should continue to work in Node 10, but we aren’t testing against 10 anymore, so that may break at any time from now on without notice.
+
+### ci
+
+* drop Node 10 & 15, add Node 16 ([b9b6dd9](https://github.com/delucis/bgio-effects/commit/b9b6dd93d90a00fee44e7c5990e617c73fd7fee2))
+
 ### [0.4.8](https://github.com/delucis/bgio-effects/compare/v0.4.7...v0.4.8) (2021-09-15)
 
 ### [0.4.7](https://github.com/delucis/bgio-effects/compare/v0.4.6...v0.4.7) (2021-05-11)
