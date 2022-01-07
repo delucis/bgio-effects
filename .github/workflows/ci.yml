@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: [ latest ]
+    branches: [latest]
   pull_request:
-    branches: [ latest ]
+    branches: [latest]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -49,9 +49,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        parallel-finished: true
-        path-to-lcov: ./coverage/lcov.info
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
+          path-to-lcov: ./coverage/lcov.info
