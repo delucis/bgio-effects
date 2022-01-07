@@ -13,6 +13,8 @@ jobs:
         node: [12.x, 14.x, 16.x]
         # Test with oldest and newest supported boardgame.io versions
         bgio: [0.39.16, latest]
+        # Test with React 16 and React 17
+        react: [^16, ^17]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node }}
@@ -32,11 +34,13 @@ jobs:
         run: npm ci
       - name: Install boardgame.io@${{ matrix.bgio }}
         run: npm i -D boardgame.io@${{ matrix.bgio }}
+      - name: Install react@${{ matrix.react }}
+        run: npm i -D react@${{ matrix.react }} react-dom@${{ matrix.react }} @types/react@${{ matrix.react }}
       - run: npm test
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
-          flag-name: test-node@${{ matrix.node }}-bgio@${{ matrix.bgio }}
+          flag-name: test-node@${{ matrix.node }}-bgio@${{ matrix.bgio }}-react@${{ matrix.react }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./coverage/lcov.info
