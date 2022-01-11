@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/delucis/bgio-effects/compare/v0.5.0...v0.5.1) (2022-01-11)
+
+
+### Bug Fixes
+
+* inline UUID generator ([9bf6470](https://github.com/delucis/bgio-effects/commit/9bf64707df68916d16af5c2216dd63d45ff5168d)), closes [#362](https://github.com/delucis/bgio-effects/issues/362)
+
 ## [0.5.0](https://github.com/delucis/bgio-effects/compare/v0.4.8...v0.5.0) (2021-12-12)
 
 
