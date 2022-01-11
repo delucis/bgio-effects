@@ -1,14 +1,23 @@
-import { nanoid } from 'nanoid/non-secure';
 import type { Plugin } from 'boardgame.io';
 import { Timeline } from './timeline';
 import type { API, Data, EffectsPluginConfig, TimingParams } from './types';
+
+const alphabet =
+  'useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict';
+/** Simple 8-character UUID generator based on nanoid/non-secure. */
+const uuid = () => {
+  let id = '';
+  let i = 8;
+  while (i--) id += alphabet[(Math.random() * 64) | 0];
+  return id;
+};
 
 /**
  * Generate the data POJO to persist from a Timeline instance.
  * @return - Object with a unique `id`, `duration` in seconds & `queue` array.
  */
 const getData = (timeline: Timeline): Data => ({
-  id: nanoid(8),
+  id: uuid(),
   duration: timeline.duration(),
   queue: timeline.getQueue(),
 });
