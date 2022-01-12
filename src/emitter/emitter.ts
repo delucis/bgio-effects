@@ -159,6 +159,7 @@ class EffectsEmitterImpl<S extends ClientState> implements EffectsEmitter<S> {
       !prevState.plugins.effects ||
       state.plugins.effects.data.id === prevState.plugins.effects.data.id
     ) {
+      this.state.set(state);
       return;
     }
     this.queue.set(state.plugins.effects.data.queue);
