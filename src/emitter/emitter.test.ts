@@ -195,6 +195,37 @@ describe('EffectsEmitter', () => {
     });
   });
 
+  describe('#state', () => {
+    test('it returns the current state of the game', async () => {
+      expect(emitter.state.get()).toEqual(client.getState());
+      client.moves.wEffects();
+      await waitFor(() => emitter.size.get() < 4);
+      expect(emitter.state.get()).toEqual(client.getState());
+    });
+
+    test('it can be updated after effects complete', async () => {
+      emitter = EffectsEmitter(client, { updateStateAfterEffects: true });
+      const initialState = client.getState();
+      expect(emitter.state.get()).toEqual(initialState);
+      client.moves.wEffects();
+      await waitFor(() => emitter.size.get() < 4);
+      expect(emitter.state.get()).toEqual(initialState);
+      await waitFor(() => emitter.size.get() === 0);
+      expect(emitter.state.get()).toEqual(client.getState());
+    });
+
+    test('a subscriber receives the latest state', async () => {
+      const listener = jest.fn();
+      emitter.state.subscribe(listener);
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(listener).toHaveBeenLastCalledWith(client.getState());
+      client.moves.simple();
+      await waitFor(() => emitter.size.get() === 0);
+      expect(listener).toHaveBeenCalledTimes(2);
+      expect(listener).toHaveBeenLastCalledWith(client.getState());
+    });
+  });
+
   describe('internals', () => {
     test('the raf stops running once all effects are dealt with', async () => {
       await waitFor(() => emitter.size.get() === 0);

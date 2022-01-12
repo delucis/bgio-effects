@@ -46,6 +46,7 @@ export interface EffectsEmitter<S extends ClientState> {
   clear(): void;
   flush(): void;
   size: ReadonlyStore<number>;
+  state: ReadonlyStore<S | null>;
 }
 
 class EffectsEmitterImpl<S extends ClientState> implements EffectsEmitter<S> {
