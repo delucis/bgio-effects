@@ -11,12 +11,22 @@ interface EffectsEmitterOptions {
   updateStateAfterEffects?: boolean;
 }
 
-type Listener<S extends ClientState> = Handler<
+type InternalHandler<S extends ClientState> = Handler<
   InternalEffectShape<Exclude<S, null>>
 >;
-type WildcardListener<S extends ClientState> = WildcardHandler<
+type InternalWildcardHandler<S extends ClientState> = WildcardHandler<
   Record<string, InternalEffectShape<Exclude<S, null>>>
 >;
+
+type PublicHandler<S extends ClientState> = (
+  effectPayload: any,
+  state: S
+) => void;
+type PublicWildcardHandler<S extends ClientState> = (
+  effectType: string,
+  effectPayload: any,
+  state: S
+) => void;
 
 export interface EffectsEmitter<S extends ClientState> {
   /**
@@ -25,13 +35,13 @@ export interface EffectsEmitter<S extends ClientState> {
    */
   on(
     effect: '*',
-    callback?: WildcardListener<S>,
-    onEndCallback?: WildcardListener<S>
+    callback?: PublicWildcardHandler<S>,
+    onEndCallback?: PublicWildcardHandler<S>
   ): () => void;
   on(
     effect: Exclude<string, '*'>,
-    callback?: Listener<S>,
-    onEndCallback?: Listener<any>
+    callback?: PublicHandler<S>,
+    onEndCallback?: PublicHandler<any>
   ): () => void;
   clear(): void;
   flush(): void;
@@ -64,31 +74,53 @@ class EffectsEmitterImpl<S extends ClientState> implements EffectsEmitter<S> {
   // TODO: Call callbacks with [payload, state] instead of [{payload, state}]
   on(
     effect: '*',
-    callback?: WildcardListener<S>,
-    onEndCallback?: WildcardListener<S>
+    callback?: PublicWildcardHandler<S>,
+    onEndCallback?: PublicWildcardHandler<S>
   ): () => void;
   on(
     effect: Exclude<string, '*'>,
-    callback?: Listener<S>,
-    onEndCallback?: Listener<S>
+    callback?: PublicHandler<S>,
+    onEndCallback?: PublicHandler<S>
   ): () => void;
   on(
     effect: string,
-    callback?: Listener<S> | WildcardListener<S>,
-    onEndCallback?: Listener<any> | WildcardListener<S>
+    callback?: PublicHandler<S> | PublicWildcardHandler<S>,
+    onEndCallback?: PublicHandler<any> | PublicWildcardHandler<S>
   ): () => void {
-    if (callback) this.emitter.on(effect, callback as Listener<S>);
-    if (onEndCallback) this.endEmitter.on(effect, onEndCallback as Listener<S>);
-    return (): void => this.off(effect, callback, onEndCallback);
+    let startCb: InternalHandler<S> | InternalWildcardHandler<S> | undefined;
+    if (callback) {
+      startCb =
+        effect === '*'
+          ? (
+              type: string,
+              { payload, boardProps }: InternalEffectShape<Exclude<S, null>>
+            ) => callback(type, payload, boardProps)
+          : ({ payload, boardProps }: InternalEffectShape<Exclude<S, null>>) =>
+              (callback as PublicHandler<S>)(payload, boardProps);
+      this.emitter.on(effect, startCb as InternalHandler<S>);
+    }
+    let endCb: InternalHandler<S> | InternalWildcardHandler<S> | undefined;
+    if (onEndCallback) {
+      endCb =
+        effect === '*'
+          ? (
+              type: string,
+              { payload, boardProps }: InternalEffectShape<Exclude<S, null>>
+            ) => onEndCallback(type, payload, boardProps)
+          : ({ payload, boardProps }: InternalEffectShape<Exclude<S, null>>) =>
+              (onEndCallback as PublicHandler<S>)(payload, boardProps);
+      this.endEmitter.on(effect, endCb as InternalHandler<S>);
+    }
+    return (): void => this.off(effect, startCb, endCb);
   }
 
   private off(
     effect: string,
-    callback?: Listener<S> | WildcardListener<S>,
-    onEndCallback?: Listener<any> | WildcardListener<S>
+    callback?: InternalHandler<S> | InternalWildcardHandler<S>,
+    onEndCallback?: InternalHandler<any> | InternalWildcardHandler<S>
   ): void {
-    this.emitter.off(effect, callback as Listener<S>);
-    this.endEmitter.off(effect, onEndCallback as Listener<S>);
+    this.emitter.off(effect, callback as InternalHandler<S>);
+    this.endEmitter.off(effect, onEndCallback as InternalHandler<S>);
   }
 
   /**

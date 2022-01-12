@@ -89,11 +89,13 @@ describe('EffectsEmitter', () => {
 
       expect(longListener).toHaveBeenCalledTimes(1);
       expect(longListener).toHaveBeenCalledWith(
-        expect.objectContaining({ payload: '1' })
+        '1',
+        expect.objectContaining({ G: { val: GVal.wEffects } })
       );
       expect(shortListener).toHaveBeenCalledTimes(1);
       expect(shortListener).toHaveBeenCalledWith(
-        expect.objectContaining({ payload: '2' })
+        '2',
+        expect.objectContaining({ G: { val: GVal.wEffects } })
       );
     });
 
@@ -111,7 +113,8 @@ describe('EffectsEmitter', () => {
       client.moves.simple();
       await waitFor(() => emitter.size.get() === 0);
       expect(listener).toHaveBeenCalledWith(
-        expect.objectContaining({ payload: undefined })
+        undefined,
+        expect.objectContaining({ G: { val: GVal.simple } })
       );
     });
 
@@ -121,7 +124,8 @@ describe('EffectsEmitter', () => {
       client.moves.simple();
       await waitFor(() => emitter.size.get() === 0);
       expect(listener).toHaveBeenCalledWith(
-        expect.objectContaining({ payload: undefined })
+        undefined,
+        expect.objectContaining({ G: { val: GVal.simple } })
       );
     });
 
