@@ -132,7 +132,7 @@ class EffectsEmitterImpl<S extends ClientState> implements EffectsEmitter<S> {
     this.emitAllEffects(this.endEmitter, this.activeQueue);
     this.queue.set([]);
     this.activeQueue = [];
-    if (this.state.get() !== this.latestState) this.state.set(this.latestState);
+    this.state.set(this.latestState);
   }
 
   /**
