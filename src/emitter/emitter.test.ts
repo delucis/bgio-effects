@@ -176,8 +176,8 @@ describe('EffectsEmitter', () => {
   });
 
   describe('#size', () => {
-    test('it returns the number of effects in the queue', async () => {
-      await waitFor(() => emitter.size.get() === 0);
+    test('it returns the number of effects in the queue', () => {
+      expect(emitter.size.get()).toBe(0);
       client.moves.wEffects();
       expect(emitter.size.get()).toBe(4);
     });
@@ -186,9 +186,11 @@ describe('EffectsEmitter', () => {
       const listener = jest.fn();
       emitter.size.subscribe(listener);
       expect(listener).toHaveBeenCalledTimes(1);
-      expect(listener).toHaveBeenLastCalledWith(2);
+      expect(listener).toHaveBeenLastCalledWith(0);
+      client.moves.simple();
       await waitFor(() => emitter.size.get() === 0);
-      expect(listener).toHaveBeenCalledTimes(2);
+      expect(listener).toHaveBeenCalledTimes(3);
+      expect(listener).toHaveBeenCalledWith(2);
       expect(listener).toHaveBeenLastCalledWith(0);
     });
   });

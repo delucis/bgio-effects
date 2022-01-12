@@ -57,7 +57,6 @@ class EffectsEmitterImpl<S extends ClientState> implements EffectsEmitter<S> {
   private readonly queue = new Store<Queue>([]);
   private activeQueue: Queue = [];
   private latestState: S | null = null;
-  private prevId?: string;
   private startT = 0;
   private duration = 0;
 
@@ -151,16 +150,21 @@ class EffectsEmitterImpl<S extends ClientState> implements EffectsEmitter<S> {
    * Update the queue state when a new state update is received from boardgame.io.
    */
   public onUpdate(state: null | S): void {
-    if (!state) return;
-    const { effects } = state.plugins;
-    if (!effects) return;
-    if (effects.data.id === this.prevId) return;
-    this.prevId = effects.data.id;
-    this.queue.set(effects.data.queue);
+    const prevState = this.latestState;
+    this.latestState = state;
+    if (
+      !state ||
+      !state.plugins.effects ||
+      !prevState ||
+      !prevState.plugins.effects ||
+      state.plugins.effects.data.id === prevState.plugins.effects.data.id
+    ) {
+      return;
+    }
+    this.queue.set(state.plugins.effects.data.queue);
     this.activeQueue = [];
     this.startT = performance.now();
-    this.duration = effects.data.duration;
-    this.latestState = state;
+    this.duration = state.plugins.effects.data.duration;
     this.raf.start();
   }
 
