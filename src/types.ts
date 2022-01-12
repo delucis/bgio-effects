@@ -1,3 +1,4 @@
+import { ClientState } from 'boardgame.io/dist/types/src/client/client';
 import type { F, O, U } from 'ts-toolbelt';
 import type { Timeline } from './timeline';
 
@@ -132,3 +133,20 @@ export type API<E extends EffectsMap> = {
 export type EffectsCtxMixin<C extends EffectsPluginConfig> = {
   effects: API<C['effects']>;
 };
+
+/**
+ * Context object passed to all callbacks in addition to the effect payload.
+ * Currently this is the entire board props object, containing G etc.
+ */
+export type EffectCbContext<G> = Exclude<ClientState<G>, null>;
+
+/**
+ * Shape of the effect objects emitted internally through mitt.
+ * This is then destructured to pass to the effect listener.
+ */
+export interface InternalEffectShape<
+  S extends EffectCbContext<any> = EffectCbContext<any>
+> {
+  payload: any;
+  boardProps: S;
+}
