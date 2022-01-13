@@ -184,7 +184,7 @@ describe('EffectsEmitter', () => {
 
     test('a subscriber receives the latest queue size', async () => {
       const listener = jest.fn();
-      emitter.size.subscribe(listener);
+      const unsubscribe = emitter.size.subscribe(listener);
       expect(listener).toHaveBeenCalledTimes(1);
       expect(listener).toHaveBeenLastCalledWith(0);
       client.moves.simple();
@@ -192,6 +192,7 @@ describe('EffectsEmitter', () => {
       expect(listener).toHaveBeenCalledTimes(3);
       expect(listener).toHaveBeenCalledWith(2);
       expect(listener).toHaveBeenLastCalledWith(0);
+      unsubscribe();
     });
   });
 
@@ -216,13 +217,14 @@ describe('EffectsEmitter', () => {
 
     test('a subscriber receives the latest state', async () => {
       const listener = jest.fn();
-      emitter.state.subscribe(listener);
+      const unsubscribe = emitter.state.subscribe(listener);
       expect(listener).toHaveBeenCalledTimes(1);
       expect(listener).toHaveBeenLastCalledWith(client.getState());
       client.moves.simple();
       await waitFor(() => emitter.size.get() === 0);
       expect(listener).toHaveBeenCalledTimes(2);
       expect(listener).toHaveBeenLastCalledWith(client.getState());
+      unsubscribe();
     });
   });
 
