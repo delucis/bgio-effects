@@ -440,6 +440,61 @@ describe('useEffectListener', () => {
     expect(mock).toHaveBeenLastCalledWith('2', ListenerState.OnEnd);
   });
 
+  test('onEnd callback can return a clean-up callback', async () => {
+    enum ListenerState {
+      'Initial' = 1,
+      'OnEffect',
+      'AfterEffect',
+    }
+    const clear = jest.fn((to: NodeJS.Timeout) => clearTimeout(to));
+    const ComponentWithEffects = () => {
+      const [state, setState] = useState(ListenerState.Initial);
+      useEffectListener<typeof config>(
+        'shortEffect',
+        () => {},
+        [],
+        () => {
+          setState(ListenerState.OnEffect);
+          const to = setTimeout(() => {
+            setState(ListenerState.AfterEffect);
+          }, 150);
+          return () => clear(to);
+        },
+        []
+      );
+      return <p data-testid="CWE">{state}</p>;
+    };
+    const App = Client<G>({
+      game: game as unknown as Game<G>,
+      debug: false,
+      board: EffectsBoardWrapper(({ G, moves }: BoardProps<G>) => (
+        <main>
+          {(!G.val || G.val === GVal.repeatEffects) && <ComponentWithEffects />}
+          <p data-testid="G-val">{G.val}</p>
+          <button onClick={() => moves.simple()}>Simple Move</button>
+          <button onClick={() => moves.repeatEffects()}>Repeat Effects</button>
+        </main>
+      )),
+    });
+
+    render(<App />);
+    expect(screen.getByTestId('CWE')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('Repeat Effects'));
+    await waitFor(() => screen.getByText(GVal.repeatEffects));
+    await waitFor(() => screen.getByText(ListenerState.OnEffect));
+    expect(clear).toHaveBeenCalledTimes(0);
+    await waitFor(() => screen.getByText(ListenerState.AfterEffect));
+    // Called once when cleanup executed for repeated effect.
+    expect(clear).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByText('Simple Move'));
+    await waitFor(() => screen.getByText(GVal.simple));
+    expect(screen.queryByTestId('CWE')).not.toBeInTheDocument();
+    // Called again on component unmount.
+    expect(clear).toHaveBeenCalledTimes(2);
+  });
+
   test('throws if used outside of EffectsBoardWrapper', () => {
     const App = () => {
       useEffectListener('*', () => {}, []);

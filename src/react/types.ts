@@ -1,6 +1,6 @@
 import type { O } from 'ts-toolbelt';
 import type { BoardProps } from 'boardgame.io/react';
-import {
+import type {
   BuiltinEffect,
   EffectsMap,
   EffectWithCreate,
@@ -24,19 +24,13 @@ export interface QueueAPI {
 type CbReturn = void | (() => void);
 
 /**
- * Context object passed to all callbacks in addition to the effect payload.
- * Currently this is the entire board props object, containing G etc.
- */
-type EffectCbContext<G> = BoardProps<G>;
-
-/**
  * Type of callback when listening for all effects with '*'.
  */
 type AllEffectsCb<E extends EffectsMap, G> = (
   ...cbArgs: O.UnionOf<{
     [K in keyof E]: E[K] extends EffectWithCreate
-      ? [K, EffectPayload<E[K]>, EffectCbContext<G>]
-      : [K, undefined, EffectCbContext<G>];
+      ? [K, EffectPayload<E[K]>, BoardProps<G>]
+      : [K, undefined, BoardProps<G>];
   }>
 ) => CbReturn;
 
@@ -48,8 +42,8 @@ type EffectCb<
   K extends keyof E,
   G
 > = E[K] extends EffectWithCreate
-  ? (payload: EffectPayload<E[K]>, context: EffectCbContext<G>) => CbReturn
-  : (payload: undefined, context: EffectCbContext<G>) => CbReturn;
+  ? (payload: EffectPayload<E[K]>, context: BoardProps<G>) => CbReturn
+  : (payload: undefined, context: BoardProps<G>) => CbReturn;
 
 export type ListenerArgs<E extends EffectsMap, G> =
   | ['*', AllEffectsCb<E, G>, React.DependencyList]
@@ -72,12 +66,3 @@ export type ListenerArgs<E extends EffectsMap, G> =
           ];
     }>
   | [BuiltinEffect, () => CbReturn, React.DependencyList];
-
-/**
- * Shape of the effect objects emitted internally through mitt.
- * This is then destructured to pass to the effect listener.
- */
-export interface InternalEffectShape {
-  payload: any;
-  boardProps: EffectCbContext<any>;
-}

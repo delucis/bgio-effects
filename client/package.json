@@ -1,0 +1,6 @@
+{
+  "name": "bgio-effects/client",
+  "private": true,
+  "main": "../dist/emitter/index.js",
+  "types": "../dist/emitter/index.d.ts"
+}

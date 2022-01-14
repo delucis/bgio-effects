@@ -1,12 +1,11 @@
 import { createContext } from 'react';
-import type { Emitter } from 'mitt';
 import type { BoardProps } from 'boardgame.io/react';
-import { QueueAPI } from './types';
+import type { QueueAPI } from './types';
+import type { EffectsEmitter } from '../emitter';
 
-export const EffectsContext = createContext<{
-  emitter: Emitter<any> | null;
-  endEmitter: Emitter<any> | null;
-}>({ emitter: null, endEmitter: null });
+export const EffectsContext = createContext<EffectsEmitter<BoardProps> | null>(
+  null
+);
 
 export const EffectsQueueContext = createContext<QueueAPI | undefined>(
   undefined
