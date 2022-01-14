@@ -101,7 +101,7 @@
     "ts-toolbelt": "^9"
   },
   "peerDependencies": {
-    "boardgame.io": ">=0.39.16",
+    "boardgame.io": ">=0.42.0",
     "react": "^16 || ^17"
   },
   "config": {
