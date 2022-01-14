@@ -71,7 +71,7 @@ describe('EffectsEmitter', () => {
   let emitter: ReturnType<typeof EffectsEmitter>;
 
   beforeEach(() => {
-    client = Client({ game });
+    client = Client({ game: game as unknown as Game });
     emitter = EffectsEmitter(client);
     client.start();
   });
