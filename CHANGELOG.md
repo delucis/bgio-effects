@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/delucis/bgio-effects/compare/v0.5.1...v0.6.0) (2022-01-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* The public API for the existing packages has not changed and should continue to work as previously. The React unit tests remain unchanged. However, because this is such a thorough rewrite, there may be small differences that turn out to be breaking in subtle edge cases.
+
+We are also now using an internal type that was added in boardgame.io@0.42.0, so no longer support 0.39.16, ^0.40 and ^0.41.
+
+### Features
+
+* Rewrite client-side effects emitter & add plain JS support ([#367](https://github.com/delucis/bgio-effects/issues/367)) ([39812a8](https://github.com/delucis/bgio-effects/commit/39812a8deff92574236bbb4a887a1be4eff10e83)), closes [#148](https://github.com/delucis/bgio-effects/issues/148)
+
 ### [0.5.1](https://github.com/delucis/bgio-effects/compare/v0.5.0...v0.5.1) (2022-01-11)
 
 
