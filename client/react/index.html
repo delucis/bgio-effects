@@ -1,0 +1,405 @@
+<!DOCTYPE html><html dir="ltr" lang="en-us" class="initial astro-LQWZJZ7L"><head>
+		<!-- Global Metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+<link rel="sitemap" href="/sitemap.xml">
+
+<!-- Global CSS -->
+<link rel="stylesheet" href="../../assets/index.ba238b3c.css"><link rel="stylesheet" href="../../assets/ThemeToggleButton.0b105b36.css"><link rel="stylesheet" href="../../assets/react.ae57b8f9.css">
+
+
+
+<!-- Scrollable a11y code helper -->
+<script type="module" src="/make-scrollable-code-focusable.js"></script>
+
+<!-- This is intentionally inlined to avoid FOUC -->
+<script>
+	const root = document.documentElement;
+	const theme = localStorage.getItem('theme');
+	if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+		root.classList.add('theme-dark');
+	} else {
+		root.classList.remove('theme-dark');
+	}
+</script>
+
+		
+<!-- Page Metadata -->
+<link rel="canonical" href="https://delucis.github.io/bgio-effects/client/react/">
+
+<!-- OpenGraph Tags -->
+<meta property="og:title" content="With a React client • 📤 bgio-effects">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://delucis.github.io/bgio-effects/client/react/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://delucis.github.io/bgio-effects/default-og-image.jpg">
+<meta property="og:image:alt" content="the text “bgio-effects” glows over a swirl of blurry colours">
+<meta name="description" property="og:description" content="How to use bgio-effects with boardgame.io’s React client.">
+<meta property="og:site_name" content="📤 bgio-effects">
+
+<!-- Twitter Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="swithinbank">
+<meta name="twitter:title" content="With a React client • 📤 bgio-effects">
+<meta name="twitter:description" content="How to use bgio-effects with boardgame.io’s React client.">
+<meta name="twitter:image" content="https://delucis.github.io/bgio-effects/default-og-image.jpg">
+<meta name="twitter:image:alt" content="the text “bgio-effects” glows over a swirl of blurry colours">
+
+		<title>With a React client • 📤 bgio-effects</title>
+		
+	
+
+
+
+
+
+
+
+
+<script type="module" src="../../assets/react.e8b25a07.js"></script>
+
+
+
+</head>
+
+	<body>
+		
+<header class="astro-BLVSDZMP">
+	<a href="#article" class="sr-only focus:not-sr-only skiplink astro-TRSJ2LGA"><span class="astro-TRSJ2LGA">Skip to Content</span></a>
+
+
+
+	<nav class="nav-wrapper astro-BLVSDZMP" title="Top Navigation">
+		<div class="menu-toggle astro-BLVSDZMP">
+			<astro-root uid="Z2bOkkC"><button class="sidebar-toggle" type="button" aria-pressed="false" id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg><span class="sr-only">Toggle sidebar</span></button></astro-root>
+		</div>
+		<div class="astro-BLVSDZMP">
+			<a class="site-title astro-BLVSDZMP" href="/bgio-effects/">
+				<h1 class="astro-BLVSDZMP">📤 bgio-effects</h1>
+			</a>
+		</div>
+		<div style="flex-grow: 1;" class="astro-BLVSDZMP"></div>
+	</nav>
+</header>
+
+
+
+		<main class="layout astro-LQWZJZ7L">
+			<aside id="grid-left" class="grid-sidebar astro-LQWZJZ7L" title="Site Navigation">
+				
+<nav aria-labelledby="grid-left" class="astro-HR6GW4QM">
+	<ul class="nav-groups astro-HR6GW4QM">
+		<li class="astro-HR6GW4QM">
+				<div class="nav-group astro-HR6GW4QM">
+					<h2 class="nav-group-title astro-HR6GW4QM">Setup</h2>
+					<ul class="astro-HR6GW4QM">
+						<li class="nav-link astro-HR6GW4QM">
+								<a href="/bgio-effects/" aria-current="false" class="astro-HR6GW4QM">
+									Introduction
+								</a>
+							</li><li class="nav-link astro-HR6GW4QM">
+								<a href="/bgio-effects/tutorial" aria-current="false" class="astro-HR6GW4QM">
+									Tutorial
+								</a>
+							</li>
+					</ul>
+				</div>
+			</li><li class="astro-HR6GW4QM">
+				<div class="nav-group astro-HR6GW4QM">
+					<h2 class="nav-group-title astro-HR6GW4QM">Game Plugin</h2>
+					<ul class="astro-HR6GW4QM">
+						<li class="nav-link astro-HR6GW4QM">
+								<a href="/bgio-effects/plugin/config" aria-current="false" class="astro-HR6GW4QM">
+									Configuration
+								</a>
+							</li><li class="nav-link astro-HR6GW4QM">
+								<a href="/bgio-effects/plugin/sequencing" aria-current="false" class="astro-HR6GW4QM">
+									Sequencing effects
+								</a>
+							</li>
+					</ul>
+				</div>
+			</li><li class="astro-HR6GW4QM">
+				<div class="nav-group astro-HR6GW4QM">
+					<h2 class="nav-group-title astro-HR6GW4QM">Client</h2>
+					<ul class="astro-HR6GW4QM">
+						<li class="nav-link astro-HR6GW4QM">
+								<a href="/bgio-effects/client/plain-js" aria-current="false" class="astro-HR6GW4QM">
+									Plain JS
+								</a>
+							</li><li class="nav-link astro-HR6GW4QM">
+								<a href="/bgio-effects/client/react" aria-current="page" class="astro-HR6GW4QM">
+									React
+								</a>
+							</li><li class="nav-link astro-HR6GW4QM">
+								<a href="/bgio-effects/client/notes" aria-current="false" class="astro-HR6GW4QM">
+									Notes
+								</a>
+							</li>
+					</ul>
+				</div>
+			</li>
+	</ul>
+</nav>
+
+<script>
+	window.addEventListener('DOMContentLoaded', (event) => {
+		var target = document.querySelector('[aria-current="page"]');
+		if (target && target.offsetTop > window.innerHeight - 100) {
+			document.querySelector('.nav-groups').scrollTop = target.offsetTop;
+		}
+	});
+</script>
+
+
+
+			</aside>
+			<div id="grid-main" class="astro-LQWZJZ7L">
+				
+<article id="article" class="content astro-O4NKPHGZ">
+	<section class="main-section astro-O4NKPHGZ">
+		<h1 class="content-title astro-O4NKPHGZ" id="overview">With a React client</h1>
+		<nav class="block sm:hidden astro-O4NKPHGZ" aria-label="Table of Contents">
+			<astro-root uid="Z29yOSI"><h2 class="heading">On this page</h2><ul><li class="header-link depth-2"><a href="#overview">Overview</a></li><li class="header-link depth-2"><a href="#higher-order-components">Higher-order components</a></li><li class="header-link depth-3"><a href="#effectsboardwrapper">EffectsBoardWrapper</a></li><li class="header-link depth-2"><a href="#hooks">Hooks</a></li><li class="header-link depth-3"><a href="#useeffectlistener">useEffectListener</a></li><li class="header-link depth-3"><a href="#useeffectstate">useEffectState</a></li><li class="header-link depth-3"><a href="#uselatestpropsoneffect">useLatestPropsOnEffect</a></li><li class="header-link depth-3"><a href="#useeffectqueue">useEffectQueue</a></li></ul></astro-root>
+		</nav>
+		<p>The provided React component wrapper and hooks allow you to consume your effects
+as events, emitting them over time if you used the effect sequencing features.</p><h2 id="higher-order-components">Higher-order components</h2><h3 id="effectsboardwrapper"><code data-astro-raw="">EffectsBoardWrapper</code></h3><p>To include the core effects engine in your app, wrap your board component with
+the <code data-astro-raw="">EffectsBoardWrapper</code> before passing it to the boardgame.io client factory:</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> Client <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'boardgame.io/react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> EffectsBoardWrapper <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'bgio-effects/react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> BoardComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./Board'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> board <span class="token operator">=</span> <span class="token function">EffectsBoardWrapper</span><span class="token punctuation">(</span>BoardComponent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> BGIOClient <span class="token operator">=</span> <span class="token function">Client</span><span class="token punctuation">(</span><span class="token punctuation">{</span> board <span class="token comment">/* game, etc. */</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><h4 id="options">Options</h4><p>In addition to passing <code data-astro-raw="">EffectsBoardWrapper</code> your board component, you can also
+pass an options object to configure the effects behaviour.</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">const</span> board <span class="token operator">=</span> <span class="token function">EffectsBoardWrapper</span><span class="token punctuation">(</span>BoardComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Delay passing the updated boardgame.io state to your board</span>
+  <span class="token comment">// until after the last effect has been triggered.</span>
+  <span class="token comment">// Default: false</span>
+  <span class="token literal-property property">updateStateAfterEffects</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+
+  <span class="token comment">// Global control of the speed of effect playback.</span>
+  <span class="token comment">// Default: 1</span>
+  <span class="token literal-property property">speed</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><aside class="content note astro-V5AEQFEI" aria-labelledby="5c2ctv3qtrh">
+  <p id="5c2ctv3qtrh" class="title astro-V5AEQFEI">
+    <span aria-hidden="true" class="icon astro-V5AEQFEI"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.7A1 1 0 0 1 6 5c0-.3.1-.5.3-.7.2-.2.4-.3.7-.3.3 0 .5.1.7.3.2.2.3.4.3.7 0 .3-.1.5-.3.7A1 1 0 0 1 7 6a1 1 0 0 1-.7-.3zM8 8a1 1 0 0 0-.3-.7A1 1 0 0 0 7 7H6a1 1 0 0 0-.7.3A1 1 0 0 0 5 8h1v3c0 .3.1.5.3.7.2.2.4.3.7.3h1c.3 0 .5-.1.7-.3.2-.2.3-.4.3-.7H8V8zM7 2.3a5.7 5.7 0 1 0 0 11.4A5.7 5.7 0 0 0 7 2.3zM7 1a7 7 0 1 1 0 14A7 7 0 0 1 7 1z"></path></svg></span>
+    Higher-order what?!
+  </p>
+  <section class="astro-V5AEQFEI"><p>You can read <a href="https://reactjs.org/docs/higher-order-components.html">a whole page about higher-order components</a> in the React
+docs.</p></section>
+</aside>
+
+<h2 id="hooks">Hooks</h2><h3 id="useeffectlistener"><code data-astro-raw="">useEffectListener</code></h3><h4 id="parameters">Parameters</h4><ol>
+<li>
+<p>Effect Type (<code data-astro-raw="">string</code>) — the effect you want to listen for.</p>
+</li>
+<li>
+<p>Callback (<code data-astro-raw="">function</code>) — the function to run when the effect is fired.</p>
+</li>
+<li>
+<p>Dependencies (<code data-astro-raw="">array</code>) — an array of variables your callback depends upon (similar to <a href="https://reactjs.org/docs/hooks-reference.html#usecallback">React’s <code data-astro-raw="">useCallback</code> hook</a>).</p>
+</li>
+<li>
+<p><em>(optional)</em> On-End Callback (<code data-astro-raw="">function</code>) — a function to run when the effect
+ends (as defined by the effect’s <code data-astro-raw="">duration</code>).</p>
+</li>
+<li>
+<p><em>(optional)</em> On-End Dependencies (<code data-astro-raw="">array</code>) — an array of variables your
+on-end callback depends on.</p>
+</li>
+</ol><h4 id="usage">Usage</h4><p>Within your board component or child components, use the <code data-astro-raw="">useEffectListener</code>
+hook to listen for effect events:</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> useEffectListener <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'bgio-effects/react'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">useEffectListener</span><span class="token punctuation">(</span><span class="token string">'effectName'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">effectPayload<span class="token punctuation">,</span> boardProps</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token comment">// run side-effect code</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token operator">&lt;</span>div <span class="token operator">/</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre><ul>
+<li>
+<p><strong><code data-astro-raw="">effectPayload</code></strong> will be the data returned by your <code data-astro-raw="">create</code> function or
+<code data-astro-raw="">undefined</code> for effects without a <code data-astro-raw="">create</code> function.</p>
+</li>
+<li>
+<p><strong><code data-astro-raw="">boardProps</code></strong> will be the latest props passed by boardgame.io. This is
+particularly useful when using the <code data-astro-raw="">updateStateAfterEffects</code> option to get
+early access to the new global state.</p>
+</li>
+</ul><p>Your callback can return a clean-up function, which will be run the next time
+the effect is fired, if the variables in the dependency array change, or if the
+component unmounts. This is similar to
+<a href="https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup">cleaning up in React’s <code data-astro-raw="">useEffect</code> hook</a>.</p><aside class="content tip astro-V5AEQFEI" aria-labelledby="1la65lh8cr6g">
+  <p id="1la65lh8cr6g" class="title astro-V5AEQFEI">
+    <span aria-hidden="true" class="icon astro-V5AEQFEI"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11A6.1 6.1 0 0 1 2 5c0-2.2 2.02-4 4.5-4a4.8 4.8 0 0 1 3.22 1.19A3.76 3.76 0 0 1 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5a2.56 2.56 0 0 1-5 0z"></path></svg></span>
+    tip
+  </p>
+  <section class="astro-V5AEQFEI"><p>The <code data-astro-raw="">useEffectListener</code> hook is the most low-level way to subscribe to effects
+and execute code when they fire. Make sure you also read about
+<a href="#useeffectstate">the <code data-astro-raw="">useEffectState</code> hook</a>, which can be simpler to use and
+is often sufficient.</p></section>
+</aside>
+
+<h4 id="special-events">Special Events</h4><p>You can listen for <em>all</em> effects using the special <code data-astro-raw="">'*'</code> wildcard. In this case,
+your callback receives both the effect name and payload:</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token function">useEffectListener</span><span class="token punctuation">(</span><span class="token string">'*'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">effectName<span class="token punctuation">,</span> effectPayload<span class="token punctuation">,</span> boardProps</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><p>Two other special events will also always be fired:</p><ul>
+<li>
+<p><code data-astro-raw="">'effects:start'</code> will fire before any other effects.</p>
+</li>
+<li>
+<p><code data-astro-raw="">'effects:end'</code> will fire after all the effects in the queue have completed.</p>
+</li>
+</ul><h4 id="example">Example</h4><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> useEffectListener <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'bgio-effects/react'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">DiceComponent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>animate<span class="token punctuation">,</span> setAnimate<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Subscribe to the “rollDie” effect type:</span>
+  <span class="token function">useEffectListener</span><span class="token punctuation">(</span>
+    <span class="token comment">// Name of the effect to listen for.</span>
+    <span class="token string">'rollDie'</span><span class="token punctuation">,</span>
+    <span class="token comment">// Function to call when the effect fires.</span>
+    <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token function">setAnimate</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> timeout <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">setAnimate</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">// Return a clean-up function to cancel the timeout.</span>
+      <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> window<span class="token punctuation">.</span><span class="token function">clearTimeout</span><span class="token punctuation">(</span>timeout<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment">// Dependency array of variables the callback uses.</span>
+    <span class="token punctuation">[</span>setAnimate<span class="token punctuation">]</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token punctuation">{</span>animate <span class="token operator">?</span> <span class="token string">'animated'</span> <span class="token operator">:</span> <span class="token string">'static'</span><span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre><h3 id="useeffectstate"><code data-astro-raw="">useEffectState</code></h3><p>The <code data-astro-raw="">useEffectState</code> hook provides an abstraction around <code data-astro-raw="">useEffectListener</code>
+for cases where you don’t need to call other imperative code
+when an effect fires.</p><h4 id="parameters-1">Parameters</h4><ol>
+<li>
+<p>Effect Type (<code data-astro-raw="">string</code>) — the effect you want to observe state for.</p>
+</li>
+<li>
+<p><em>(optional)</em> Initial State (<code data-astro-raw="">any</code>) — a value to use for <code data-astro-raw="">state</code> before
+an effect is received.</p>
+</li>
+</ol><h4 id="returns">Returns</h4><p>A <code data-astro-raw="">[state, isActive]</code> tuple.</p><ul>
+<li><code data-astro-raw="">state</code>: The latest value for this effect type.
+This will be <code data-astro-raw="">undefined</code> until the effect fires.</li>
+<li><code data-astro-raw="">isActive</code>: A boolean indicating whether the effect is currently active.</li>
+</ul><h4 id="usage-1">Usage</h4><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> useEffectState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'bgio-effects/react'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>roll<span class="token punctuation">,</span> isRolling<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useEffectState</span><span class="token punctuation">(</span><span class="token string">'rollDie'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> className <span class="token operator">=</span> isRolling <span class="token operator">?</span> <span class="token string">'animated'</span> <span class="token operator">:</span> <span class="token string">'static'</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token punctuation">{</span>className<span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token punctuation">{</span>roll<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre><h3 id="uselatestpropsoneffect"><code data-astro-raw="">useLatestPropsOnEffect</code></h3><p>When using the <code data-astro-raw="">updateStateAfterEffects</code> option, you may run into situations
+where you have components that need the latest boardgame.io props <em>before</em> the
+global props get updated. This hook allows you to get the latest props early
+when the specified effects fire.</p><h4 id="parameters-2">Parameters</h4><p>One or more effect types that should cause the props to update.</p><h4 id="returns-1">Returns</h4><p>The <a href="https://boardgame.io/documentation/#/api/Client?id=board-props">boardgame.io board props</a>.</p><h4 id="usage-2">Usage</h4><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> useLatestPropsOnEffect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'bgio-effects/react'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> <span class="token constant">G</span><span class="token punctuation">,</span> ctx <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useLatestPropsOnEffect</span><span class="token punctuation">(</span><span class="token string">'rollDie'</span><span class="token punctuation">,</span> <span class="token string">'endTurn'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span><span class="token punctuation">{</span><span class="token constant">G</span><span class="token punctuation">.</span>roll<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre><p>This also works with <a href="#special-events">the special events</a>. For example,
+in a component that needs the latest props as soon as they are available:</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> <span class="token constant">G</span><span class="token punctuation">,</span> ctx <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useLatestPropsOnEffect</span><span class="token punctuation">(</span><span class="token string">'effects:start'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><aside class="content tip astro-V5AEQFEI" aria-labelledby="15ljkt7iv6g0">
+  <p id="15ljkt7iv6g0" class="title astro-V5AEQFEI">
+    <span aria-hidden="true" class="icon astro-V5AEQFEI"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11A6.1 6.1 0 0 1 2 5c0-2.2 2.02-4 4.5-4a4.8 4.8 0 0 1 3.22 1.19A3.76 3.76 0 0 1 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5a2.56 2.56 0 0 1-5 0z"></path></svg></span>
+    tip
+  </p>
+  <section class="astro-V5AEQFEI"><p>If you want to make sure your component updates even if none of the specified
+effects fire, include <code data-astro-raw="">'effects:end'</code> in the list of effects. That way your
+component will update once all effects have fired at the latest.</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> <span class="token constant">G</span><span class="token punctuation">,</span> ctx <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useLatestPropsOnEffect</span><span class="token punctuation">(</span><span class="token string">'rollDie'</span><span class="token punctuation">,</span> <span class="token string">'effects:end'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></section>
+</aside>
+
+<h3 id="useeffectqueue"><code data-astro-raw="">useEffectQueue</code></h3><h4 id="usage-3">Usage</h4><p>The <code data-astro-raw="">useEffectQueue</code> hook lets child components control the effect queue if necessary:</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> useEffectQueue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'bgio-effects/react'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> clear<span class="token punctuation">,</span> flush<span class="token punctuation">,</span> size <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useEffectQueue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>p<span class="token operator">&gt;</span>Queue Size<span class="token operator">:</span> <span class="token punctuation">{</span>size<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span>clear<span class="token punctuation">}</span><span class="token operator">&gt;</span>Clear<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span>flush<span class="token punctuation">}</span><span class="token operator">&gt;</span>Flush<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre><h4 id="returns-2">Returns</h4><p><code data-astro-raw="">useEffectQueue</code> returns the following methods and properties:</p><ul>
+<li><code data-astro-raw="">clear()</code>: Cancel any currently queued effects from being fired.</li>
+<li><code data-astro-raw="">flush()</code>: Immediately trigger any currently queued effects.</li>
+<li><code data-astro-raw="">size</code>: The number of effects currently queued.</li>
+</ul>
+	</section>
+	<nav class="block sm:hidden astro-O4NKPHGZ">
+		
+<h2 class="heading astro-XJO2LFCZ">More</h2>
+<ul class="astro-XJO2LFCZ">
+	<li class="header-link depth-2 astro-XJO2LFCZ">
+			<a class="edit-on-github astro-XJO2LFCZ" href="https://github.com/delucis/bgio-effects/blob/latest/docs/src/pages/client/react.md" target="_blank" rel="noopener">
+				<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen" class="svg-inline--fa fa-pen fa-w-16 astro-XJO2LFCZ" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="1em" width="1em">
+					<path fill="currentColor" d="M290.74 93.24l128.02 128.02-277.99 277.99-114.14 12.6C11.35 513.54-1.56 500.62.14 485.34l12.7-114.22 277.9-277.88zm207.2-19.06l-60.11-60.11c-18.75-18.75-49.16-18.75-67.91 0l-56.55 56.55 128.02 128.02 56.55-56.55c18.75-18.76 18.75-49.16 0-67.91z" class="astro-XJO2LFCZ"></path>
+				</svg>
+				<span class="astro-XJO2LFCZ">Edit this page</span>
+			</a>
+		</li>
+</ul>
+<div style="margin: 4rem 0; text-align: center;" class="astro-XJO2LFCZ">
+	<astro-root uid="Z17pie"><div class="theme-toggle"><label class=""><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillrule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" cliprule="evenodd"></path></svg><input type="radio" name="theme-toggle" value="light" title="Use light theme" aria-label="Use light theme"></label><label class=""><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg><input type="radio" name="theme-toggle" value="dark" title="Use dark theme" aria-label="Use dark theme"></label></div></astro-root>
+</div>
+
+
+
+	</nav>
+</article>
+
+
+
+			</div>
+			<aside id="grid-right" class="grid-sidebar astro-LQWZJZ7L" title="Table of Contents">
+				
+<nav class="sidebar-nav astro-YMMYGH66" aria-labelledby="grid-right">
+	<div class="sidebar-nav-inner astro-YMMYGH66">
+		<astro-root uid="Z29yOSI"><h2 class="heading">On this page</h2><ul><li class="header-link depth-2"><a href="#overview">Overview</a></li><li class="header-link depth-2"><a href="#higher-order-components">Higher-order components</a></li><li class="header-link depth-3"><a href="#effectsboardwrapper">EffectsBoardWrapper</a></li><li class="header-link depth-2"><a href="#hooks">Hooks</a></li><li class="header-link depth-3"><a href="#useeffectlistener">useEffectListener</a></li><li class="header-link depth-3"><a href="#useeffectstate">useEffectState</a></li><li class="header-link depth-3"><a href="#uselatestpropsoneffect">useLatestPropsOnEffect</a></li><li class="header-link depth-3"><a href="#useeffectqueue">useEffectQueue</a></li></ul></astro-root>
+		
+<h2 class="heading astro-XJO2LFCZ">More</h2>
+<ul class="astro-XJO2LFCZ">
+	<li class="header-link depth-2 astro-XJO2LFCZ">
+			<a class="edit-on-github astro-XJO2LFCZ" href="https://github.com/delucis/bgio-effects/blob/latest/docs/src/pages/client/react.md" target="_blank" rel="noopener">
+				<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen" class="svg-inline--fa fa-pen fa-w-16 astro-XJO2LFCZ" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="1em" width="1em">
+					<path fill="currentColor" d="M290.74 93.24l128.02 128.02-277.99 277.99-114.14 12.6C11.35 513.54-1.56 500.62.14 485.34l12.7-114.22 277.9-277.88zm207.2-19.06l-60.11-60.11c-18.75-18.75-49.16-18.75-67.91 0l-56.55 56.55 128.02 128.02 56.55-56.55c18.75-18.76 18.75-49.16 0-67.91z" class="astro-XJO2LFCZ"></path>
+				</svg>
+				<span class="astro-XJO2LFCZ">Edit this page</span>
+			</a>
+		</li>
+</ul>
+<div style="margin: 4rem 0; text-align: center;" class="astro-XJO2LFCZ">
+	<astro-root uid="Z17pie"><div class="theme-toggle"><label class=""><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillrule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" cliprule="evenodd"></path></svg><input type="radio" name="theme-toggle" value="light" title="Use light theme" aria-label="Use light theme"></label><label class=""><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg><input type="radio" name="theme-toggle" value="dark" title="Use dark theme" aria-label="Use dark theme"></label></div></astro-root>
+</div>
+
+
+
+	</div>
+</nav>
+
+
+
+			</aside>
+		</main>
+	
+<footer class="astro-BGTRAZIO">
+	<ul class="astro-BGTRAZIO">
+		<li class="astro-BGTRAZIO">
+			<a href="https://github.com/delucis/bgio-effects" class="icon-link astro-BGTRAZIO">
+				<span class="sr-only astro-BGTRAZIO">GitHub</span>
+				<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 496 512" class="astro-BGTRAZIO"><path fill="currentcolor" d="M166 397c0 2-2 4-5 4-4 0-6-1-6-4 0-2 2-3 5-3 3-1 6 1 6 3zm-31-4c-1 2 1 4 4 5s6 0 6-2-1-5-4-5c-3-1-5 0-6 2zm44-2c-3 1-5 3-5 5 1 2 3 3 6 3 3-1 5-3 5-5s-3-3-6-3zM245 8A240 240 0 0 0 0 252c0 111 70 206 170 239 12 2 17-5 17-12v-61s-70 15-85-30c0 0-12-29-28-37 0 0-23-15 2-15 0 0 24 2 38 26 22 38 59 27 73 21 2-16 9-28 16-34-56-6-112-14-112-111 0-27 7-41 23-59-2-6-11-33 3-67 21-7 69 27 69 27a237 237 0 0 1 126 0s48-34 69-27c13 34 5 61 2 67 16 18 26 32 26 59 0 97-59 105-115 111 9 8 17 23 17 46v84c0 6 5 14 17 12a248 248 0 0 0 168-239C496 113 384 8 245 8zM97 353c-1 1-1 3 1 5 1 2 4 2 5 1s1-3-1-5c-1-2-4-2-5-1zm-11-8 3 4c1 1 3 0 4-1s0-3-2-4-4 0-5 1zm33 35c-2 2-1 5 1 7s5 2 7 1c1-2 0-5-2-7s-5-2-6-1zm-12-14v6c2 2 5 3 6 2 2-1 2-4 0-6-1-3-4-4-6-2z" class="astro-BGTRAZIO"></path></svg>
+			</a>
+		</li>
+		<li class="astro-BGTRAZIO">
+			<a href="https://www.npmjs.com/package/bgio-effects" class="icon-link astro-BGTRAZIO">
+				<span class="sr-only astro-BGTRAZIO">npm</span>
+			  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 576 512" class="astro-BGTRAZIO"><path fill="currentcolor" d="M288 288h-32v-64h32v64zm288-128v192H288v32H160v-32H0V160h576zm-416 32H32v128h64v-96h32v96h32V192zm160 0H192v160h64v-32h64V192zm224 0H352v128h64v-96h32v96h32v-96h32v96h32V192z" class="astro-BGTRAZIO"></path></svg>
+			</a>
+		</li>
+	</ul>
+</footer>
+
+
+
+</body></html>
