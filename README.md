@@ -615,7 +615,6 @@ The code in this repository is provided under the terms of
 
 
 [bgio]: https://boardgame.io/
-[mitt]: https://github.com/developit/mitt
 [useCallback]: https://reactjs.org/docs/hooks-reference.html#usecallback
 [cleanup]: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
 [bgio-props]: https://boardgame.io/documentation/#/api/Client?id=board-props

@@ -1,0 +1,20 @@
+{
+  "name": "bgio-effects/docs",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "npx serve dist"
+  },
+  "dependencies": {
+    "bgio-effects": "file:../bgio-effects.tgz",
+    "boardgame.io": "^0.49.10"
+  },
+  "devDependencies": {
+    "@astrojs/renderer-preact": "^0.4.0",
+    "astro": "^0.22.13",
+    "autoprefixer": "^10.4.2"
+  }
+}

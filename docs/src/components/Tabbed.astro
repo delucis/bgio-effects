@@ -1,0 +1,101 @@
+---
+export interface Props {}
+const id = (Math.random() * 10e16).toString(32);
+---
+
+<div class="tabbed">
+  <ul>
+    <li><a href={`#section-1-${id}`}>Plain JS</a></li>
+    <li><a href={`#section-2-${id}`}>React</a></li>
+  </ul>
+  <div class="content">
+    <section id={`section-1-${id}`}>
+      <slot name="plain-js" />
+    </section>
+    <section id={`section-2-${id}`}>
+      <slot name="react" />
+    </section>
+  </div>
+</div>
+
+<script src={Astro.resolve('./tabify.ts')} hoist async></script>
+
+<style>
+.tabbed {
+  --border-width: 4px;
+  --border-color: var(--theme-divider);
+}
+
+.tabbed:focus-within {
+  --focused-border: var(--theme-bg-offset);
+}
+
+[id^="section"] {
+  margin-top: 2em;
+}
+
+[role="tablist"] {
+  padding: 0;
+}
+
+[role="tablist"] li, [role="tablist"] a {
+  display: inline-block;
+}
+
+[role="tablist"] li {
+  margin-right: var(--border-width);
+}
+
+[role="tablist"] li:last-child {
+  margin-right: 0;
+}
+
+[role="tablist"] a {
+  color: var(--theme-text-light);
+  text-decoration: none;
+  margin-bottom: calc(-1 * var(--border-width));
+  border: var(--border-width) solid transparent;
+  border-bottom: 0;
+  border-radius: .5em .5em 0 0;
+  padding: .5em 1em;
+  background-color: var(--border-color);
+}
+
+[role="tablist"] a[aria-selected] {
+  color: var(--theme-text);
+  border-color: var(--focused-border, var(--border-color));
+  padding-bottom:  calc(.5em + var(--border-width));
+  background-color: var(--theme-bg);
+}
+
+[role="tabpanel"] {
+  --padding-x: 1rem;
+  margin: 0;
+  border: var(--border-width) solid var(--focused-border, var(--border-color));
+  border-radius: 0 .5em .5em .5em;
+  padding: 1.5rem var(--padding-x);
+}
+
+@media (max-width: 37.74em) {
+  [role="tabpanel"] {
+    margin: 0 calc(var(--padding-x) * -1);
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+  
+  [role="tabpanel"] :global(pre) {
+    margin-left: calc(var(--padding-x) * -1);
+    margin-right: calc(var(--padding-x) * -1);
+  }
+}
+
+*:focus {
+  outline: 4px solid var(--theme-accent);
+  outline-offset: -4px;
+}
+*:focus:not(:focus-visible) {
+	outline: none;
+}
+
+</style>

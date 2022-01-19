@@ -1,0 +1,104 @@
+---
+export interface Props {
+  type?: 'note' | 'tip' | 'info' | 'caution' | 'danger';
+  title?: string;
+}
+const { type = 'note', title = type } = Astro.props;
+const id = (Math.random() * 10e16).toString(32);
+const icon: Record<Props['type'], string> = {
+  note: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.7A1 1 0 0 1 6 5c0-.3.1-.5.3-.7.2-.2.4-.3.7-.3.3 0 .5.1.7.3.2.2.3.4.3.7 0 .3-.1.5-.3.7A1 1 0 0 1 7 6a1 1 0 0 1-.7-.3zM8 8a1 1 0 0 0-.3-.7A1 1 0 0 0 7 7H6a1 1 0 0 0-.7.3A1 1 0 0 0 5 8h1v3c0 .3.1.5.3.7.2.2.4.3.7.3h1c.3 0 .5-.1.7-.3.2-.2.3-.4.3-.7H8V8zM7 2.3a5.7 5.7 0 1 0 0 11.4A5.7 5.7 0 0 0 7 2.3zM7 1a7 7 0 1 1 0 14A7 7 0 0 1 7 1z"/></svg>',
+  tip: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11A6.1 6.1 0 0 1 2 5c0-2.2 2.02-4 4.5-4a4.8 4.8 0 0 1 3.22 1.19A3.76 3.76 0 0 1 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5a2.56 2.56 0 0 1-5 0z"/></svg>',
+  info: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3a5.7 5.7 0 0 1 0 11.4A5.7 5.7 0 0 1 1.3 8c0-3.1 2.6-5.7 5.7-5.7zM7 1a7 7 0 1 0 0 14A7 7 0 0 0 7 1zm1 3H6v5h2V4zm0 6H6v2h2v-2z"/></svg>',
+  caution: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.9 1.5C8.7 1.2 8.4 1 8 1s-.7.2-.9.5l-7 12a1 1 0 0 0 0 1c.2.3.6.5 1 .5H15c.4 0 .7-.2.9-.5a1 1 0 0 0 0-1l-7-12zM9 13H7v-2h2v2zm0-3H7V6h2v4z"/></svg>',
+  danger: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M5 .3c.9 2.2.5 3.4-.5 4.3C3.5 5.6 2 6.5 1 8c-1.5 2-1.7 6.5 3.5 7.7-2.2-1.2-2.6-4.5-.3-6.6-.6 2 .6 3.3 2 2.8 1.4-.4 2.3.6 2.2 1.7 0 .8-.3 1.4-1 1.8A5.6 5.6 0 0 0 12 10c0-2.9-2.5-3.3-1.3-5.7-1.5.2-2 1.2-1.8 2.8 0 1-1 1.8-2 1.3-.6-.4-.6-1.2 0-1.8C8.2 5.3 8.7 2.5 5 .3z"/></svg>',
+}[type];
+---
+<aside class={`content ${type}`} aria-labelledby={id}>
+  <p {id} class="title">
+    <span aria-hidden="true" class="icon">{icon}</span>
+    {title}
+  </p>
+  <section><slot/></section>
+</aside>
+
+<style>
+aside {
+  --aside-padding-x: 1rem;
+  --aside-color-base: var(--color-base-gray);
+  --aside-color-lightness: 80%;
+  --aside-accent-color: hsl(var(--aside-color-base), var(--aside-color-lightness));
+  --aside-text-lightness: 20%;
+  --aside-text-accent-color: hsl(var(--aside-color-base), var(--aside-text-lightness));
+
+  border-left: 4px solid var(--aside-accent-color);
+  border-radius: 0 .5rem .5rem 0;
+  background-color: hsla(var(--aside-color-base), var(--aside-color-lightness), var(--theme-accent-opacity));
+  padding: 1rem var(--aside-padding-x);
+}
+
+:global(.theme-dark) aside {
+  --aside-text-lightness: 80%;
+}
+
+.title {
+  line-height: 1;
+  margin-bottom: .5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--aside-text-accent-color);
+}
+
+.icon :global(svg) {
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  fill: currentcolor;
+  transform: translateY(-0.0625em);
+}
+
+aside :global(a),
+aside :global(a > code:not([class*='language'])) {
+  color: var(--aside-text-accent-color);
+}
+
+:global(.theme-dark) .note {
+  --aside-color-lightness: 70%;
+}
+
+.tip {
+  --aside-color-lightness: 42%;
+  --aside-color-base: var(--color-base-green);
+}
+
+.info {
+  --aside-color-lightness: 61%;
+  --aside-color-base: var(--color-base-blue);
+}
+
+.caution {
+  --aside-color-lightness: 59%;
+  --aside-color-base: var(--color-base-yellow);
+}
+
+.danger {
+  --aside-color-lightness: 54%;
+  --aside-color-base: var(--color-base-red);
+}
+
+@media (max-width: 37.74em) {
+  aside {
+    margin-left: calc(var(--aside-padding-x) * -1);
+    margin-right: calc(var(--aside-padding-x) * -1);
+    border-radius: 0;
+    border-left: 0;
+    border-top: 4px solid hsl(var(--aside-color-base), var(--aside-color-lightness));
+  }
+  
+  aside :global(pre) {
+    margin-left: calc(var(--aside-padding-x) * -1);
+    margin-right: calc(var(--aside-padding-x) * -1);
+  }
+}
+</style>

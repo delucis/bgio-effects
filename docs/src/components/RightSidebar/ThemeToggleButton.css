@@ -1,0 +1,39 @@
+.theme-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: 0;
+	padding: 0;
+	border-radius: 99em;
+	background-color: var(--theme-divider);
+}
+
+.theme-toggle > label:focus-within {
+	outline: 2px solid var(--theme-accent);
+	background-color: var(--theme-bg-accent);
+}
+
+.theme-toggle > label {
+	color: var(--theme-text-light);
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0.5;
+	border-radius: 99em;
+	padding: .75em;
+}
+
+.theme-toggle .checked {
+	color: var(--theme-accent);
+	opacity: 1;
+}
+
+input[name='theme-toggle'] {
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: -1;
+}

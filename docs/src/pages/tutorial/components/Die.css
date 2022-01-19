@@ -1,0 +1,120 @@
+.jk-die {
+  --jk-die-color: hsl(var(--color-red));
+  position: relative;
+}
+
+.jk-die-body {
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease-out;
+  width: var(--jk-die-size);
+  height: var(--jk-die-size);
+}
+
+.jk-die--animated .jk-die-body {
+  animation: 0.9s linear 1 jk-rolling;
+}
+
+.jk-shadow {
+  --color: rgba(0, 0, 0, 0.1);
+
+  position: absolute;
+  top: 0;
+  left: calc(var(--jk-die-size) * -0.1);
+  transform: translateZ(calc(var(--jk-die-size) * -1)) rotateZ(45deg);
+  transition: transform 0.4s ease-out;
+  border-radius: calc(var(--jk-die-size) * 0.3);
+  box-shadow: 0 0 0 0.1em var(--color);
+  background: var(--color);
+  width: calc(var(--jk-die-size) * 1.2);
+  height: calc(var(--jk-die-size) * 1.2);
+}
+
+.jk-die--animated .jk-shadow {
+  animation: 0.9s linear 1 jk-shadow-spin;
+}
+
+@keyframes jk-rolling {
+  0% {
+    transform: rotateX(90deg) rotateY(90deg) rotateZ(-90deg) translateX(0);
+  }
+
+  3% {
+    transform: rotateX(-90deg) rotateY(-90deg) rotateZ(90deg) translateX(0);
+  }
+
+  6% {
+    transform: rotateX(90deg) rotateY(180deg) rotateZ(-90deg) translateX(0);
+  }
+
+  12% {
+    transform: rotateX(-180deg) rotateY(90deg) rotateZ(360deg) translateX(0);
+  }
+
+  24% {
+    transform: rotateX(90deg) rotateY(-180deg) rotateZ(-90deg) translateX(0);
+  }
+
+  40% {
+    transform: rotateX(-90deg) rotateY(-90deg) rotateZ(90deg) translateX(0);
+  }
+}
+
+@keyframes jk-shadow-spin {
+  0% {
+    transform: translateY(0) rotateZ(-90deg) scale(1);
+    opacity: 0.5;
+    filter: blur(5px);
+  }
+
+  3% {
+    transform: translateY(0.2em) rotateZ(90deg) scale(0.85);
+  }
+
+  6% {
+    transform: translateY(0.4em) rotateZ(-90deg) scale(0.7);
+  }
+
+  12% {
+    transform: translateY(0.8em) rotateZ(360deg) scale(0.6);
+  }
+
+  24% {
+    transform: translateY(0.9em) rotateZ(-90deg) scale(0.5);
+  }
+
+  40% {
+    transform: translateY(0.9em) rotateZ(90deg) scale(0.5);
+    opacity: 0.5;
+    filter: blur(3px);
+  }
+}
+
+.jk-face,
+.jk-inner-face,
+.jk-internal {
+  position: absolute;
+  border-radius: calc(var(--jk-die-size) * 0.3);
+  background-color: var(--jk-die-color);
+  overflow: hidden;
+}
+
+.jk-face,
+.jk-inner-face {
+  width: var(--jk-die-size);
+  height: var(--jk-die-size);
+}
+
+.jk-internal {
+  width: calc(var(--jk-die-size) * 0.98);
+  height: calc(var(--jk-die-size) * 0.98);
+}
+
+.jk-pip-face {
+  background: radial-gradient(
+      closest-side,
+      rgba(0, 0, 0, 0.2),
+      var(--jk-die-color)
+    ),
+    var(--jk-die-color);
+  fill: white;
+}

@@ -1,0 +1,55 @@
+.board {
+  position: relative;
+  margin: 2rem auto;
+  max-width: 24rem;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  place-items: center;
+  background: var(--theme-bg-offset);
+  border-radius: 0.5rem;
+  accent-color: var(--theme-accent);
+}
+
+.board .left-panel {
+  display: grid;
+  gap: 1rem;
+  text-align: center;
+}
+
+.board .left-panel-top {
+  grid-area: 1 / 1 / 2 / 2;
+  padding: 1rem;
+  display: grid;
+  place-content: center;
+}
+
+.board .left-panel-bottom {
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.board .gameover-splash {
+  z-index: 1;
+  grid-area: 1 / 1 / 3 / 2; /* Cover entire left-panel grid area. */
+  margin: -1rem;
+  display: grid;
+  place-content: center;
+  background: radial-gradient(circle, var(--theme-bg-offset), transparent)
+    center / 500%;
+}
+
+.board button {
+  display: block;
+  border: 3px outset var(--theme-accent);
+  border-radius: 1em;
+  margin: 0.5em 0;
+  background: var(--theme-bg);
+  padding: 0.5em 0.75em;
+  font-size: 1em;
+}
+
+.board button:active {
+  background: var(--theme-divider);
+  border-style: inset;
+}

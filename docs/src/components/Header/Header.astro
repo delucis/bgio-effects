@@ -1,0 +1,76 @@
+---
+import { SITE } from '../../config.ts';
+import SkipToContent from './SkipToContent.astro';
+import SidebarToggle from './SidebarToggle.tsx';
+---
+
+<header>
+	<SkipToContent />
+	<nav class="nav-wrapper" title="Top Navigation">
+		<div class="menu-toggle">
+			<SidebarToggle client:media="(max-width: 50em)" />
+		</div>
+		<div>
+			<a class="site-title" href={Astro.site.pathname}>
+				<h1>{SITE.title}</h1>
+			</a>
+		</div>
+		<div style="flex-grow: 1;"></div>
+	</nav>
+</header>
+
+<style>
+	header {
+		z-index: 11;
+		height: var(--theme-navbar-height);
+		width: 100%;
+		background-color: var(--theme-bg);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		position: sticky;
+		top: 0;
+	}
+
+	.site-title {
+		font-size: 2rem;
+		padding: 0.5em 0.25em;
+		margin: -0.5em -0.25em;
+		text-decoration: none;
+		font-weight: bold;
+		transition: color 100ms ease-out;
+		color: var(--theme-text);
+	}
+
+	.site-title:hover,
+	.site-title:focus {
+		color: var(--theme-text-accent);
+	}
+
+	.site-title h1 {
+		font: inherit;
+		color: inherit;
+		margin: 0;
+	}
+
+	.nav-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 1em;
+		width: 100%;
+		max-width: 82em;
+		padding: 0 1rem;
+	}
+
+	@media (min-width: 50em) {
+		header {
+			position: static;
+			padding: 2rem 0rem;
+		}
+		.menu-toggle {
+			display: none;
+		}
+	}
+</style>
