@@ -21,7 +21,7 @@
     "pretest": "npm run lint",
     "test": "jest --coverage --collectCoverageFrom=src/**/*",
     "prepare": "husky install",
-    "predocs:build": "rm -f bgio-effects.tgz && npm pack && mv bgio-effects-*.tgz bgio-effects.tgz",
+    "predocs:build": "rm -f bgio-effects.tgz && npm run build && npm pack && mv bgio-effects-*.tgz bgio-effects.tgz",
     "docs:build": "cd docs && npm i && npm run build"
   },
   "eslintConfig": {
