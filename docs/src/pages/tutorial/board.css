@@ -42,6 +42,7 @@
 .board button {
   display: block;
   border: 3px outset var(--theme-accent);
+  color: var(--theme-text);
   border-radius: 1em;
   margin: 0.5em 0;
   background: var(--theme-bg);
