@@ -329,8 +329,8 @@ clients.
 
 [bgio]: https://boardgame.io/
 [bgio-tut]: https://boardgame.io/documentation/#/tutorial
-[config-docs]: ./plugin/config
-[plainjs-docs]: ./client/plain-js
-[initial-render]: ./client/notes#initial-render
-[react-docs]: ./client/react
-[sequencing]: ./plugin/sequencing
+[config-docs]: ../plugin/config
+[plainjs-docs]: ../client/plain-js
+[initial-render]: ../client/notes#initial-render
+[react-docs]: ../client/react
+[sequencing]: ../plugin/sequencing
