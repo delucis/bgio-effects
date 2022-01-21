@@ -130,7 +130,7 @@ import { EffectsPlugin } from 'bgio-effects/plugin';
 
 We now need to configure the plugin so it knows about the kinds of effects that
 exist in our game. Let’s configure a single `roll` effect that will take the
-new value of the rolled die. (See [the configuration docs](/en/plugin/config)
+new value of the rolled die. (See [the configuration docs][config-docs]
 for more details.)
 
 ```js
@@ -202,7 +202,7 @@ some advantages.
 
 </Aside>
 
-See [the plain JS client docs](/en/client/plain-js) for more details about
+See [the plain JS client docs][plainjs-docs] for more details about
 `EffectsEmitter`.
 
 </Fragment>
@@ -242,7 +242,7 @@ we roll the same value twice in a row.
 
 You may notice that this fixed another subtle bug. The last implementation
 played the die animation when the component first mounted. Because
-[`bgio-effects` doesn’t emit effects on initial render](client/notes#initial-render),
+[`bgio-effects` doesn’t emit effects on initial render][initial-render],
 that problem has also been fixed.
 
 </Aside>
@@ -323,10 +323,14 @@ compare state updates on the client. Adding an effect duration and turning on
 effect had completed.
 
 Next, you may want to read about how to
-[sequence multiple effects](plugin/sequencing) or look at the in-depth client
-documentation for [plain JS](client/plain-js) and [React](client/react)
+[sequence multiple effects][sequencing] or look at the in-depth client
+documentation for [plain JS][plainjs-docs] and [React][react-docs]
 clients.
 
 [bgio]: https://boardgame.io/
 [bgio-tut]: https://boardgame.io/documentation/#/tutorial
-[react-docs]: /en/client/react
+[config-docs]: ./plugin/config
+[plainjs-docs]: ./client/plain-js
+[initial-render]: ./client/notes#initial-render
+[react-docs]: ./client/react
+[sequencing]: ./plugin/sequencing
