@@ -6,11 +6,11 @@ const effectsConfig = {
   effects: {
     A: {
       create: (arg: string) => arg,
-      duration: 0.1,
+      duration: 0.25,
     },
     B: {
       create: (arg: string) => arg,
-      duration: 0.1,
+      duration: 0.25,
     },
   },
 } as const;
@@ -25,15 +25,15 @@ const game: Game<
   moves: {
     One: (_, ctx) => {
       ctx.effects.A('one');
-      ctx.effects.A('two', '>+0.4');
-      ctx.effects.B('hello', '>+0.4');
-      ctx.effects.A('three', '>+0.15');
-      ctx.effects.B('world', '>+0.4');
+      ctx.effects.A('two', '<+0.5');
+      ctx.effects.B('hello', '<+0.5');
+      ctx.effects.A('three', '<+0.25');
+      ctx.effects.B('world', '<+0.5');
     },
     Two: (_, ctx) => {
       ctx.effects.A('synch-');
       ctx.effects.B('ronise', '<');
-      ctx.effects.A('effects', '>+0.4');
+      ctx.effects.A('effects', '<+0.5');
       ctx.effects.B('FX!', '<');
     },
   },

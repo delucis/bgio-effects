@@ -10,7 +10,7 @@ import './style.css';
 import { SrcLink } from '../../components/SrcLink';
 
 function Flash({ type }: { type: 'A' | 'B' }) {
-  const [state, flash] = useEffectState(type, '—');
+  const [state, flash] = useEffectState(type, '');
 
   const flashClassList = ['flash'];
   if (flash) flashClassList.push('flash--active');
@@ -20,7 +20,7 @@ function Flash({ type }: { type: 'A' | 'B' }) {
     <div className={flashClasses}>
       <div>{type}</div>
       <p>payload</p>
-      <code>{state}</code>
+      <code>{flash && state}</code>
     </div>
   );
 }
