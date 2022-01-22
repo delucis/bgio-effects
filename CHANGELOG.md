@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/delucis/bgio-effects/compare/v0.6.1...v0.7.0) (2022-01-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **emitter:** This may be a breaking change if you were relying on the previous queue being
+discarded. Given that would be highly timing dependent between when moves where executed, that seems
+unlikely to be the case, but flagging this as potentially breaking nonetheless.
+
+### Features
+
+* **emitter:** flush remaining effects queue on state update ([f4076aa](https://github.com/delucis/bgio-effects/commit/f4076aa0db33472522c9ec54c60812c779a89724)), closes [#57](https://github.com/delucis/bgio-effects/issues/57)
+
 ### [0.6.1](https://github.com/delucis/bgio-effects/compare/v0.6.0...v0.6.1) (2022-01-22)
 
 
