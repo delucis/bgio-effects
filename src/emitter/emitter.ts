@@ -150,6 +150,7 @@ class EffectsEmitterImpl<S extends ClientState> implements EffectsEmitter<S> {
    * Update the queue state when a new state update is received from boardgame.io.
    */
   public onUpdate(state: null | S): void {
+    this.flush();
     const prevState = this.latestState;
     this.latestState = state;
     if (
