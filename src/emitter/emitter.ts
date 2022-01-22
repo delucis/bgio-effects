@@ -139,7 +139,9 @@ class EffectsEmitterImpl<S extends ClientState> implements EffectsEmitter<S> {
    * When flushing, onEnd callbacks are run immediately.
    */
   public flush(): void {
-    this.emitAllEffects(this.emitter, this.queue.get());
+    const queue = this.queue.get();
+    this.emitAllEffects(this.emitter, queue);
+    this.activeQueue = [...this.activeQueue, ...queue];
     this.clear();
   }
 

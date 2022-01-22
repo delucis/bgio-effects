@@ -164,14 +164,16 @@ describe('EffectsEmitter', () => {
 
   describe('#flush()', () => {
     test('it emits all effects and empties the queue', () => {
-      const listener = jest.fn();
-      emitter.on('effects:start', listener);
-      emitter.on('longEffect', listener);
-      emitter.on('shortEffect', listener);
-      emitter.on('effects:end', listener);
+      const onStart = jest.fn();
+      const onEnd = jest.fn();
+      emitter.on('effects:start', onStart, onEnd);
+      emitter.on('longEffect', onStart, onEnd);
+      emitter.on('shortEffect', onStart, onEnd);
+      emitter.on('effects:end', onStart, onEnd);
       client.moves.wEffects();
       emitter.flush();
-      expect(listener).toHaveBeenCalledTimes(4);
+      expect(onStart).toHaveBeenCalledTimes(4);
+      expect(onEnd).toHaveBeenCalledTimes(4);
     });
   });
 
