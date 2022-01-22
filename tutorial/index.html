@@ -61,7 +61,7 @@
 
 
 
-<script type="module" src="../assets/tutorial.28be8728.js"></script>
+<script type="module" src="../assets/tutorial.6d9dbf00.js"></script>
 
 
 
@@ -173,15 +173,12 @@
 	<section class="main-section astro-O4NKPHGZ">
 		<h1 class="content-title astro-O4NKPHGZ" id="overview">Tutorial</h1>
 		<nav class="block sm:hidden astro-O4NKPHGZ" aria-label="Table of Contents">
-			<astro-root uid="ZDB7c1"><h2 class="heading">On this page</h2><ul><li class="header-link depth-2"><a href="#overview">Overview</a></li><li class="header-link depth-2"><a href="#installation">Installation</a></li><li class="header-link depth-2"><a href="#our-starting-point">Our starting point</a></li><li class="header-link depth-2"><a href="#spot-the-difference">Spot the difference</a></li><li class="header-link depth-2"><a href="#adding-effects-to-the-game">Adding effects to the game</a></li><li class="header-link depth-2"><a href="#listening-for-effects">Listening for effects</a></li><li class="header-link depth-2"><a href="#wait-a-second">Wait a second…</a></li><li class="header-link depth-2"><a href="#wrapping-up">Wrapping up</a></li></ul></astro-root>
+			<astro-root uid="1g0FQq"><h2 class="heading">On this page</h2><ul><li class="header-link depth-2"><a href="#overview">Overview</a></li><li class="header-link depth-2"><a href="#our-starting-point">Our starting point</a></li><li class="header-link depth-2"><a href="#spot-the-difference">Spot the difference</a></li><li class="header-link depth-2"><a href="#adding-effects-to-the-game">Adding effects to the game</a></li><li class="header-link depth-2"><a href="#listening-for-effects">Listening for effects</a></li><li class="header-link depth-2"><a href="#wait-a-second">Wait a second…</a></li><li class="header-link depth-2"><a href="#wrapping-up">Wrapping up</a></li></ul></astro-root>
 		</nav>
 		<p>This guide shows how adding <code data-astro-raw="">bgio-effects</code> to an example boardgame.io game
 can help solve subtle issues that may occur when rendering your game state
 on the client. It assumes a basic understanding of the <a href="https://boardgame.io/">boardgame.io</a>
-framework. Check out <a href="https://boardgame.io/documentation/#/tutorial">the tutorial in their docs</a> to learn more.</p><h2 id="installation">Installation</h2><p>To start using <code data-astro-raw="">bgio-effects</code>, we first have to add the NPM package to our
-project:</p><pre class="language-bash"><code data-astro-raw="" class="language-bash"><span class="token function">npm</span> i bgio-effects
-
-<span class="token comment"># or yarn add bgio-effects</span></code></pre><h2 id="our-starting-point">Our starting point</h2><p>We will start with a single-player game. Each turn, the player rolls a die.
+framework. Check out <a href="https://boardgame.io/documentation/#/tutorial">the tutorial in their docs</a> to learn more.</p><h2 id="our-starting-point">Our starting point</h2><p>We will start with a single-player game. Each turn, the player rolls a die.
 If they roll a 6, they get a point. Once they’ve scored 5 points, they win!</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">const</span> game <span class="token operator">=</span> <span class="token punctuation">{</span>
   <span class="token comment">// Game state includes the current die value &amp; the current score.</span>
   <span class="token function-variable function">setup</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">roll</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token literal-property property">score</span><span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
@@ -200,11 +197,11 @@ update from boardgame.io. This code is buggy. We’ll see why in the next
 section.</p>
 <div class="tabbed astro-HYSHTKDU">
   <ul class="astro-HYSHTKDU">
-    <li class="astro-HYSHTKDU"><a href="#section-1-268pmrohfaig" class="astro-HYSHTKDU">Plain JS</a></li>
-    <li class="astro-HYSHTKDU"><a href="#section-2-268pmrohfaig" class="astro-HYSHTKDU">React</a></li>
+    <li class="astro-HYSHTKDU"><a href="#section-1-eflog60hldm" class="astro-HYSHTKDU">Plain JS</a></li>
+    <li class="astro-HYSHTKDU"><a href="#section-2-eflog60hldm" class="astro-HYSHTKDU">React</a></li>
   </ul>
   <div class="content astro-HYSHTKDU">
-    <section id="section-1-268pmrohfaig" class="astro-HYSHTKDU">
+    <section id="section-1-eflog60hldm" class="astro-HYSHTKDU">
       <pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">let</span> previousRoll<span class="token punctuation">;</span>
 
 client<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> <span class="token constant">G</span> <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
@@ -215,7 +212,7 @@ client<span class="token punctuation">.</span><span class="token function">subsc
   <span class="token comment">// more logic to render score, etc.</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><p>(The <code data-astro-raw="">client</code> variable in this example is a plain JS boardgame.io client.)</p>
     </section>
-    <section id="section-2-268pmrohfaig" class="astro-HYSHTKDU">
+    <section id="section-2-eflog60hldm" class="astro-HYSHTKDU">
       <pre class="language-jsx"><code data-astro-raw="" class="language-jsx"><span class="token keyword">const</span> <span class="token function-variable function">Board</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> <span class="token constant">G</span> <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
   <span class="token comment">// Each time G.roll changes, trigger the die’s roll animation.</span>
   <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
@@ -240,8 +237,8 @@ we roll the same value twice in a row? Nothing. The value of <code data-astro-ra
 changed, so the animation wasn’t triggered.</p><p>So now comes the problem: how do we tell if a <code data-astro-raw="">1</code> followed by a <code data-astro-raw="">1</code> means that
 the die wasn’t rolled or if it means that we rolled a <code data-astro-raw="">1</code> twice in a row?</p><p><code data-astro-raw="">bgio-effects</code> is one answer to that question. It allows the game code to
 say explicitly, “The die was rolled,” so that the client doesn’t have to guess
-by trying to spot the difference between two states.</p><aside class="content note astro-V5AEQFEI" aria-labelledby="1dh3cesi5vu8">
-  <p id="1dh3cesi5vu8" class="title astro-V5AEQFEI">
+by trying to spot the difference between two states.</p><aside class="content note astro-V5AEQFEI" aria-labelledby="2hdq102obca0">
+  <p id="2hdq102obca0" class="title astro-V5AEQFEI">
     <span aria-hidden="true" class="icon astro-V5AEQFEI"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.7A1 1 0 0 1 6 5c0-.3.1-.5.3-.7.2-.2.4-.3.7-.3.3 0 .5.1.7.3.2.2.3.4.3.7 0 .3-.1.5-.3.7A1 1 0 0 1 7 6a1 1 0 0 1-.7-.3zM8 8a1 1 0 0 0-.3-.7A1 1 0 0 0 7 7H6a1 1 0 0 0-.7.3A1 1 0 0 0 5 8h1v3c0 .3.1.5.3.7.2.2.4.3.7.3h1c.3 0 .5-.1.7-.3.2-.2.3-.4.3-.7H8V8zM7 2.3a5.7 5.7 0 1 0 0 11.4A5.7 5.7 0 0 0 7 2.3zM7 1a7 7 0 1 1 0 14A7 7 0 0 1 7 1z"></path></svg></span>
     note
   </p>
@@ -251,7 +248,11 @@ imagine we had two moves in our game and only one of them rolled the die.
 Then animating the die every move wouldn’t work either.</p></section>
 </aside>
 
-<h2 id="adding-effects-to-the-game">Adding effects to the game</h2><p><code data-astro-raw="">bgio-effects</code> provides a plugin for boardgame.io that adds new functionality
+<h2 id="adding-effects-to-the-game">Adding effects to the game</h2><p>To start using <code data-astro-raw="">bgio-effects</code>, we first have to add the NPM package to our
+project:</p><pre class="language-bash"><code data-astro-raw="" class="language-bash"><span class="token function">npm</span> i bgio-effects
+
+<span class="token comment"># or if you use Yarn</span>
+<span class="token function">yarn</span> <span class="token function">add</span> bgio-effects</code></pre><p><code data-astro-raw="">bgio-effects</code> provides a plugin for boardgame.io that adds new functionality
 for use in your game code. We import the plugin like this:</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> EffectsPlugin <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'bgio-effects/plugin'</span><span class="token punctuation">;</span></code></pre><p>We now need to configure the plugin so it knows about the kinds of effects that
 exist in our game. Let’s configure a single <code data-astro-raw="">roll</code> effect that will take the
 new value of the rolled die. (See <a href="../plugin/config">the configuration docs</a>
@@ -285,11 +286,11 @@ animating each time <code data-astro-raw="">G.roll</code> changes, we can animat
 <code data-astro-raw="">roll</code> effect is emitted.</p>
 <div class="tabbed astro-HYSHTKDU">
   <ul class="astro-HYSHTKDU">
-    <li class="astro-HYSHTKDU"><a href="#section-1-2ksm0assugug" class="astro-HYSHTKDU">Plain JS</a></li>
-    <li class="astro-HYSHTKDU"><a href="#section-2-2ksm0assugug" class="astro-HYSHTKDU">React</a></li>
+    <li class="astro-HYSHTKDU"><a href="#section-1-1air5uleqes0" class="astro-HYSHTKDU">Plain JS</a></li>
+    <li class="astro-HYSHTKDU"><a href="#section-2-1air5uleqes0" class="astro-HYSHTKDU">React</a></li>
   </ul>
   <div class="content astro-HYSHTKDU">
-    <section id="section-1-2ksm0assugug" class="astro-HYSHTKDU">
+    <section id="section-1-1air5uleqes0" class="astro-HYSHTKDU">
       <pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> EffectsEmitter <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'bgio-effects/client'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> emitter <span class="token operator">=</span> <span class="token function">EffectsEmitter</span><span class="token punctuation">(</span>client<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -300,8 +301,8 @@ emitter<span class="token punctuation">.</span><span class="token function">on</
 
 emitter<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
   <span class="token comment">// more logic to render score, etc.</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><aside class="content info astro-V5AEQFEI" aria-labelledby="1com9s5084p8">
-  <p id="1com9s5084p8" class="title astro-V5AEQFEI">
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><aside class="content info astro-V5AEQFEI" aria-labelledby="2aufr063lsr0">
+  <p id="2aufr063lsr0" class="title astro-V5AEQFEI">
     <span aria-hidden="true" class="icon astro-V5AEQFEI"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3a5.7 5.7 0 0 1 0 11.4A5.7 5.7 0 0 1 1.3 8c0-3.1 2.6-5.7 5.7-5.7zM7 1a7 7 0 1 0 0 14A7 7 0 0 0 7 1zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>
     info
   </p>
@@ -314,7 +315,7 @@ some advantages.</p></section>
 <p>See <a href="../client/plain-js">the plain JS client docs</a> for more details about
 <code data-astro-raw="">EffectsEmitter</code>.</p>
     </section>
-    <section id="section-2-2ksm0assugug" class="astro-HYSHTKDU">
+    <section id="section-2-1air5uleqes0" class="astro-HYSHTKDU">
       <pre class="language-jsx"><code data-astro-raw="" class="language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> EffectsBoardWrapper<span class="token punctuation">,</span> useEffectListener <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'bgio-effects/react'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> <span class="token function-variable function">Board</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> <span class="token constant">G</span> <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
@@ -337,8 +338,8 @@ some advantages.</p></section>
 
 
 <p>With these changes implemented, our die rolls every time it should! Even if
-we roll the same value twice in a row.</p><astro-root uid="Z1vA6Tj"><div class="bgio-client"><div class="board"><div class="left-panel"><div class="left-panel-top"><div class="jk-die" style="--jk-die-size:3rem" aria-label="Die showing 1" role="img"><div class="jk-shadow" aria-hidden="true"></div><div class="jk-die-body" style="transform:rotateX(20deg) rotateZ(45deg) rotateY(90deg)" aria-hidden="true"><div class="jk-internal" style="transform:rotateZ(0deg)"></div><div class="jk-internal" style="transform:rotateX(90deg)"></div><div class="jk-internal" style="transform:rotateY(90deg)"></div><div class="jk-face" style="transform:rotateY(-90deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="50" cy="50"></circle></svg></div><div class="jk-inner-face" style="transform:rotateY(-90deg) translateZ(calc(var(--jk-die-size) * .49))"></div><div class="jk-face" style="transform:rotateX(-90deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="25" cy="75"></circle><circle r="7" cx="75" cy="25"></circle></svg></div><div class="jk-inner-face" style="transform:rotateX(-90deg) translateZ(calc(var(--jk-die-size) * .49))"></div><div class="jk-face" style="transform:rotateY(90deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="25" cy="75"></circle><circle r="7" cx="50" cy="50"></circle><circle r="7" cx="75" cy="25"></circle></svg></div><div class="jk-inner-face" style="transform:rotateY(90deg) translateZ(calc(var(--jk-die-size) * .49))"></div><div class="jk-face" style="transform:rotateY(0deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="25" cy="25"></circle><circle r="7" cx="75" cy="25"></circle><circle r="7" cx="25" cy="75"></circle><circle r="7" cx="75" cy="75"></circle></svg></div><div class="jk-inner-face" style="transform:rotateY(0deg) translateZ(calc(var(--jk-die-size) * .49))"></div><div class="jk-face" style="transform:rotateX(90deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="25" cy="25"></circle><circle r="7" cx="75" cy="25"></circle><circle r="7" cx="50" cy="50"></circle><circle r="7" cx="25" cy="75"></circle><circle r="7" cx="75" cy="75"></circle></svg></div><div class="jk-inner-face" style="transform:rotateX(90deg) translateZ(calc(var(--jk-die-size) * .49))"></div><div class="jk-face" style="transform:rotateX(180deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="25" cy="25"></circle><circle r="7" cx="75" cy="25"></circle><circle r="7" cx="25" cy="50"></circle><circle r="7" cx="75" cy="50"></circle><circle r="7" cx="25" cy="75"></circle><circle r="7" cx="75" cy="75"></circle></svg></div><div class="jk-inner-face" style="transform:rotateX(180deg) translateZ(calc(var(--jk-die-size) * .49))"></div></div></div></div><button class="left-panel-bottom">Roll Die</button></div><div><p><span>Rolls: <strong>0</strong></span><br><label><span>Sixes: <strong>0</strong></span><progress max="5" value="0">0</progress></label></p><p></p></div><small class="src-link"><a href="https://github.com/delucis/bgio-effects/blob/latest/docs/src/pages/tutorial/snippet-2.tsx">snippet-2.tsx</a></small></div></div></astro-root><aside class="content note astro-V5AEQFEI" aria-labelledby="1mch0ro6m2m0">
-  <p id="1mch0ro6m2m0" class="title astro-V5AEQFEI">
+we roll the same value twice in a row.</p><astro-root uid="Z1vA6Tj"><div class="bgio-client"><div class="board"><div class="left-panel"><div class="left-panel-top"><div class="jk-die" style="--jk-die-size:3rem" aria-label="Die showing 1" role="img"><div class="jk-shadow" aria-hidden="true"></div><div class="jk-die-body" style="transform:rotateX(20deg) rotateZ(45deg) rotateY(90deg)" aria-hidden="true"><div class="jk-internal" style="transform:rotateZ(0deg)"></div><div class="jk-internal" style="transform:rotateX(90deg)"></div><div class="jk-internal" style="transform:rotateY(90deg)"></div><div class="jk-face" style="transform:rotateY(-90deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="50" cy="50"></circle></svg></div><div class="jk-inner-face" style="transform:rotateY(-90deg) translateZ(calc(var(--jk-die-size) * .49))"></div><div class="jk-face" style="transform:rotateX(-90deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="25" cy="75"></circle><circle r="7" cx="75" cy="25"></circle></svg></div><div class="jk-inner-face" style="transform:rotateX(-90deg) translateZ(calc(var(--jk-die-size) * .49))"></div><div class="jk-face" style="transform:rotateY(90deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="25" cy="75"></circle><circle r="7" cx="50" cy="50"></circle><circle r="7" cx="75" cy="25"></circle></svg></div><div class="jk-inner-face" style="transform:rotateY(90deg) translateZ(calc(var(--jk-die-size) * .49))"></div><div class="jk-face" style="transform:rotateY(0deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="25" cy="25"></circle><circle r="7" cx="75" cy="25"></circle><circle r="7" cx="25" cy="75"></circle><circle r="7" cx="75" cy="75"></circle></svg></div><div class="jk-inner-face" style="transform:rotateY(0deg) translateZ(calc(var(--jk-die-size) * .49))"></div><div class="jk-face" style="transform:rotateX(90deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="25" cy="25"></circle><circle r="7" cx="75" cy="25"></circle><circle r="7" cx="50" cy="50"></circle><circle r="7" cx="25" cy="75"></circle><circle r="7" cx="75" cy="75"></circle></svg></div><div class="jk-inner-face" style="transform:rotateX(90deg) translateZ(calc(var(--jk-die-size) * .49))"></div><div class="jk-face" style="transform:rotateX(180deg) translateZ(calc(var(--jk-die-size) * .5))"><svg viewBox="0 0 100 100" class="jk-pip-face"><circle r="7" cx="25" cy="25"></circle><circle r="7" cx="75" cy="25"></circle><circle r="7" cx="25" cy="50"></circle><circle r="7" cx="75" cy="50"></circle><circle r="7" cx="25" cy="75"></circle><circle r="7" cx="75" cy="75"></circle></svg></div><div class="jk-inner-face" style="transform:rotateX(180deg) translateZ(calc(var(--jk-die-size) * .49))"></div></div></div></div><button class="left-panel-bottom">Roll Die</button></div><div><p><span>Rolls: <strong>0</strong></span><br><label><span>Sixes: <strong>0</strong></span><progress max="5" value="0">0</progress></label></p><p></p></div><small class="src-link"><a href="https://github.com/delucis/bgio-effects/blob/latest/docs/src/pages/tutorial/snippet-2.tsx">snippet-2.tsx</a></small></div></div></astro-root><aside class="content note astro-V5AEQFEI" aria-labelledby="g172f5titas">
+  <p id="g172f5titas" class="title astro-V5AEQFEI">
     <span aria-hidden="true" class="icon astro-V5AEQFEI"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.7A1 1 0 0 1 6 5c0-.3.1-.5.3-.7.2-.2.4-.3.7-.3.3 0 .5.1.7.3.2.2.3.4.3.7 0 .3-.1.5-.3.7A1 1 0 0 1 7 6a1 1 0 0 1-.7-.3zM8 8a1 1 0 0 0-.3-.7A1 1 0 0 0 7 7H6a1 1 0 0 0-.7.3A1 1 0 0 0 5 8h1v3c0 .3.1.5.3.7.2.2.4.3.7.3h1c.3 0 .5-.1.7-.3.2-.2.3-.4.3-.7H8V8zM7 2.3a5.7 5.7 0 1 0 0 11.4A5.7 5.7 0 0 0 7 2.3zM7 1a7 7 0 1 1 0 14A7 7 0 0 1 7 1z"></path></svg></span>
     note
   </p>
@@ -367,17 +368,17 @@ score until the effect has finished. To do that we need to make a change to our
 client.</p>
 <div class="tabbed astro-HYSHTKDU">
   <ul class="astro-HYSHTKDU">
-    <li class="astro-HYSHTKDU"><a href="#section-1-2k0p02tcoiv0" class="astro-HYSHTKDU">Plain JS</a></li>
-    <li class="astro-HYSHTKDU"><a href="#section-2-2k0p02tcoiv0" class="astro-HYSHTKDU">React</a></li>
+    <li class="astro-HYSHTKDU"><a href="#section-1-1g1904tgflm8" class="astro-HYSHTKDU">Plain JS</a></li>
+    <li class="astro-HYSHTKDU"><a href="#section-2-1g1904tgflm8" class="astro-HYSHTKDU">React</a></li>
   </ul>
   <div class="content astro-HYSHTKDU">
-    <section id="section-1-2k0p02tcoiv0" class="astro-HYSHTKDU">
+    <section id="section-1-1g1904tgflm8" class="astro-HYSHTKDU">
       <p>We can opt into this behaviour when setting up our <code data-astro-raw="">EffectsEmitter</code>:</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">const</span> emitter <span class="token operator">=</span> <span class="token function">EffectsEmitter</span><span class="token punctuation">(</span>client<span class="token punctuation">,</span> <span class="token punctuation">{</span>
   <span class="token comment">// Wait until all effects have finished before updating state.</span>
   <span class="token literal-property property">updateStateAfterEffects</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
     </section>
-    <section id="section-2-2k0p02tcoiv0" class="astro-HYSHTKDU">
+    <section id="section-2-1g1904tgflm8" class="astro-HYSHTKDU">
       <p>We can opt into this behaviour when wrapping our board component:</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">const</span> BoardWithEffects <span class="token operator">=</span> <span class="token function">EffectsBoardWrapper</span><span class="token punctuation">(</span>Board<span class="token punctuation">,</span> <span class="token punctuation">{</span>
   <span class="token comment">// Wait until all effects have finished before updating state.</span>
   <span class="token literal-property property">updateStateAfterEffects</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
@@ -430,7 +431,7 @@ clients.</p>
 				
 <nav class="sidebar-nav astro-YMMYGH66" aria-labelledby="grid-right">
 	<div class="sidebar-nav-inner astro-YMMYGH66">
-		<astro-root uid="ZDB7c1"><h2 class="heading">On this page</h2><ul><li class="header-link depth-2"><a href="#overview">Overview</a></li><li class="header-link depth-2"><a href="#installation">Installation</a></li><li class="header-link depth-2"><a href="#our-starting-point">Our starting point</a></li><li class="header-link depth-2"><a href="#spot-the-difference">Spot the difference</a></li><li class="header-link depth-2"><a href="#adding-effects-to-the-game">Adding effects to the game</a></li><li class="header-link depth-2"><a href="#listening-for-effects">Listening for effects</a></li><li class="header-link depth-2"><a href="#wait-a-second">Wait a second…</a></li><li class="header-link depth-2"><a href="#wrapping-up">Wrapping up</a></li></ul></astro-root>
+		<astro-root uid="1g0FQq"><h2 class="heading">On this page</h2><ul><li class="header-link depth-2"><a href="#overview">Overview</a></li><li class="header-link depth-2"><a href="#our-starting-point">Our starting point</a></li><li class="header-link depth-2"><a href="#spot-the-difference">Spot the difference</a></li><li class="header-link depth-2"><a href="#adding-effects-to-the-game">Adding effects to the game</a></li><li class="header-link depth-2"><a href="#listening-for-effects">Listening for effects</a></li><li class="header-link depth-2"><a href="#wait-a-second">Wait a second…</a></li><li class="header-link depth-2"><a href="#wrapping-up">Wrapping up</a></li></ul></astro-root>
 		
 <h2 class="heading astro-XJO2LFCZ">More</h2>
 <ul class="astro-XJO2LFCZ">
