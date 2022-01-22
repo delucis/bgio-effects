@@ -9,7 +9,7 @@
     "preview": "npx serve dist"
   },
   "dependencies": {
-    "bgio-effects": "file:../bgio-effects.tgz",
+    "bgio-effects": "file:../bgio-effects-0.6.0.tgz",
     "boardgame.io": "^0.49.10"
   },
   "devDependencies": {
