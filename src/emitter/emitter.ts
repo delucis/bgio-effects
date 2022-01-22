@@ -71,7 +71,6 @@ class EffectsEmitterImpl<S extends ClientState> implements EffectsEmitter<S> {
     private readonly updateStateAfterEffects: boolean = false
   ) {}
 
-  // TODO: Call callbacks with [payload, state] instead of [{payload, state}]
   on(
     effect: '*',
     callback?: PublicWildcardHandler<S>,
