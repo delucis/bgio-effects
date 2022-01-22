@@ -19,20 +19,22 @@ describe('RafRunner', () => {
     const callback = jest.fn();
     const runner = new RafRunner(callback);
     runner.start();
-    jest.runOnlyPendingTimers();
+    jest.advanceTimersToNextTimer();
     expect(callback).toHaveBeenCalledTimes(1);
     runner.stop();
+    expect(jest.getTimerCount()).toBe(0);
   });
 
   it('should call the callback multiple times', () => {
     const callback = jest.fn();
     const runner = new RafRunner(callback);
     runner.start();
-    jest.runOnlyPendingTimers();
+    jest.advanceTimersToNextTimer();
     expect(callback).toHaveBeenCalledTimes(1);
-    jest.runOnlyPendingTimers();
+    jest.advanceTimersToNextTimer();
     expect(callback).toHaveBeenCalledTimes(2);
     runner.stop();
+    expect(jest.getTimerCount()).toBe(0);
   });
 
   it('should not queue more tasks if start is called repeatedly', () => {
@@ -41,8 +43,49 @@ describe('RafRunner', () => {
     runner.start();
     runner.start();
     runner.start();
-    jest.runOnlyPendingTimers();
+    // 2 timers get queued: 1 requestAnimationFrame and 1 setTimeout.
+    expect(jest.getTimerCount()).toBe(2);
+    jest.advanceTimersToNextTimer();
     expect(callback).toHaveBeenCalledTimes(1);
     runner.stop();
+    expect(jest.getTimerCount()).toBe(0);
+  });
+
+  describe('when requestAnimationFrame doesn’t run', () => {
+    let raf: jest.Mock;
+    beforeEach(() => {
+      raf = jest.fn();
+      Object.defineProperty(window, 'requestAnimationFrame', {
+        writable: true,
+        value: raf,
+      });
+    });
+
+    it('should call the callback', () => {
+      const callback = jest.fn();
+      const runner = new RafRunner(callback);
+      runner.start();
+      expect(raf).toHaveBeenCalledTimes(1);
+      jest.advanceTimersToNextTimer();
+      expect(raf).toHaveBeenCalledTimes(2);
+      expect(callback).toHaveBeenCalledTimes(1);
+      runner.stop();
+      expect(jest.getTimerCount()).toBe(0);
+    });
+
+    it('should call the callback multiple times', () => {
+      const callback = jest.fn();
+      const runner = new RafRunner(callback);
+      runner.start();
+      expect(raf).toHaveBeenCalledTimes(1);
+      jest.advanceTimersToNextTimer();
+      expect(raf).toHaveBeenCalledTimes(2);
+      expect(callback).toHaveBeenCalledTimes(1);
+      jest.advanceTimersToNextTimer();
+      expect(raf).toHaveBeenCalledTimes(3);
+      expect(callback).toHaveBeenCalledTimes(2);
+      runner.stop();
+      expect(jest.getTimerCount()).toBe(0);
+    });
   });
 });
