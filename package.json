@@ -1,6 +1,6 @@
 {
   "name": "bgio-effects",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "📤 Helpers for managing state effects in boardgame.io",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -74,7 +74,7 @@
   "bugs": {
     "url": "https://github.com/delucis/bgio-effects/issues"
   },
-  "homepage": "https://github.com/delucis/bgio-effects#readme",
+  "homepage": "https://delucis.github.io/bgio-effects/",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^12.0.0",

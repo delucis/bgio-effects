@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.1](https://github.com/delucis/bgio-effects/compare/v0.6.0...v0.6.1) (2022-01-22)
+
+
+### Features
+
+* **emitter:** Use `setTimeout` if `requestAnimationFrame` doesn’t run ([1ee064f](https://github.com/delucis/bgio-effects/commit/1ee064fd1ba9e02ad440b9b858a821dd87c9a4af)), issue [#57](https://github.com/delucis/bgio-effects/issues/57)
+
 ## [0.6.0](https://github.com/delucis/bgio-effects/compare/v0.5.1...v0.6.0) (2022-01-14)
 
 
