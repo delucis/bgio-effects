@@ -1,0 +1,1 @@
+/* empty css                */import{a as c}from"./vendor.53fdebab.js";const e="https://github.com/delucis/bgio-effects",o=`${e}/blob/latest/docs/`,t=/([^/]+\/index\.[^/]+$|[^/]+$)/,i=({snippet:s})=>c("small",{className:"src-link",children:c("a",{href:`${o}src/pages/${s}`,children:s.match(t)[0]})});export{i as S};
