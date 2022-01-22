@@ -15,17 +15,6 @@ can help solve subtle issues that may occur when rendering your game state
 on the client. It assumes a basic understanding of the [boardgame.io][bgio]
 framework. Check out [the tutorial in their docs][bgio-tut] to learn more.
 
-## Installation
-
-To start using `bgio-effects`, we first have to add the NPM package to our
-project:
-
-```bash
-npm i bgio-effects
-
-# or yarn add bgio-effects
-```
-
 ## Our starting point
 
 We will start with a single-player game. Each turn, the player rolls a die.
@@ -120,6 +109,16 @@ Then animating the die every move wouldn’t work either.
 </Aside>
 
 ## Adding effects to the game
+
+To start using `bgio-effects`, we first have to add the NPM package to our
+project:
+
+```bash
+npm i bgio-effects
+
+# or if you use Yarn
+yarn add bgio-effects
+```
 
 `bgio-effects` provides a plugin for boardgame.io that adds new functionality
 for use in your game code. We import the plugin like this:
