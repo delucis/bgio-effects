@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.1](https://github.com/delucis/bgio-effects/compare/v0.7.0...v0.7.1) (2022-01-22)
+
+
+### Bug Fixes
+
+* **emitter:** call onEnd callbacks when flushing ([aff8ddb](https://github.com/delucis/bgio-effects/commit/aff8ddb20bc3ef27860c0ded850c528c3122f8de))
+
 ## [0.7.0](https://github.com/delucis/bgio-effects/compare/v0.6.1...v0.7.0) (2022-01-22)
 
 

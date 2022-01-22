@@ -1,6 +1,6 @@
 {
   "name": "bgio-effects",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "📤 Helpers for managing state effects in boardgame.io",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
