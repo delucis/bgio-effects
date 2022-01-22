@@ -10,14 +10,7 @@ import { EffectsBoardWrapper, useEffectListener } from 'bgio-effects/react';
 function Board({ G, ctx, moves, reset }: BoardProps) {
   const [Die, rollTo] = useDie(G.roll);
 
-  useEffectListener(
-    'roll',
-    (newValue) => {
-      console.log('rolling');
-      rollTo(newValue);
-    },
-    []
-  );
+  useEffectListener('roll', (newValue) => rollTo(newValue), []);
 
   return (
     <div className="board">
