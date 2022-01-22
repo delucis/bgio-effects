@@ -1,4 +1,4 @@
-import { Handler } from 'mitt';
+import type { Handler } from 'mitt';
 import { Store } from './store';
 
 /** Store whose value is derived from that of another `Store` */
