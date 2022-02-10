@@ -28,27 +28,27 @@
 
 		
 <!-- Page Metadata -->
-<link rel="canonical" href="https://delucis.github.io/bgio-effects/plugin/config/">
+<link rel="canonical" href="https://delucis.github.io/bgio-effects/plugin/notes/">
 
 <!-- OpenGraph Tags -->
-<meta property="og:title" content="Plugin Configuration • 📤 bgio-effects">
+<meta property="og:title" content="Plugin notes • 📤 bgio-effects">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://delucis.github.io/bgio-effects/plugin/config/">
+<meta property="og:url" content="https://delucis.github.io/bgio-effects/plugin/notes/">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://delucis.github.io/bgio-effects/default-og-image.jpg">
 <meta property="og:image:alt" content="the text “bgio-effects” glows over a swirl of blurry colours">
-<meta name="description" property="og:description" content="How to configure the bgio-effects game plugin and add it to a boardgame.io game definition.">
+<meta name="description" property="og:description" content="General notes about using the bgio-effects plugin.">
 <meta property="og:site_name" content="📤 bgio-effects">
 
 <!-- Twitter Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="swithinbank">
-<meta name="twitter:title" content="Plugin Configuration • 📤 bgio-effects">
-<meta name="twitter:description" content="How to configure the bgio-effects game plugin and add it to a boardgame.io game definition.">
+<meta name="twitter:title" content="Plugin notes • 📤 bgio-effects">
+<meta name="twitter:description" content="General notes about using the bgio-effects plugin.">
 <meta name="twitter:image" content="https://delucis.github.io/bgio-effects/default-og-image.jpg">
 <meta name="twitter:image:alt" content="the text “bgio-effects” glows over a swirl of blurry colours">
 
-		<title>Plugin Configuration • 📤 bgio-effects</title>
+		<title>Plugin notes • 📤 bgio-effects</title>
 		
 	
 
@@ -59,7 +59,7 @@
 
 
 
-<script type="module" src="../../assets/config.03575b1b.js"></script>
+<script type="module" src="../../assets/notes.04f3a129.js"></script>
 
 
 
@@ -112,7 +112,7 @@
 					<h2 class="nav-group-title astro-HR6GW4QM">Game Plugin</h2>
 					<ul class="astro-HR6GW4QM">
 						<li class="nav-link astro-HR6GW4QM">
-								<a href="/bgio-effects/plugin/config" aria-current="page" class="astro-HR6GW4QM">
+								<a href="/bgio-effects/plugin/config" aria-current="false" class="astro-HR6GW4QM">
 									Configuration
 								</a>
 							</li><li class="nav-link astro-HR6GW4QM">
@@ -120,7 +120,7 @@
 									Sequencing effects
 								</a>
 							</li><li class="nav-link astro-HR6GW4QM">
-								<a href="/bgio-effects/plugin/notes" aria-current="false" class="astro-HR6GW4QM">
+								<a href="/bgio-effects/plugin/notes" aria-current="page" class="astro-HR6GW4QM">
 									Notes
 								</a>
 							</li>
@@ -165,55 +165,28 @@
 				
 <article id="article" class="content astro-O4NKPHGZ">
 	<section class="main-section astro-O4NKPHGZ">
-		<h1 class="content-title astro-O4NKPHGZ" id="overview">Plugin Configuration</h1>
+		<h1 class="content-title astro-O4NKPHGZ" id="overview">Plugin notes</h1>
 		<nav class="block sm:hidden astro-O4NKPHGZ" aria-label="Table of Contents">
-			<astro-root uid="ZOmAUq"><h2 class="heading">On this page</h2><ul><li class="header-link depth-2"><a href="#overview">Overview</a></li><li class="header-link depth-2"><a href="#adding-the-plugin-to-your-game">Adding the plugin to your game</a></li></ul></astro-root>
+			<astro-root uid="Z9l0Lf"><h2 class="heading">On this page</h2><ul><li class="header-link depth-2"><a href="#overview">Overview</a></li><li class="header-link depth-2"><a href="#passing-g-to-effects">Passing G to effects</a></li></ul></astro-root>
 		</nav>
-		<p>The <code data-astro-raw="">bgio-effects</code> plugin needs a configuration object. This object configures
-the effects that will be available to your game logic.</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token comment">// effects-config.js</span>
+		<h2 id="passing-g-to-effects">Passing <code data-astro-raw="">G</code> to effects</h2><p>boardgame.io <a href="https://boardgame.io/documentation/#/immutability">uses Immer internally to help with immutability</a>. That means
+that inside a move or game hook, <code data-astro-raw="">G</code> and its contents are wrapped in a
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy"><code data-astro-raw="">Proxy</code></a> and we’ll run into issues passing it to an effect. (The only
+exception is if we’re passing a property that is a single literal value like a
+string, number, or boolean.)</p><p>If you want to pass an object or array stored in <code data-astro-raw="">G</code> when calling an effect,
+you need to unwrap this proxy to get the plain value. To do this, import and
+use <a href="https://immerjs.github.io/immer/current">Immer’s <code data-astro-raw="">current</code> helper</a>. This will convert the proxied state to
+a plain JavaScript object.</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> current <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'immer'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// inside a move</span>
+<span class="token keyword">const</span> unproxiedValue <span class="token operator">=</span> <span class="token function">current</span><span class="token punctuation">(</span><span class="token constant">G</span><span class="token punctuation">.</span>dice<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ctx<span class="token punctuation">.</span>effects<span class="token punctuation">.</span><span class="token function">roll</span><span class="token punctuation">(</span>unproxiedValue<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><p>You can also do this directly inside your effects config, so you don’t need to
+remember this every time the effect gets called.</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> current <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'immer'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> config <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token comment">// Declare the effect types you need.</span>
   <span class="token literal-property property">effects</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-    <span class="token comment">// Each effect is named by its key.</span>
-    <span class="token comment">// This creates a zero-config endTurn effect:</span>
-    <span class="token literal-property property">endTurn</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-
-    <span class="token literal-property property">rollDie</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token comment">// Effects can declare a `create` function.</span>
-      <span class="token comment">// If defined, the return value of create will be</span>
-      <span class="token comment">// available as the payload for an effect.</span>
-      <span class="token function-variable function">create</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> value <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-
-      <span class="token comment">// Effects can declare a default duration in seconds</span>
-      <span class="token comment">// (see “Sequencing effects” guide for details).</span>
-      <span class="token literal-property property">duration</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre><h2 id="adding-the-plugin-to-your-game">Adding the plugin to your game</h2><p>To use the plugin, include it in your game definition’s <code data-astro-raw="">plugins</code> array,
-passing it your configuration object:</p><pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token comment">// game.js</span>
-
-<span class="token keyword">import</span> <span class="token punctuation">{</span> EffectsPlugin <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'bgio-effects/plugin'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> config <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./effects-config'</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> game <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'my-game'</span><span class="token punctuation">,</span>
-
-  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token function">EffectsPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-
-  <span class="token comment">// Each effect type declared in your config will</span>
-  <span class="token comment">// be available in your moves as ctx.effects[effectType]</span>
-  <span class="token literal-property property">moves</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-    <span class="token function-variable function">roll</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token constant">G</span><span class="token punctuation">,</span> ctx</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-      <span class="token keyword">const</span> roll <span class="token operator">=</span> ctx<span class="token punctuation">.</span>random<span class="token punctuation">.</span><span class="token constant">D6</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      ctx<span class="token punctuation">.</span>effects<span class="token punctuation">.</span><span class="token function">rollDie</span><span class="token punctuation">(</span>roll<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>roll <span class="token operator">&gt;</span> <span class="token number">4</span><span class="token punctuation">)</span> ctx<span class="token punctuation">.</span>effects<span class="token punctuation">.</span><span class="token function">explode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token constant">G</span><span class="token punctuation">.</span>roll <span class="token operator">=</span> roll<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-
-    <span class="token function-variable function">end</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token constant">G</span><span class="token punctuation">,</span> ctx</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-      ctx<span class="token punctuation">.</span>events<span class="token punctuation">.</span><span class="token function">endTurn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      ctx<span class="token punctuation">.</span>effects<span class="token punctuation">.</span><span class="token function">endTurn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token literal-property property">roll</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token function-variable function">create</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">current</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">,</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
@@ -223,7 +196,7 @@ passing it your configuration object:</p><pre class="language-js"><code data-ast
 <h2 class="heading astro-XJO2LFCZ">More</h2>
 <ul class="astro-XJO2LFCZ">
 	<li class="header-link depth-2 astro-XJO2LFCZ">
-			<a class="edit-on-github astro-XJO2LFCZ" href="https://github.com/delucis/bgio-effects/blob/latest/docs/src/pages/plugin/config.md" target="_blank" rel="noopener">
+			<a class="edit-on-github astro-XJO2LFCZ" href="https://github.com/delucis/bgio-effects/blob/latest/docs/src/pages/plugin/notes.md" target="_blank" rel="noopener">
 				<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen" class="svg-inline--fa fa-pen fa-w-16 astro-XJO2LFCZ" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="1em" width="1em">
 					<path fill="currentColor" d="M290.74 93.24l128.02 128.02-277.99 277.99-114.14 12.6C11.35 513.54-1.56 500.62.14 485.34l12.7-114.22 277.9-277.88zm207.2-19.06l-60.11-60.11c-18.75-18.75-49.16-18.75-67.91 0l-56.55 56.55 128.02 128.02 56.55-56.55c18.75-18.76 18.75-49.16 0-67.91z" class="astro-XJO2LFCZ"></path>
 				</svg>
@@ -247,12 +220,12 @@ passing it your configuration object:</p><pre class="language-js"><code data-ast
 				
 <nav class="sidebar-nav astro-YMMYGH66" aria-labelledby="grid-right">
 	<div class="sidebar-nav-inner astro-YMMYGH66">
-		<astro-root uid="ZOmAUq"><h2 class="heading">On this page</h2><ul><li class="header-link depth-2"><a href="#overview">Overview</a></li><li class="header-link depth-2"><a href="#adding-the-plugin-to-your-game">Adding the plugin to your game</a></li></ul></astro-root>
+		<astro-root uid="Z9l0Lf"><h2 class="heading">On this page</h2><ul><li class="header-link depth-2"><a href="#overview">Overview</a></li><li class="header-link depth-2"><a href="#passing-g-to-effects">Passing G to effects</a></li></ul></astro-root>
 		
 <h2 class="heading astro-XJO2LFCZ">More</h2>
 <ul class="astro-XJO2LFCZ">
 	<li class="header-link depth-2 astro-XJO2LFCZ">
-			<a class="edit-on-github astro-XJO2LFCZ" href="https://github.com/delucis/bgio-effects/blob/latest/docs/src/pages/plugin/config.md" target="_blank" rel="noopener">
+			<a class="edit-on-github astro-XJO2LFCZ" href="https://github.com/delucis/bgio-effects/blob/latest/docs/src/pages/plugin/notes.md" target="_blank" rel="noopener">
 				<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen" class="svg-inline--fa fa-pen fa-w-16 astro-XJO2LFCZ" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="1em" width="1em">
 					<path fill="currentColor" d="M290.74 93.24l128.02 128.02-277.99 277.99-114.14 12.6C11.35 513.54-1.56 500.62.14 485.34l12.7-114.22 277.9-277.88zm207.2-19.06l-60.11-60.11c-18.75-18.75-49.16-18.75-67.91 0l-56.55 56.55 128.02 128.02 56.55-56.55c18.75-18.76 18.75-49.16 0-67.91z" class="astro-XJO2LFCZ"></path>
 				</svg>
