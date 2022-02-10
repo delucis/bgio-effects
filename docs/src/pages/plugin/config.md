@@ -51,9 +51,10 @@ const game = {
   // be available in your moves as ctx.effects[effectType]
   moves: {
     roll: (G, ctx) => {
-      G.roll = ctx.random.D6();
-      ctx.effects.rollDie(G.roll);
-      if (G.roll > 4) ctx.effects.explode();
+      const roll = ctx.random.D6();
+      ctx.effects.rollDie(roll);
+      if (roll > 4) ctx.effects.explode();
+      G.roll = roll;
     },
 
     end: (G, ctx) => {

@@ -27,8 +27,9 @@ const game = {
 
   moves: {
     roll: (G, ctx) => {
-      G.roll = ctx.random.D6();
-      if (G.roll === 6) G.score++;
+      const roll = ctx.random.D6();
+      G.roll = roll;
+      if (roll === 6) G.score++;
     },
   },
 
@@ -154,9 +155,10 @@ const game = {
 
   moves: {
     roll: (G, ctx) => {
-      G.roll = ctx.random.D6();
+      const roll = ctx.random.D6();
       // Call the newly added roll effect.
-      ctx.effects.roll(G.roll);
+      ctx.effects.roll(roll);
+      G.roll = roll;
       if (G.roll === 6) G.score++;
     },
   },
