@@ -29,6 +29,7 @@ export const SIDEBAR = [
   { text: 'Game Plugin', header: true },
   { text: 'Configuration', link: 'plugin/config' },
   { text: 'Sequencing effects', link: 'plugin/sequencing' },
+  { text: 'Notes', link: 'plugin/notes' },
 
   { text: 'Client', header: true },
   { text: 'Plain JS', link: 'client/plain-js' },

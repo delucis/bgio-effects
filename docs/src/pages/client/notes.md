@@ -1,5 +1,5 @@
 ---
-title: Notes
+title: Client notes
 description: General notes about bgio-effects client usage.
 layout: layout:MainLayout
 ---
