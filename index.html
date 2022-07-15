@@ -190,16 +190,16 @@ in practice.</p><h2 id="installation">Installation</h2><pre class="language-bash
 <span class="token punctuation">}</span></code></pre><p>Listen for effects on the client:</p>
 <div class="tabbed astro-HYSHTKDU">
   <ul class="astro-HYSHTKDU">
-    <li class="astro-HYSHTKDU"><a href="#section-1-pbss7fhffcg" class="astro-HYSHTKDU">Plain JS</a></li>
-    <li class="astro-HYSHTKDU"><a href="#section-2-pbss7fhffcg" class="astro-HYSHTKDU">React</a></li>
+    <li class="astro-HYSHTKDU"><a href="#section-1-l49vu0jmnds" class="astro-HYSHTKDU">Plain JS</a></li>
+    <li class="astro-HYSHTKDU"><a href="#section-2-l49vu0jmnds" class="astro-HYSHTKDU">React</a></li>
   </ul>
   <div class="content astro-HYSHTKDU">
-    <section id="section-1-pbss7fhffcg" class="astro-HYSHTKDU">
+    <section id="section-1-l49vu0jmnds" class="astro-HYSHTKDU">
       <pre class="language-js"><code data-astro-raw="" class="language-js">emitter<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'explode'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
   <span class="token comment">// render explosion/play sound/etc.</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
     </section>
-    <section id="section-2-pbss7fhffcg" class="astro-HYSHTKDU">
+    <section id="section-2-l49vu0jmnds" class="astro-HYSHTKDU">
       <pre class="language-js"><code data-astro-raw="" class="language-js"><span class="token function">useEffectListener</span><span class="token punctuation">(</span><span class="token string">'explode'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
   <span class="token comment">// render explosion/play sound/etc.</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
