@@ -82,7 +82,7 @@
     "@types/react": "^16.9.34",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
-    "boardgame.io": "^0.49.0",
+    "boardgame.io": "^0.50.0",
     "cz-conventional-changelog": "^3.2.0",
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.1.0",
