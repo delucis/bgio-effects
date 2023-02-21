@@ -18,18 +18,18 @@ use [Immer’s `current` helper][current]. This will convert the proxied state t
 a plain JavaScript object.
 
 ```js
-import { current } from 'immer';
+import { current } from "immer";
 
 // inside a move
 const unproxiedValue = current(G.dice);
-ctx.effects.roll(unproxiedValue);
+effects.roll(unproxiedValue);
 ```
 
 You can also do this directly inside your effects config, so you don’t need to
 remember this every time the effect gets called.
 
 ```js
-import { current } from 'immer';
+import { current } from "immer";
 
 export const config = {
   effects: {
