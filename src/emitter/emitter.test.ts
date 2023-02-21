@@ -1,4 +1,4 @@
-import type { Ctx, Game } from 'boardgame.io';
+import type { Game } from 'boardgame.io';
 import { Client } from 'boardgame.io/client';
 import type { EffectsCtxMixin } from '..';
 import { EffectsPlugin } from '../plugin';
@@ -25,21 +25,21 @@ enum GVal {
 
 type G = { val?: GVal };
 
-const game: Game<G, Ctx & EffectsCtxMixin<typeof config>> = {
+const game: Game<G, EffectsCtxMixin<typeof config>> = {
   plugins: [EffectsPlugin(config)],
   moves: {
-    simple(G) {
+    simple({ G }) {
       G.val = GVal.simple;
     },
-    wEffects(G, ctx) {
+    wEffects({ G, effects }) {
       G.val = GVal.wEffects;
-      ctx.effects.longEffect('1');
-      ctx.effects.shortEffect('2');
+      effects.longEffect('1');
+      effects.shortEffect('2');
     },
-    repeatEffects(G, ctx) {
+    repeatEffects({ G, effects }) {
       G.val = GVal.repeatEffects;
-      ctx.effects.shortEffect('2');
-      ctx.effects.shortEffect('2');
+      effects.shortEffect('2');
+      effects.shortEffect('2');
     },
   },
 };

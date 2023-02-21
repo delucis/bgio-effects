@@ -39,27 +39,27 @@ passing it your configuration object:
 ```js
 // game.js
 
-import { EffectsPlugin } from 'bgio-effects/plugin';
-import { config } from './effects-config';
+import { EffectsPlugin } from "bgio-effects/plugin";
+import { config } from "./effects-config";
 
 const game = {
-  name: 'my-game',
+  name: "my-game",
 
   plugins: [EffectsPlugin(config)],
 
   // Each effect type declared in your config will
   // be available in your moves as ctx.effects[effectType]
   moves: {
-    roll: (G, ctx) => {
-      const roll = ctx.random.D6();
-      ctx.effects.rollDie(roll);
-      if (roll > 4) ctx.effects.explode();
+    roll: ({ G, random, effects }) => {
+      const roll = random.D6();
+      effects.rollDie(roll);
+      if (roll > 4) effects.explode();
       G.roll = roll;
     },
 
-    end: (G, ctx) => {
-      ctx.events.endTurn();
-      ctx.effects.endTurn();
+    end: ({ G, events }) => {
+      events.endTurn();
+      effects.endTurn();
     },
   },
 };

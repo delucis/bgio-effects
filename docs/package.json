@@ -9,8 +9,8 @@
     "preview": "npx serve dist"
   },
   "dependencies": {
-    "bgio-effects": "file:../bgio-effects-0.6.0.tgz",
-    "boardgame.io": "^0.49.10"
+    "bgio-effects": "file:../bgio-effects-0.7.1.tgz",
+    "boardgame.io": "^0.50.2"
   },
   "devDependencies": {
     "@astrojs/renderer-preact": "^0.4.0",

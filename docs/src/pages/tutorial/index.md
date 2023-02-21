@@ -26,8 +26,8 @@ const game = {
   setup: () => ({ roll: 1, score: 0 }),
 
   moves: {
-    roll: (G, ctx) => {
-      const roll = ctx.random.D6();
+    roll: ({ G, random }) => {
+      const roll = random.D6();
       G.roll = roll;
       if (roll === 6) G.score++;
     },
@@ -125,7 +125,7 @@ yarn add bgio-effects
 for use in your game code. We import the plugin like this:
 
 ```js
-import { EffectsPlugin } from 'bgio-effects/plugin';
+import { EffectsPlugin } from "bgio-effects/plugin";
 ```
 
 We now need to configure the plugin so it knows about the kinds of effects that
@@ -154,10 +154,10 @@ const game = {
   setup: () => ({ roll: 1, score: 0 }),
 
   moves: {
-    roll: (G, ctx) => {
-      const roll = ctx.random.D6();
+    roll: ({ G, random, effects }) => {
+      const roll = random.D6();
       // Call the newly added roll effect.
-      ctx.effects.roll(roll);
+      effects.roll(roll);
       G.roll = roll;
       if (G.roll === 6) G.score++;
     },
@@ -181,11 +181,11 @@ animating each time `G.roll` changes, we can animate each time our new
 <Fragment slot="plain-js">
 
 ```js
-import { EffectsEmitter } from 'bgio-effects/client';
+import { EffectsEmitter } from "bgio-effects/client";
 
 const emitter = EffectsEmitter(client);
 
-emitter.on('roll', (newValue) => {
+emitter.on("roll", (newValue) => {
   animateDie(newValue);
 });
 
